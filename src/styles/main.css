@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/motion.css";
+
+@theme inline {
+  --color-sand: var(--lr-color-sand);
+  --color-ivory: var(--lr-color-ivory);
+  --color-toast: var(--lr-color-toast);
+  --color-stone: var(--lr-color-stone);
+  --color-ink: var(--lr-color-ink);
+  --font-display: var(--lr-font-display);
+  --font-body: var(--lr-font-body);
+  --font-accent: var(--lr-font-accent);
+  --radius-frame: var(--lr-radius-frame);
+  --container-copy: var(--lr-max-copy);
+}
+
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    background: var(--lr-color-sand);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      linear-gradient(180deg, rgba(248, 242, 232, 0.94), rgba(248, 242, 232, 0.72)),
+      var(--lr-color-sand);
+    color: var(--lr-color-ink);
+    font-family: var(--lr-font-body);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    border-color: var(--lr-color-line);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  ::selection {
+    background: rgba(122, 86, 59, 0.18);
+  }
+}
+
+@utility shell {
+  margin-inline: auto;
+  width: min(calc(100% - (var(--lr-space-gutter) * 2)), var(--lr-max-shell));
+}
+
+@utility shell-wide {
+  margin-inline: auto;
+  width: min(calc(100% - (var(--lr-space-gutter) * 2)), var(--lr-max-shell-wide));
+}
+
+@utility section-space {
+  padding-block: var(--lr-space-section);
+}
+
+@utility frame-soft {
+  border: 1px solid var(--lr-color-line);
+  border-radius: var(--lr-radius-frame);
+  box-shadow: var(--lr-shadow-soft);
+}
+
+@utility eyebrow {
+  color: var(--lr-color-toast);
+  font-family: var(--lr-font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+@utility balance {
+  text-wrap: balance;
+}
+
+@utility pretty {
+  text-wrap: pretty;
+}

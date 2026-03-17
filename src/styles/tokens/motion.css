@@ -1,0 +1,6 @@
+:root {
+  --lr-motion-duration-fast: 160ms;
+  --lr-motion-duration-base: 320ms;
+  --lr-motion-duration-slow: 720ms;
+  --lr-motion-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
