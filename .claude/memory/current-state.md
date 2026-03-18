@@ -1,7 +1,7 @@
 # Current State
 
 ## Status
-Foundation scaffold complete and build-verified.
+HomePage editorial experience implemented. Foundation scaffold extended with real content, typography, imagery, and motion.
 
 ## What exists
 - foundational project instructions and design rules
@@ -11,11 +11,18 @@ Foundation scaffold complete and build-verified.
 - layout primitives for page, section, and heading composition
 - Tailwind token bridge via `src/styles/tokens/`
 - GSAP reveal helpers with reduced-motion support
-- Claude-facing foundation docs and content placeholder notes
+- **Google Fonts: Cormorant Garamond (display) + Inter (body) + Caveat (accent)**
+- **HomePage with 5 editorial sections: hero, philosophy, culinary preview, atmosphere, visit CTA**
+- **Hero entrance composable (`useHeroMotion`) with word-stagger, SVG path-draw, image scale drift**
+- **Self-animating SVG components (SignatureStroke, CoastalDivider) with scroll-triggered path-draw**
+- **Unsplash placeholder photography with lazy/eager loading strategy**
+- **Subtle parallax on atmosphere section background image**
 
 ## What should happen next
-1. replace the home placeholders with real editorial sections and imagery
-2. choose final typography sourcing and image direction
-3. build route-specific compositions for menu, story, and visit
-4. decide reservation integration and final contact pattern
-5. expand the SVG accent library and section-specific motion
+1. choose final typography weight refinement and test at all breakpoints
+2. build route-specific editorial compositions for menu, story, and visit
+3. decide reservation integration and final contact pattern
+4. expand the SVG accent library with more variation
+5. replace Unsplash placeholders with production photography
+6. refine mobile experience (test at 375px, 414px, and tablet sizes)
+7. add scroll-to-top or smooth scroll polish between route transitions
