@@ -7,13 +7,18 @@
 @theme inline {
   --color-sand: var(--lr-color-sand);
   --color-ivory: var(--lr-color-ivory);
+  --color-cream: var(--lr-color-cream);
   --color-toast: var(--lr-color-toast);
   --color-stone: var(--lr-color-stone);
+  --color-sage: var(--lr-color-sage);
+  --color-olive: var(--lr-color-olive);
+  --color-dusk: var(--lr-color-dusk);
   --color-ink: var(--lr-color-ink);
   --font-display: var(--lr-font-display);
   --font-body: var(--lr-font-body);
   --font-accent: var(--lr-font-accent);
   --radius-frame: var(--lr-radius-frame);
+  --radius-lg: var(--lr-radius-lg);
   --container-copy: var(--lr-max-copy);
 }
 
@@ -23,19 +28,29 @@
 
 @layer base {
   html {
-    background: var(--lr-color-sand);
+    background: var(--lr-color-ivory);
     scroll-behavior: smooth;
   }
 
   body {
     min-height: 100vh;
-    background:
-      linear-gradient(180deg, rgba(248, 242, 232, 0.94), rgba(248, 242, 232, 0.72)),
-      var(--lr-color-sand);
+    background: var(--lr-color-ivory);
     color: var(--lr-color-ink);
     font-family: var(--lr-font-body);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle paper grain — adds tactile warmth */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
   }
 
   * {
@@ -55,7 +70,15 @@
   }
 
   ::selection {
-    background: rgba(122, 86, 59, 0.18);
+    background: rgba(92, 107, 79, 0.2);
+  }
+
+  /* Reduced motion: ensure GSAP-animated content is visible without JS motion */
+  @media (prefers-reduced-motion: reduce) {
+    .invisible {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
   }
 }
 
@@ -73,6 +96,10 @@
   padding-block: var(--lr-space-section);
 }
 
+@utility section-space-lg {
+  padding-block: var(--lr-space-section-lg);
+}
+
 @utility frame-soft {
   border: 1px solid var(--lr-color-line);
   border-radius: var(--lr-radius-frame);
@@ -80,11 +107,11 @@
 }
 
 @utility eyebrow {
-  color: var(--lr-color-toast);
+  color: var(--lr-color-stone);
   font-family: var(--lr-font-body);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 

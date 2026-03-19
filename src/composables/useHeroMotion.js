@@ -1,79 +1,82 @@
-import { onMounted, onUnmounted, unref } from 'vue';
+import { onMounted, onUnmounted, unref, watch } from 'vue';
 
 import { ensureGsapPlugins } from '@/motion/gsap';
 import { useReducedMotion } from './useReducedMotion';
 
 /**
- * Orchestrates the hero entrance timeline:
- * eyebrow → headline → lede → CTA → image scale → SVG stroke draw
+ * Orchestrates the hero entrance and scroll-linked parallax.
+ * Accepts an optional readyRef to delay animation until a signal (e.g. intro complete).
  */
-export function useHeroMotion(scopeRef) {
+export function useHeroMotion(scopeRef, readyRef) {
   const prefersReducedMotion = useReducedMotion();
   let context;
+
+  function play(scope) {
+    const { gsap } = ensureGsapPlugins();
+
+    context = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+      // Image — slow Ken Burns settle
+      tl.fromTo(
+        '[data-hero-image]',
+        { scale: 1.08, autoAlpha: 0 },
+        { scale: 1, autoAlpha: 1, duration: 2.4, ease: 'power1.out' },
+        0
+      );
+
+      // Heading
+      tl.fromTo(
+        '[data-hero-heading]',
+        { autoAlpha: 0, y: 20 },
+        { autoAlpha: 1, y: 0, duration: 0.8 },
+        0.4
+      );
+
+      // Lede
+      tl.fromTo(
+        '[data-hero-lede]',
+        { autoAlpha: 0, y: 14 },
+        { autoAlpha: 1, y: 0, duration: 0.65 },
+        0.7
+      );
+
+      // CTA — slight overshoot
+      tl.fromTo(
+        '[data-hero-cta]',
+        { autoAlpha: 0, y: 10 },
+        { autoAlpha: 1, y: 0, duration: 0.55, ease: 'back.out(1.4)' },
+        0.9
+      );
+
+      // Scroll-linked parallax — hero image drifts slower than content
+      gsap.to('[data-hero-image]', {
+        y: '12%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: scope,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }, scope);
+  }
 
   onMounted(() => {
     const scope = unref(scopeRef);
     if (!scope || prefersReducedMotion.value) return;
 
-    const { gsap } = ensureGsapPlugins();
-
-    context = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: { ease: 'power2.out' },
+    if (!readyRef || unref(readyRef)) {
+      play(scope);
+    } else {
+      const unwatch = watch(readyRef, (ready) => {
+        if (ready) {
+          play(scope);
+          unwatch();
+        }
       });
-
-      // Eyebrow
-      tl.fromTo(
-        '[data-hero-eyebrow]',
-        { autoAlpha: 0, y: 14 },
-        { autoAlpha: 1, y: 0, duration: 0.6 },
-        0.1
-      );
-
-      // Headline — stagger by word
-      tl.fromTo(
-        '[data-hero-title] .hero-word',
-        { autoAlpha: 0, y: 32 },
-        { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08 },
-        0.2
-      );
-
-      // Signature stroke path draw
-      const strokePath = scope.querySelector('[data-hero-stroke] path');
-      if (strokePath) {
-        const length = strokePath.getTotalLength();
-        gsap.set(strokePath, { strokeDasharray: length, strokeDashoffset: length });
-        tl.to(
-          strokePath,
-          { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' },
-          0.7
-        );
-      }
-
-      // Lede
-      tl.fromTo(
-        '[data-hero-lede]',
-        { autoAlpha: 0, y: 18 },
-        { autoAlpha: 1, y: 0, duration: 0.7 },
-        0.55
-      );
-
-      // CTA buttons
-      tl.fromTo(
-        '[data-hero-cta]',
-        { autoAlpha: 0, y: 14 },
-        { autoAlpha: 1, y: 0, duration: 0.6 },
-        0.7
-      );
-
-      // Hero image — scale drift settling
-      tl.fromTo(
-        '[data-hero-image]',
-        { scale: 1.06, autoAlpha: 0 },
-        { scale: 1, autoAlpha: 1, duration: 1.4, ease: 'power1.out' },
-        0.15
-      );
-    }, scope);
+    }
   });
 
   onUnmounted(() => {

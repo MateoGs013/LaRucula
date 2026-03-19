@@ -1,8 +1,12 @@
 :root {
   --lr-color-sand: #dcc6a1;
   --lr-color-ivory: #f8f2e8;
+  --lr-color-cream: #f0e8d8;
   --lr-color-toast: #7a563b;
   --lr-color-stone: #72685d;
-  --lr-color-ink: #241c16;
-  --lr-color-line: rgba(36, 28, 22, 0.12);
+  --lr-color-sage: #8a9a7b;
+  --lr-color-olive: #5c6b4f;
+  --lr-color-dusk: #3d3229;
+  --lr-color-ink: #1a1410;
+  --lr-color-line: rgba(36, 28, 22, 0.10);
 }

@@ -2,72 +2,64 @@
 import { RouterLink } from 'vue-router';
 
 import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
-import CoastalDivider from '@/components/svg/CoastalDivider.vue';
-import BaseButton from '@/components/ui/BaseButton.vue';
 </script>
 
 <template>
-  <footer class="mt-16 border-t border-ink/10 pt-16 md:mt-24 md:pt-20">
-    <div class="shell space-y-10 pb-10">
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.55fr)_minmax(0,0.55fr)]">
-        <div class="space-y-5">
-          <p class="eyebrow">
-            Closing note
-          </p>
-          <h2 class="max-w-[11ch] font-display text-[clamp(2rem,4vw,3.5rem)] leading-[0.95] tracking-[-0.04em]">
-            Calm hospitality, framed for the coast.
-          </h2>
-          <p class="max-w-copy text-base leading-7 text-stone md:text-lg md:leading-8">
-            The footer is intentionally ready for richer brand content, final reservation tooling,
-            and a more authored location story.
-          </p>
-          <BaseButton :to="siteMeta.reservationHref">
+  <footer class="bg-dusk text-ivory">
+    <div class="shell py-20 md:py-28 lg:py-36">
+      <!-- Dominant closing statement — overscaled for presence -->
+      <p class="max-w-4xl font-display text-[clamp(2.2rem,5.5vw,5rem)] font-light italic leading-[0.95] tracking-[-0.03em] text-ivory/60">
+        Where appetite meets the&nbsp;horizon.
+      </p>
+
+      <!-- Two-column: CTA + contact | navigation -->
+      <div class="mt-16 grid gap-12 md:mt-20 md:grid-cols-[1fr_auto]">
+        <div class="space-y-8">
+          <RouterLink
+            :to="siteMeta.reservationHref"
+            class="inline-flex items-center border border-ivory/20 px-6 py-3 text-[0.68rem] font-medium uppercase tracking-[0.2em] text-ivory/70 transition-all duration-300 hover:border-ivory/40 hover:bg-ivory/6"
+          >
             {{ siteMeta.reservationLabel }}
-          </BaseButton>
-        </div>
+          </RouterLink>
 
-        <div class="space-y-4">
-          <p class="eyebrow">
-            Navigate
-          </p>
-          <nav class="grid gap-3">
-            <RouterLink
-              v-for="item in primaryNavigation"
-              :key="item.to"
-              :to="item.to"
-              class="text-sm uppercase tracking-[0.24em] text-stone transition-colors duration-300 hover:text-ink"
-            >
-              {{ item.label }}
-            </RouterLink>
-          </nav>
-        </div>
-
-        <div class="space-y-4">
-          <p class="eyebrow">
-            Visit
-          </p>
-          <div class="space-y-3 text-base leading-7 text-stone">
+          <div class="text-[0.85rem] leading-7 text-ivory/55">
             <p>{{ contactDetails.address }}</p>
-            <p>{{ contactDetails.city }}</p>
             <p>{{ contactDetails.hours }}</p>
-            <a class="block transition-colors duration-300 hover:text-ink" :href="`tel:${contactDetails.phone}`">
-              {{ contactDetails.phone }}
-            </a>
-            <a
-              class="block transition-colors duration-300 hover:text-ink"
-              :href="`mailto:${contactDetails.email}`"
-            >
-              {{ contactDetails.email }}
-            </a>
+            <div class="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+              <a
+                class="transition-colors duration-300 hover:text-ivory/70"
+                :href="`tel:${contactDetails.phone}`"
+              >
+                {{ contactDetails.phone }}
+              </a>
+              <a
+                class="transition-colors duration-300 hover:text-ivory/70"
+                :href="`mailto:${contactDetails.email}`"
+              >
+                {{ contactDetails.email }}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flex flex-col gap-4 border-t border-ink/10 pt-6 text-sm text-stone md:flex-row md:items-center md:justify-between">
-        <CoastalDivider class="w-full max-w-[10rem] text-toast/65" />
-        <p>
-          {{ siteMeta.name }} foundation scaffold for Claude implementation.
-        </p>
+        <nav class="flex flex-col gap-3">
+          <p class="eyebrow text-ivory/45!">Navigate</p>
+          <RouterLink
+            v-for="item in primaryNavigation"
+            :key="item.to"
+            :to="item.to"
+            class="text-[0.82rem] uppercase tracking-[0.15em] text-ivory/55 transition-colors duration-300 hover:text-ivory/85"
+          >
+            {{ item.label }}
+          </RouterLink>
+        </nav>
+      </div>
+    </div>
+
+    <div class="border-t border-ivory/8">
+      <div class="shell flex flex-col items-start gap-3 py-5 text-[0.72rem] text-ivory/40 md:flex-row md:items-center md:justify-between">
+        <p class="font-display text-[1rem] tracking-[-0.02em] text-ivory/50">{{ siteMeta.name }}</p>
+        <p>&copy; {{ new Date().getFullYear() }} · Beachfront dining, Costa del Sol</p>
       </div>
     </div>
   </footer>

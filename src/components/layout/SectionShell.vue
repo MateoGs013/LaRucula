@@ -23,14 +23,17 @@ const props = defineProps({
 });
 
 const shellClass = computed(() =>
-  props.shell === 'wide' ? 'shell-wide' : 'shell'
+  props.shell === 'wide' ? 'shell-wide' : props.shell === 'none' ? '' : 'shell'
 );
 
 const toneClass = computed(
   () =>
     ({
       default: '',
-      mist: 'bg-ivory/48',
+      cream: 'bg-cream',
+      sand: 'bg-sand/50',
+      sage: 'bg-sage/10',
+      dusk: 'bg-dusk text-ivory',
       ink: 'bg-ink text-ivory',
     })[props.tone] ?? ''
 );

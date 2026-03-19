@@ -9,9 +9,7 @@ useRevealMotion(root);
 </script>
 
 <template>
-  <div ref="root" class="pb-24 pt-10 md:pb-32 md:pt-14">
-    <div class="space-y-24 md:space-y-32">
-      <slot />
-    </div>
+  <div ref="root">
+    <slot />
   </div>
 </template>

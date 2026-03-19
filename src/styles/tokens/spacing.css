@@ -1,9 +1,12 @@
 :root {
   --lr-space-gutter: clamp(1.25rem, 3.5vw, 3rem);
-  --lr-space-section: clamp(4rem, 8vw, 7rem);
-  --lr-radius-frame: 1.75rem;
+  --lr-space-section: clamp(5rem, 10vw, 9rem);
+  --lr-space-section-lg: clamp(6rem, 14vw, 12rem);
+  --lr-radius-frame: 1.25rem;
+  --lr-radius-lg: 2rem;
   --lr-max-shell: 76rem;
-  --lr-max-shell-wide: 88rem;
+  --lr-max-shell-wide: 90rem;
   --lr-max-copy: 42rem;
-  --lr-shadow-soft: 0 24px 60px rgba(36, 28, 22, 0.08);
+  --lr-shadow-soft: 0 24px 60px rgba(26, 20, 16, 0.07);
+  --lr-shadow-image: 0 32px 80px rgba(26, 20, 16, 0.12);
 }
