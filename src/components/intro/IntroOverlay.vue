@@ -122,7 +122,7 @@ onUnmounted(() => {
       />
       <p
         data-intro-tagline
-        class="invisible mt-5 text-[0.68rem] uppercase tracking-[0.3em] text-ivory/35"
+        class="invisible mt-5 text-[0.8rem] uppercase tracking-[0.3em] text-ivory/35"
       >
         Beachfront dining · Costa del Sol
       </p>
@@ -130,7 +130,7 @@ onUnmounted(() => {
 
     <button
       @click="skip"
-      class="absolute bottom-6 right-6 px-3 py-2 text-[0.65rem] uppercase tracking-[0.25em] text-ivory/25 transition-colors duration-300 hover:text-ivory/50 focus:text-ivory/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-ivory/30"
+      class="absolute bottom-6 right-6 px-3 py-2 text-[0.8rem] uppercase tracking-[0.25em] text-ivory/25 transition-colors duration-300 hover:text-ivory/50 focus:text-ivory/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-ivory/30"
       aria-label="Skip introduction"
     >
       Skip

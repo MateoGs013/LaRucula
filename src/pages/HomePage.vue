@@ -51,7 +51,7 @@ useScrollScenes(pageRef);
             <div class="mt-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-10 lg:mt-8">
               <p
                 data-hero-lede
-                class="invisible max-w-[28ch] text-[0.82rem] leading-7 text-ivory/60 [text-shadow:0_1px_6px_rgba(0,0,0,0.25)]"
+                class="invisible max-w-[28ch] text-[1rem] leading-7 text-ivory/60 [text-shadow:0_1px_6px_rgba(0,0,0,0.25)]"
               >
                 Where the coast sets the table — a refined kitchen shaped by the season and the sea.
               </p>
@@ -72,7 +72,7 @@ useScrollScenes(pageRef);
           data-scroll-indicator
           class="absolute bottom-4 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
         >
-          <span class="text-[0.6rem] uppercase tracking-[0.3em] text-ivory/25">Scroll</span>
+          <span class="text-[0.8rem] uppercase tracking-[0.3em] text-ivory/25">Scroll</span>
           <span class="block h-8 w-px bg-ivory/20" />
         </div>
       </div>
@@ -98,10 +98,10 @@ useScrollScenes(pageRef);
         <!-- Editorial image + supporting copy — asymmetric two-column -->
         <div class="mt-14 grid gap-8 px-[var(--lr-space-gutter)] md:mt-16 lg:mt-20 lg:grid-cols-[1fr_auto_1fr] lg:items-end lg:gap-12 lg:px-[5vw]">
           <div data-reveal class="order-2 lg:order-1">
-            <p class="max-w-md text-[0.88rem] leading-7 text-stone">
+            <p class="max-w-md text-[1rem] leading-7 text-stone">
               The menu is a conversation between the sea and the kitchen — written fresh, every day.
             </p>
-            <ul class="mt-6 space-y-2 font-display text-[0.95rem] italic leading-7 text-ink/35">
+            <ul class="mt-6 space-y-2 font-display text-[1.05rem] italic leading-7 text-ink/35">
               <li>Grilled octopus · fennel · preserved lemon</li>
               <li>Sea bream crudo · citrus · olive oil</li>
               <li>Langoustine · saffron · tomato water</li>
@@ -196,7 +196,7 @@ useScrollScenes(pageRef);
             <h2 class="mt-2 font-display text-[clamp(2.4rem,5vw,4rem)] font-light italic leading-none tracking-[-0.03em]">
               The light changes.<br />So does the table.
             </h2>
-            <p class="mt-6 max-w-sm text-[0.82rem] leading-7 text-ivory/50">
+            <p class="mt-6 max-w-sm text-[1rem] leading-7 text-ivory/50">
               As the sun drops and the candles are lit, the dinner menu arrives with the evening breeze.
             </p>
             <div class="mt-4 max-w-16 text-ivory/15">
@@ -237,7 +237,7 @@ useScrollScenes(pageRef);
         </div>
 
         <div class="mt-16 grid gap-10 border-t border-ink/8 pt-10 md:mt-20 md:grid-cols-[1fr_auto]">
-          <div class="space-y-4 text-[0.82rem] leading-7 text-stone/70">
+          <div class="space-y-4 text-[1rem] leading-7 text-stone/70">
             <p>{{ contactDetails.address }}</p>
             <p>{{ contactDetails.hours }}</p>
             <div class="mt-3 flex flex-wrap gap-x-5 gap-y-1">
@@ -260,7 +260,7 @@ useScrollScenes(pageRef);
               v-for="item in primaryNavigation"
               :key="item.to"
               :to="item.to"
-              class="text-[0.72rem] uppercase tracking-[0.18em] text-stone/50 transition-colors duration-300 hover:text-ink"
+              class="text-[0.8rem] uppercase tracking-[0.18em] text-stone/50 transition-colors duration-300 hover:text-ink"
             >
               {{ item.label }}
             </RouterLink>
@@ -269,8 +269,8 @@ useScrollScenes(pageRef);
       </div>
 
       <div class="border-t border-ink/6">
-        <div class="shell flex flex-col items-start gap-2 py-5 text-[0.68rem] text-stone/40 sm:flex-row sm:items-center sm:justify-between">
-          <p class="font-display text-[0.95rem] tracking-[-0.02em] text-ink/30">{{ siteMeta.name }}</p>
+        <div class="shell flex flex-col items-start gap-2 py-5 text-[0.875rem] text-stone/40 sm:flex-row sm:items-center sm:justify-between">
+          <p class="font-display text-[1.05rem] tracking-[-0.02em] text-ink/30">{{ siteMeta.name }}</p>
           <p>&copy; {{ new Date().getFullYear() }} · Beachfront dining, Costa del Sol</p>
         </div>
       </div>

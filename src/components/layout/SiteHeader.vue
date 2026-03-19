@@ -73,7 +73,7 @@ onUnmounted(() => {
           v-for="item in primaryNavigation"
           :key="item.to"
           :to="item.to"
-          class="font-body text-[0.68rem] uppercase tracking-[0.2em] transition-colors duration-300"
+          class="font-body text-[0.8rem] uppercase tracking-[0.2em] transition-colors duration-300"
           :class="[
             isActive(item)
               ? (isTransparent ? 'text-ivory' : 'text-ink')
@@ -87,7 +87,7 @@ onUnmounted(() => {
       <div class="flex items-center gap-4">
         <RouterLink
           :to="siteMeta.reservationHref"
-          class="hidden items-center border px-4 py-2.5 text-[0.68rem] font-medium uppercase tracking-[0.2em] transition-all duration-300 sm:inline-flex"
+          class="hidden items-center border px-4 py-2.5 text-[0.8rem] font-medium uppercase tracking-[0.2em] transition-all duration-300 sm:inline-flex"
           :class="isTransparent
             ? 'border-ivory/25 text-ivory hover:border-ivory/50 hover:bg-ivory/10'
             : 'border-ink/15 text-ink hover:border-ink/30 hover:bg-ink hover:text-ivory'"
@@ -147,7 +147,7 @@ onUnmounted(() => {
           </RouterLink>
           <RouterLink
             :to="siteMeta.reservationHref"
-            class="mt-3 inline-flex w-fit items-center border border-ink/15 px-5 py-3 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ink transition-colors hover:bg-ink hover:text-ivory"
+            class="mt-3 inline-flex w-fit items-center border border-ink/15 px-5 py-3 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-ink transition-colors hover:bg-ink hover:text-ivory"
             @click="menuOpen = false"
           >
             {{ siteMeta.reservationLabel }}

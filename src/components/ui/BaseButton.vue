@@ -74,7 +74,7 @@ const elementBindings = computed(() => {
     class="inline-flex w-fit items-center gap-2 px-5 py-3 transition-all duration-400 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
     :class="variantClass"
   >
-    <span class="font-body text-[0.68rem] font-medium uppercase tracking-[0.2em]">
+    <span class="font-body text-[0.8rem] font-medium uppercase tracking-[0.2em]">
       <slot />
     </span>
   </component>

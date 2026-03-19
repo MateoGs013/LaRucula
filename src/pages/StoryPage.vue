@@ -81,10 +81,10 @@ useScrollScenes(pageRef);
             </div>
             <!-- Text — right, vertically centered, generous padding -->
             <div class="flex flex-col justify-center px-[var(--lr-space-gutter)] py-10 md:py-14 lg:px-12 lg:py-16" data-reveal>
-              <p class="max-w-sm text-[0.88rem] leading-7 text-stone">
+              <p class="max-w-sm text-[1rem] leading-7 text-stone">
                 The Costa del Sol taught us what a restaurant could be — not a building with a menu, but a place where light, tide, and season shape everything that reaches the table.
               </p>
-              <p class="mt-4 max-w-sm text-[0.88rem] leading-7 text-stone/70">
+              <p class="mt-4 max-w-sm text-[1rem] leading-7 text-stone/70">
                 LaRucula sits at the edge. The terrace faces south. The mornings smell of salt and rosemary. The afternoons stretch long and golden.
               </p>
             </div>
@@ -109,7 +109,7 @@ useScrollScenes(pageRef);
               Hands that<br />know the coast
             </h2>
           </div>
-          <p class="mt-6 max-w-md text-[0.85rem] leading-7 text-ivory/50" data-reveal>
+          <p class="mt-6 max-w-md text-[1rem] leading-7 text-ivory/50" data-reveal>
             The kitchen runs on instinct refined by decades of Mediterranean work. Every morning begins at the port — choosing fish, reading the catch, weighing what the sea decided to offer. The menu follows.
           </p>
           <!-- Overlapping handwritten detail -->
@@ -161,7 +161,7 @@ useScrollScenes(pageRef);
               <h3 class="mt-3 font-display text-[1.2rem] italic leading-snug tracking-[-0.01em] text-ink">
                 The port
               </h3>
-              <p class="mt-2 text-[0.82rem] leading-7 text-stone/65">
+              <p class="mt-2 text-[1rem] leading-7 text-stone/65">
                 The day begins before the kitchen opens. The chef walks the harbour, reads the boats, selects the catch. The menu is still unwritten.
               </p>
             </div>
@@ -172,7 +172,7 @@ useScrollScenes(pageRef);
               <h3 class="mt-3 font-display text-[1.2rem] italic leading-snug tracking-[-0.01em] text-ink">
                 The terrace
               </h3>
-              <p class="mt-2 text-[0.82rem] leading-7 text-stone/65">
+              <p class="mt-2 text-[1rem] leading-7 text-stone/65">
                 Lunch is long and unhurried. The terrace fills slowly. Bread arrives warm. Wine is poured from a local bottle. The sea is always in view.
               </p>
             </div>
@@ -183,7 +183,7 @@ useScrollScenes(pageRef);
               <h3 class="mt-3 font-display text-[1.2rem] italic leading-snug tracking-[-0.01em] text-ink">
                 The table
               </h3>
-              <p class="mt-2 text-[0.82rem] leading-7 text-stone/65">
+              <p class="mt-2 text-[1rem] leading-7 text-stone/65">
                 Candles are lit. The dinner menu arrives with the evening breeze. Courses come slowly, each one a conversation between land and sea.
               </p>
             </div>
@@ -241,10 +241,10 @@ useScrollScenes(pageRef);
           <h2 class="mt-2 font-display text-[clamp(1.8rem,3.5vw,2.4rem)] font-light italic leading-[0.95] tracking-[-0.03em] text-ink">
             Stone, light,<br />and the weight of the sea
           </h2>
-          <p class="mt-4 text-[0.82rem] leading-7 text-stone/70">
+          <p class="mt-4 text-[1rem] leading-7 text-stone/70">
             The building is old. The walls are thick and cool. The floors are worn smooth by decades of salt air and footsteps.
           </p>
-          <p class="mt-4 font-accent text-[0.85rem] leading-relaxed text-toast/45">
+          <p class="mt-4 font-accent text-[1rem] leading-relaxed text-toast/45">
             built in 1962, reimagined for today
           </p>
         </div>

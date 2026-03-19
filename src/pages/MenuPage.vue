@@ -120,10 +120,10 @@ const wines = [
               <p class="font-display text-[clamp(1.4rem,2.5vw,2rem)] italic leading-snug tracking-[-0.02em] text-ink">
                 {{ seaMenu[0].name }}
               </p>
-              <p class="mt-1.5 text-[0.82rem] leading-6 text-stone/60">
+              <p class="mt-1.5 text-[1rem] leading-6 text-stone/60">
                 {{ seaMenu[0].detail }}
               </p>
-              <p class="mt-2 font-accent text-[0.78rem] text-toast/55">catch of the day</p>
+              <p class="mt-2 font-accent text-[1rem] text-toast/55">catch of the day</p>
             </div>
 
             <!-- Remaining dishes -->
@@ -138,9 +138,9 @@ const wines = [
                   <p class="font-display text-[1.1rem] italic leading-snug tracking-[-0.01em] text-ink">
                     {{ dish.name }}
                   </p>
-                  <span v-if="dish.note" class="text-[0.68rem] italic text-stone/40">{{ dish.note }}</span>
+                  <span v-if="dish.note" class="text-[0.875rem] italic text-stone/40">{{ dish.note }}</span>
                 </div>
-                <p class="mt-1 text-[0.78rem] leading-6 text-stone/70">
+                <p class="mt-1 text-[1rem] leading-6 text-stone/70">
                   {{ dish.detail }}
                 </p>
               </li>
@@ -188,7 +188,7 @@ const wines = [
             </div>
             <!-- Chef note overlapping bottom of image -->
             <div class="relative z-10 -mt-12 ml-6 max-w-[14rem]" data-reveal>
-              <p class="font-accent text-[0.85rem] leading-relaxed text-toast/60">
+              <p class="font-accent text-[1rem] leading-relaxed text-toast/60">
                 "The lamb rests for three hours before we serve it. Patience is a flavour."
               </p>
             </div>
@@ -206,10 +206,10 @@ const wines = [
               <p class="font-display text-[clamp(1.4rem,2.5vw,2rem)] italic leading-snug tracking-[-0.02em] text-ink">
                 {{ landMenu[1].name }}
               </p>
-              <p class="mt-1.5 text-[0.82rem] leading-6 text-stone/60">
+              <p class="mt-1.5 text-[1rem] leading-6 text-stone/60">
                 {{ landMenu[1].detail }}
               </p>
-              <p class="mt-2 font-accent text-[0.78rem] text-toast/55">chef's choice</p>
+              <p class="mt-2 font-accent text-[1rem] text-toast/55">chef's choice</p>
             </div>
 
             <!-- Remaining dishes -->
@@ -223,7 +223,7 @@ const wines = [
                 <p class="font-display text-[1.1rem] italic leading-snug tracking-[-0.01em] text-ink">
                   {{ dish.name }}
                 </p>
-                <p class="mt-1 text-[0.78rem] leading-6 text-stone/70">
+                <p class="mt-1 text-[1rem] leading-6 text-stone/70">
                   {{ dish.detail }}
                 </p>
               </li>
@@ -256,7 +256,7 @@ const wines = [
                 <p class="font-display text-[clamp(1.3rem,2.2vw,1.8rem)] italic leading-snug tracking-[-0.02em] text-ink">
                   {{ sweetMenu[0].name }}
                 </p>
-                <p class="mt-1 text-[0.82rem] leading-6 text-stone/55">
+                <p class="mt-1 text-[1rem] leading-6 text-stone/55">
                   {{ sweetMenu[0].detail }}
                 </p>
               </div>
@@ -264,7 +264,7 @@ const wines = [
                 <p class="font-display text-[1.05rem] italic leading-snug tracking-[-0.01em] text-ink/80">
                   {{ sweetMenu[1].name }}
                 </p>
-                <p class="mt-1 text-[0.75rem] leading-6 text-stone/45">
+                <p class="mt-1 text-[0.95rem] leading-6 text-stone/45">
                   {{ sweetMenu[1].detail }}
                 </p>
               </div>
@@ -272,7 +272,7 @@ const wines = [
                 <p class="font-display text-[1.05rem] italic leading-snug tracking-[-0.01em] text-ink/80">
                   {{ sweetMenu[2].name }}
                 </p>
-                <p class="mt-1 text-[0.75rem] leading-6 text-stone/45">
+                <p class="mt-1 text-[0.95rem] leading-6 text-stone/45">
                   {{ sweetMenu[2].detail }}
                 </p>
               </div>
@@ -291,7 +291,7 @@ const wines = [
                 />
               </div>
             </div>
-            <p class="mt-4 font-accent text-[0.85rem] leading-relaxed text-toast/50 lg:ml-auto lg:max-w-[16rem]" data-reveal>
+            <p class="mt-4 font-accent text-[1rem] leading-relaxed text-toast/50 lg:ml-auto lg:max-w-[16rem]" data-reveal>
               something sweet, if the evening asks for it
             </p>
           </div>
@@ -310,7 +310,7 @@ const wines = [
               <h2 class="mt-2 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-light italic leading-none tracking-[-0.03em]">
                 Wine &amp; aperitivo
               </h2>
-              <p class="mt-4 max-w-sm text-[0.82rem] leading-7 text-ivory/45">
+              <p class="mt-4 max-w-sm text-[1rem] leading-7 text-ivory/45">
                 A short list of what we're drinking this season. Ask your server for the full cellar.
               </p>
             </div>
@@ -334,14 +334,14 @@ const wines = [
                 :key="section.category"
                 data-reveal
               >
-                <p class="text-[0.68rem] font-medium uppercase tracking-[0.2em] text-ivory/30">
+                <p class="text-[0.8rem] font-medium uppercase tracking-[0.2em] text-ivory/30">
                   {{ section.category }}
                 </p>
                 <ul class="mt-4 space-y-3">
                   <li
                     v-for="wine in section.items"
                     :key="wine"
-                    class="font-display text-[0.95rem] italic leading-snug text-ivory/65"
+                    class="font-display text-[1.05rem] italic leading-snug text-ivory/65"
                   >
                     {{ wine }}
                   </li>

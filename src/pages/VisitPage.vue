@@ -51,8 +51,8 @@ useScrollScenes(pageRef);
 
         <!-- Address at bottom-right -->
         <div class="absolute bottom-6 right-[var(--lr-space-gutter)] z-10 hidden text-right md:block lg:right-[5vw]">
-          <p class="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-ivory/25">Passeig de la Mar 18</p>
-          <p class="mt-0.5 text-[0.65rem] tracking-[0.15em] text-ivory/15">Costa del Sol</p>
+          <p class="text-[0.85rem] font-medium uppercase tracking-[0.2em] text-ivory/25">Passeig de la Mar 18</p>
+          <p class="mt-0.5 text-[0.8rem] tracking-[0.15em] text-ivory/15">Costa del Sol</p>
         </div>
 
         <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-ink/40 to-transparent" />
@@ -75,7 +75,7 @@ useScrollScenes(pageRef);
               <h2 class="mt-3 max-w-lg font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-[0.95] tracking-[-0.03em] text-ink">
                 Every evening begins<br />with a conversation
               </h2>
-              <p class="mt-5 max-w-md text-[0.88rem] leading-7 text-stone">
+              <p class="mt-5 max-w-md text-[1rem] leading-7 text-stone">
                 We keep the dining room intimate — thirty covers, no more.
                 Reservations ensure your evening unfolds without haste.
               </p>
@@ -95,19 +95,19 @@ useScrollScenes(pageRef);
             <div class="border-l-2 border-ink/8 pl-6">
               <div class="space-y-6">
                 <div>
-                  <p class="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-stone/45">Lunch</p>
-                  <p class="mt-1 font-display text-[1.3rem] italic leading-tight text-ink">13 – 16</p>
+                  <p class="text-[0.8rem] font-medium uppercase tracking-[0.2em] text-stone/45">Lunch</p>
+                  <p class="mt-1 font-display text-[1.4rem] italic leading-tight text-ink">13 – 16</p>
                 </div>
                 <div>
-                  <p class="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-stone/45">Dinner</p>
-                  <p class="mt-1 font-display text-[1.3rem] italic leading-tight text-ink">20 – 23:30</p>
+                  <p class="text-[0.8rem] font-medium uppercase tracking-[0.2em] text-stone/45">Dinner</p>
+                  <p class="mt-1 font-display text-[1.4rem] italic leading-tight text-ink">20 – 23:30</p>
                 </div>
                 <div>
-                  <p class="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-stone/45">Rest</p>
-                  <p class="mt-1 font-display text-[1.3rem] italic leading-tight text-ink">Monday</p>
+                  <p class="text-[0.8rem] font-medium uppercase tracking-[0.2em] text-stone/45">Rest</p>
+                  <p class="mt-1 font-display text-[1.4rem] italic leading-tight text-ink">Monday</p>
                 </div>
               </div>
-              <p class="mt-6 font-accent text-[0.8rem] text-toast/40">
+              <p class="mt-6 font-accent text-[1rem] text-toast/40">
                 For six or more, call directly.
               </p>
             </div>
@@ -139,15 +139,15 @@ useScrollScenes(pageRef);
               <div class="flex items-baseline gap-3">
                 <span class="font-display text-[clamp(4rem,8vw,7rem)] font-light italic leading-none tracking-[-0.04em] text-ink/15" aria-hidden="true">18</span>
                 <address class="not-italic">
-                  <p class="font-display text-[1.2rem] italic leading-snug text-ink">
+                  <p class="font-display text-[1.3rem] italic leading-snug text-ink">
                     Passeig de la Mar
                   </p>
-                  <p class="font-display text-[1rem] italic leading-snug text-ink/50">
+                  <p class="font-display text-[1.1rem] italic leading-snug text-ink/50">
                     Costa del Sol
                   </p>
                 </address>
               </div>
-              <div class="mt-6 space-y-3 text-[0.85rem] leading-7 text-stone/70">
+              <div class="mt-6 space-y-3 text-[1rem] leading-7 text-stone/70">
                 <p>The restaurant sits at the end of the passeig, where the promenade turns to sand. Look for the arched stone entrance.</p>
                 <p>Street parking along the coastal road. The town car park is a three-minute walk east.</p>
               </div>
@@ -201,10 +201,10 @@ useScrollScenes(pageRef);
         </div>
         <!-- Caption — flush left, editorial -->
         <div class="mt-6 md:mt-8" data-reveal>
-          <p class="font-display text-[clamp(1.1rem,2.2vw,1.5rem)] italic leading-snug text-ink/50">
+          <p class="font-display text-[clamp(1.3rem,2.5vw,1.7rem)] italic leading-snug text-ink/50">
             Thirty seats facing south
           </p>
-          <p class="mt-1 font-accent text-[0.8rem] text-toast/35">
+          <p class="mt-1 font-accent text-[1rem] text-toast/35">
             and the sound of the sea — private dining on request
           </p>
         </div>
@@ -237,10 +237,10 @@ useScrollScenes(pageRef);
         </a>
 
         <div class="mt-6 space-y-1.5" data-reveal>
-          <a :href="`mailto:${contactDetails.email}`" class="block text-[0.85rem] text-ivory/45 transition-colors hover:text-ivory">
+          <a :href="`mailto:${contactDetails.email}`" class="block text-[1rem] text-ivory/45 transition-colors hover:text-ivory">
             {{ contactDetails.email }}
           </a>
-          <p class="text-[0.8rem] text-ivory/25">
+          <p class="text-[1rem] text-ivory/25">
             {{ contactDetails.address }}
           </p>
         </div>

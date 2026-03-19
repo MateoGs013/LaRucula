@@ -17,12 +17,12 @@ import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
         <div class="space-y-8">
           <RouterLink
             :to="siteMeta.reservationHref"
-            class="inline-flex items-center border border-ivory/20 px-6 py-3 text-[0.68rem] font-medium uppercase tracking-[0.2em] text-ivory/70 transition-all duration-300 hover:border-ivory/40 hover:bg-ivory/6"
+            class="inline-flex items-center border border-ivory/20 px-6 py-3 text-[0.8rem] font-medium uppercase tracking-[0.2em] text-ivory/70 transition-all duration-300 hover:border-ivory/40 hover:bg-ivory/6"
           >
             {{ siteMeta.reservationLabel }}
           </RouterLink>
 
-          <div class="text-[0.85rem] leading-7 text-ivory/55">
+          <div class="text-[1rem] leading-7 text-ivory/55">
             <p>{{ contactDetails.address }}</p>
             <p>{{ contactDetails.hours }}</p>
             <div class="mt-3 flex flex-wrap gap-x-5 gap-y-1">
@@ -48,7 +48,7 @@ import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
             v-for="item in primaryNavigation"
             :key="item.to"
             :to="item.to"
-            class="text-[0.82rem] uppercase tracking-[0.15em] text-ivory/55 transition-colors duration-300 hover:text-ivory/85"
+            class="text-[0.875rem] uppercase tracking-[0.15em] text-ivory/55 transition-colors duration-300 hover:text-ivory/85"
           >
             {{ item.label }}
           </RouterLink>
@@ -57,8 +57,8 @@ import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
     </div>
 
     <div class="border-t border-ivory/8">
-      <div class="shell flex flex-col items-start gap-3 py-5 text-[0.72rem] text-ivory/40 md:flex-row md:items-center md:justify-between">
-        <p class="font-display text-[1rem] tracking-[-0.02em] text-ivory/50">{{ siteMeta.name }}</p>
+      <div class="shell flex flex-col items-start gap-3 py-5 text-[0.875rem] text-ivory/40 md:flex-row md:items-center md:justify-between">
+        <p class="font-display text-[1.1rem] tracking-[-0.02em] text-ivory/50">{{ siteMeta.name }}</p>
         <p>&copy; {{ new Date().getFullYear() }} · Beachfront dining, Costa del Sol</p>
       </div>
     </div>
