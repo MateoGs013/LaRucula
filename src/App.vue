@@ -4,6 +4,8 @@ import { RouterView, useRoute } from 'vue-router';
 
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
 import IntroOverlay from '@/components/intro/IntroOverlay.vue';
+import WhatsAppButton from '@/components/ui/WhatsAppButton.vue';
+import { contactDetails } from '@/app/app-config';
 
 const route = useRoute();
 
@@ -34,4 +36,5 @@ provide('introComplete', introComplete);
   <DefaultLayout>
     <RouterView />
   </DefaultLayout>
+  <WhatsAppButton :phone="contactDetails.whatsapp" />
 </template>
