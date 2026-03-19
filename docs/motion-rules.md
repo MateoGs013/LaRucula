@@ -1,80 +1,108 @@
 # LaRucula — Motion Rules
 
 ## Motion philosophy
-Motion should support atmosphere, pacing, and reading flow.
+Motion must make the site feel alive, composed, and premium.
 
-It should feel:
-- elegant
-- soft
-- deliberate
-- premium
-- calm
-- editorial
+It must never compensate for weak design.
 
-It should never feel:
-- flashy
-- noisy
-- excessive
-- game-like
-- random
+The reference signal from current Awwwards work is clear:
+- immersive movement is welcome
+- microinteractions matter
+- atmosphere sells
+- but the best work still preserves readability and control
+
+For LaRucula, motion should feel cinematic and tactile, not loud.
+
+This document sets a default posture, not a hard cap.
+Claude may use richer motion, smoother scrolling, more immersive transitions, canvas, WebGL, video, or other rendering systems if they are central to the concept and remain performant and usable.
+
+## Motion budget
+Use a limited motion budget:
+- one hero entrance sequence
+- one or two scroll-linked depth ideas per page
+- microinteractions across navigation, buttons, and media
+- occasional SVG accent animation
+
+Do not give every section a “special effect”.
+If the concept genuinely needs a more ambitious motion language, that is allowed, but it must be intentional and technically disciplined.
 
 ## Preferred motion patterns
-- fade + slight translate
-- line or word reveal for headings
+- fade plus short translate
+- line or word reveal for major headings
 - image mask reveal
-- scale drift on large photography
-- subtle parallax
-- path drawing with SVG
-- staggered entry for editorial content
-- pinned moments only when they truly add narrative value
+- scale settle on large photography
+- subtle parallax between foreground and background layers
+- panel glide for overlays
+- calm path-draw for dividers or accents
+- hover depth on image frames
 
-## Text animation
-Use carefully:
-- line reveal for display headlines
-- stagger on words only when readable
-- opacity transitions for supporting copy
+## Text motion
+Prefer:
+- word or line stagger on large editorial statements
+- soft opacity transitions for supporting copy
+- slight lateral movement for labels or notes
 
 Avoid:
-- excessive per-letter animation
-- unreadable or delayed text
-- long intro animations that block flow
+- per-letter gimmicks
+- slow intros that delay reading
+- long sequencing on paragraphs
 
-## Image animation
+## Image motion
 Prefer:
 - masked reveals
-- gentle scale
-- slight vertical drift
-- layered editorial entrance
+- short scale drift
+- light parallax
+- layered media settling at slightly different speeds
 
 Avoid:
 - dramatic zooms
-- aggressive movement
-- gallery chaos
+- carousel chaos
+- constant looping motion
+- gallery movement with no narrative reason
 
-## SVG handwriting accents
-Use SVG accents as:
-- underlines
-- side marks
-- flowing editorial connectors
-- signature-like strokes
-- narrative separators
+## Scroll-linked motion
+- tie motion to composition, not novelty
+- use ScrollTrigger sparingly
+- avoid pinning multiple sections in a hospitality site
+- dark sections can move a little slower than bright sections
+- if a section already has strong photography, the motion should get quieter
 
-These accents should:
-- be subtle
-- feel organic but controlled
-- support composition
-- never overpower the layout
+## 3D, video, and frame sequences
+The current Awwwards landscape uses all three, but LaRucula should be selective.
 
-## ScrollTrigger guidance
-- Use scroll-linked motion intentionally
-- Avoid pinning too many sections
-- Keep timelines modular
-- Clean up animations on unmount
-- Respect reduced-motion settings
+Use only when the content truly requires it:
+- 3D only if it adds tactile value and remains performant
+- video only if it tells atmosphere better than still photography
+- frame sequences only if they are central to the story and tested hard on mobile
+
+The OPTIKKA case study specifically highlights mobile and browser issues with video-driven scroll animation before switching approach. The inference for LaRucula: avoid heavy motion systems unless they are central and technically justified.
+
+## Microinteractions
+- nav hover should feel polished
+- buttons should have restrained lift or tonal change
+- image hover can deepen shadow or crop slightly
+- small interface reactions should reward attention without becoming playful noise
+
+## Performance rules
+Treat Awwwards mobile-excellence criteria as baseline:
+- smooth scrolling on mobile
+- visible CTAs
+- legible font sizes
+- lazy-load heavy media
+- use passive listeners where relevant
+- clean up GSAP contexts and triggers on unmount
+- build for mid-tier devices, not only high-end desktops
 
 ## Reduced motion
-Always provide a calmer experience when motion is reduced:
+When motion is reduced:
 - remove parallax
-- remove drawing sequences if distracting
-- use simple opacity transitions
-- preserve clarity above all
+- simplify reveal choreography
+- keep SVG accents static or nearly static
+- preserve hierarchy and clarity first
+
+## Anti-patterns
+- scroll-jacking
+- overlong preloaders
+- fake cinematic intros before content
+- perpetual marquees
+- multiple motion ideas competing in one viewport

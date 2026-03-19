@@ -1,20 +1,20 @@
 # Open Issues
 
 ## Resolved
-- ~~exact typography pairing and delivery method~~ → Cormorant Garamond + Inter + Caveat via Google Fonts
-- ~~real home hero and editorial section system~~ → 5 sections implemented with motion and imagery
+- ~~the guidance was too generic to steer a real redesign~~ → the docs now include inspiration synthesis, Awwwards research, and a Claude-specific design guide
+- ~~the docs were over-protecting the current scaffold~~ → Claude now has explicit permission to replace weak primitives, patterns, and technologies
+- ~~there was no browser-based UX validation loop~~ → Playwright screenshot automation and Axe baseline are now available
 
 ## Pending decisions
-- final image art direction and photography system (Unsplash placeholders in use)
-- reservation integration approach
-- degree of route separation vs. home-led narrative crosslinking
-- SVG accent library variations and line language
-- animation intensity by section after real content lands
+- which visual direction should actually become the primary HomePage concept
+- how far the site should lean into editorial hospitality versus dining-led storytelling
+- how much motion is appropriate once real imagery and real copy land
+- whether seal or marker motifs should become part of the final identity system
+- which extra technologies, if any, genuinely improve the result instead of just increasing complexity
 
 ## Pending implementation
-- menu storytelling layout
-- story route narrative build
-- visit route reservation and map design
-- production content and imagery
-- mobile experience fine-tuning at small breakpoints
-- route transition polish (scroll-to-top behavior)
+- Claude-led redesign of `home` with broad design and technology autonomy
+- possible refactor of primitives, token system, motion stack, or styling approach if the concept needs it
+- align `menu`, `story`, and `visit` with the selected direction once one strong concept wins
+- replace placeholder imagery with a coherent photography set
+- validate mobile rhythm and performance after the first real redesign pass using the new UX workflow

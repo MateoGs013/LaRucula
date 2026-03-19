@@ -17,6 +17,7 @@ Always read:
 - docs/ui-rules.md
 - docs/motion-rules.md
 - docs/graphics-system.md
+- docs/ux-review-workflow.md
 - docs/decisions.md
 - .claude/memory/MEMORY.md
 - .claude/memory/current-state.md
@@ -52,6 +53,13 @@ When major decisions are made:
 - update `docs/decisions.md`
 - update `.claude/memory/current-state.md`
 - update `.claude/memory/open-issues.md` if relevant
+
+## UX review loop
+Before calling a page or major section "done":
+- run `npm run ux`
+- inspect `tests/artifacts/`
+- run `npm run a11y`
+- use the workflow in `docs/ux-review-workflow.md`
 
 ## Implementation style
 - Think like a creative developer and front-end architect

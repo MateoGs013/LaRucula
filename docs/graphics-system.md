@@ -1,57 +1,96 @@
 # LaRucula — Graphics System
 
+This system is available as a palette of options, not a mandatory identity kit.
+Claude may keep, discard, or replace these motifs if a stronger graphic language emerges.
+
 ## Graphic role
-Graphic elements should enhance the editorial identity of the site.
+Graphics are structural, not decorative.
 
-They are not decoration for decoration’s sake.
-They should help create rhythm, emphasis, and atmosphere.
+They should help Claude create:
+- hierarchy
+- rhythm
+- framing
+- memory
+- tactile atmosphere
 
-## Allowed graphic elements
-- fine divider lines
-- editorial frames
-- oversized section numbers
-- subtle rule systems
-- SVG handwritten marks
-- stylized map lines
-- small croquis-like marks
-- understated texture overlays
-- image masks with organic geometry
-- coastal path-inspired curves
+If a graphic does not improve composition, orientation, or brand tone, it should not exist.
 
-## Graphic tone
-All graphics should feel:
-- refined
-- minimal
-- quiet
-- premium
-- tactile
-- integrated into the layout
+## Primary graphic language
+Allowed motifs:
+- fine editorial divider lines
+- restrained seal or monogram cues
+- oversized numerals for section anchoring
+- handwritten underline or note accents
+- subtle coastal path or route lines
+- framed image windows
+- tonal slabs behind content
+- quiet texture layers
 
-## Avoid
-- cartoonish illustrations
-- obvious beach icons
-- tourist motifs
-- noisy patterns
-- excessive textures
-- over-layering visual effects
+## What current award-level references suggest
+The strongest current references use graphics in these ways:
+- as navigation anchors
+- as framing systems around imagery
+- as tactile depth rather than obvious ornament
+- as small cues that make the interface feel authored
 
-## SVG ideas
-- animated underline beneath editorial heading
-- hand-drawn curve linking text and image
-- signature-style flourish near CTA
-- route-like coastal line in contact/location section
-- subtle drawn divider between major sections
+The Immersive Garden case study is a useful signal here: numerals and tactile surfaces become orientation tools, not just embellishment.
 
-## Graph ideas
-If charts or diagrams appear, they should feel:
-- editorial
-- simple
-- elegant
-- integrated with the story
+## Texture strategy
+The site should feel tactile, but only through one coherent system.
 
-Possible examples:
-- simplified location line map
-- timeline of the experience
-- dining journey diagram
-- seasonal menu structure
-- spatial story of restaurant / sea / table / light
+Use:
+- subtle paper or grain texture globally or in specific tone blocks
+- soft warm shadows
+- framed crops
+- mild tonal transitions
+- occasional embossed or relief-like feeling through light, shadow, and border
+
+Avoid:
+- mixing multiple texture systems in one section
+- loud noise overlays
+- obvious “vintage paper” gimmicks
+
+## Image treatment
+Images should feel curated and cinematic.
+
+Preferred system:
+- one dominant image
+- one supporting crop
+- optional one detail crop
+- clear ratio contrast between them
+- framing that reinforces hierarchy
+
+Avoid:
+- flat equal-size galleries
+- six-image mosaics with no focal point
+- decorative masking that fights the photo
+
+## SVG guidance
+SVG elements can be used for:
+- underlines
+- dividers
+- route lines
+- seal details
+- note-like signatures
+
+Rules:
+- keep the line language restrained
+- do not use more than one expressive SVG accent in the same section
+- let SVGs support layout, not compete with type or photography
+
+## Numerals and markers
+- oversized numerals are allowed when they anchor a section
+- markers should feel typographic and elegant
+- numerals work best as ghost elements, side anchors, or quiet metadata
+
+## Color and graphics
+- use tonal panels to support contrast
+- green, brown, or dusk notes should feel material, not branding-first
+- dark surfaces should be used as contrast scenes, not the default
+
+## Anti-patterns
+- tourist Mediterranean symbols
+- waves everywhere
+- seashells, lemons, anchors, or postcards
+- ornamental doodles repeated section after section
+- decorative graphics that do not affect hierarchy

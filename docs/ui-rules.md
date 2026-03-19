@@ -1,78 +1,127 @@
 # LaRucula — UI Rules
 
-## General principles
-- Build with restraint
-- Favor rhythm over density
-- Let whitespace do real design work
-- Avoid overfilling layouts
-- Every block must feel intentional
+These rules are heuristics, not fixed recipes.
+Claude may break them if doing so produces a more coherent, more modern, and more memorable result.
 
-## Layout principles
+## Research-backed direction
+The most relevant Awwwards hospitality references currently lean on:
+- storytelling
+- big background imagery
+- interaction design
+- microinteractions
+- strong header design
+- photo and video used as atmosphere
+
+LaRucula should translate that into a calmer, more Mediterranean editorial system.
+
+## Core UI principles
+- Design pages as sequences, not as stacks of modules
+- One strong idea per section is better than three medium ones
+- Use composition to create luxury before adding decoration
+- Let hierarchy come from scale, cropping, and spacing
+- Keep the interface legible enough that the experience never feels self-indulgent
+
+## Layout rules
 Prefer:
 - asymmetrical grids
-- split compositions
-- large editorial blocks
-- varied image scales
-- strong negative space
-- vertical rhythm with pauses
-- layouts that feel curated, not templated
+- offset or staggered relationships
+- unequal column weights
+- large editorial type blocks
+- one dominant image paired with one smaller supporting crop
+- sections that alternate visual logic across the page
+- quiet utility text surrounding a strong focal element
 
 Avoid:
-- repetitive stacked sections with identical rhythm
-- too many cards
-- boxed UI everywhere
-- equal-weight layouts with no focal point
-- over-centered compositions
+- repeating the same 50/50 split over and over
+- card-heavy sections
+- centered hero plus centered CTA plus centered footer repetition
+- too many boxed containers
+- grids with no dominant item
+- filling every gap with content
 
-## Section behavior
-Each section should have:
-- one primary focal point
-- one clear hierarchy
-- one reason to exist
-- an intentional relationship between text and media
+## Section archetypes
+Use these as page-building tools:
+- cinematic hero with one clear statement and one dominant image
+- editorial thesis section where typography does most of the work
+- gallery pair with one primary crop and one detail crop
+- atmosphere section led by architecture, interior, or service mood
+- narrative split where copy and image feel interdependent
+- reservation close that feels invitational, not transactional
+
+Each page should combine different archetypes instead of repeating one.
+Claude is free to invent section types beyond these.
+
+## Page rhythm
+- start with a strong arrival
+- move into appetite or proposition
+- give space to architecture or atmosphere
+- show product with restraint
+- end with a memorable invitation
+
+No page should feel like “hero, three cards, CTA”.
 
 ## Header
-- clean and stable
-- premium but restrained
-- reservation CTA should be visible
-- avoid oversized nav bars
-- sticky only if elegant and lightweight
+- keep it calm and easy to parse
+- reservation CTA should remain visible
+- navigation should feel premium and lightweight
+- utility information is allowed if it adds hospitality tone
+- sticky behavior should never become visually heavy
 
 ## Footer
-- must feel designed, not default
+- should feel like a designed closing scene
+- use contrast, spacing, and tone to create a final mood shift
 - include contact, hours, location, and reservation path
-- should visually close the experience
+- avoid default link-farm behavior
 
-## Buttons
-- understated
-- elegant
-- no overly rounded SaaS buttons
-- use motion subtly
-- prioritize typography and spacing over decoration
+## Buttons and links
+- understated, sharp, and typographic
+- let spacing and context create importance
+- avoid oversized pill buttons and SaaS-style UI chrome
+- hover and focus states should feel precise, not playful
 
 ## Forms
-- refined and easy to use
-- no generic plugin look
-- inputs should feel integrated with brand language
-- preserve strong accessibility and contrast
+- should feel integrated with the editorial system
+- keep the interaction friction low
+- strong contrast and large tap targets are non-negotiable
+- never paste a generic booking form aesthetic into the page
 
-## Images
-- images should feel curated
-- combine large hero imagery with smaller editorial inserts
-- avoid filling every gap with images
-- leave breathing room
-- preserve tension between text and photography
+## Image rules
+- prioritize atmosphere, architecture, materiality, and service mood
+- food should be selected, not omnipresent
+- use fewer, better images
+- favor cinematic crops and strong framing
+- support a large image with smaller detail imagery when useful
+- if using a gallery, give it narrative meaning
+
+Page-type exception:
+- `menu` and dish-led sections may give food imagery more direct weight, but still need hierarchy, restraint, and clear distinction between hero imagery and supporting detail
+
+Avoid:
+- endless food tiles
+- identical rounded rectangles
+- image dumps with no hierarchy
+- stock-like compositions that say nothing about place
 
 ## Typography hierarchy
-- Display serif for major titles
-- Sans-serif for body and utility text
-- Use scale contrast intentionally
-- Allow some headings to feel oversized and editorial
-- Handwritten accents only as highlights
+- display serif for statements and key section titles
+- sans-serif for body, utility, and navigation
+- very large type is allowed when the supporting copy is restrained
+- small metadata should create contrast around the headline
+- handwritten accents must remain occasional
 
-## Mobile rules
-- keep elegance on small screens
-- preserve hierarchy
-- stack with intention, not just collapse
-- remove unnecessary motion complexity
-- maintain generous spacing
+## Mobile excellence
+Use Awwwards mobile-excellence logic as a floor, not a bonus:
+- key CTAs must stay visible
+- text must remain legible at mobile sizes
+- tap targets must be comfortable
+- scrolling must stay smooth
+- heavy media must load progressively
+- do not rely on hover to explain structure
+- simplify composition without deleting hierarchy
+
+## Anti-patterns
+- overdesigned preloaders
+- scroll gimmicks that block reading
+- fake luxury through too much gold, blur, or noise
+- decorative Mediterranean symbols
+- screens that feel more like portfolios than hospitality
