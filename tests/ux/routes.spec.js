@@ -13,10 +13,15 @@ const routes = [
   { path: '/menu', slug: 'menu' },
   { path: '/story', slug: 'story' },
   { path: '/visit', slug: 'visit' },
+  { path: '/reservations', slug: 'reservations' },
+  { path: '/blog', slug: 'blog' },
+  { path: '/blog/the-morning-catch', slug: 'blog-post' },
 ];
 
 for (const route of routes) {
   test(`route review: ${route.slug}`, async ({ page }, testInfo) => {
+    test.setTimeout(60_000);
+
     await page.goto(route.path);
     await waitForPageReady(page);
 

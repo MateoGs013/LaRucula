@@ -29,9 +29,9 @@ useScrollScenes(pageRef);
         <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-ink/60 to-transparent" />
 
         <!-- Ghost word — bold and bleeds -->
-        <div class="pointer-events-none absolute bottom-[8%] right-[-3vw] select-none overflow-hidden">
+        <div class="pointer-events-none absolute -left-[2vw] top-[15vh] z-[1] select-none lg:top-[12vh]">
           <span
-            class="font-display text-[clamp(10rem,28vw,24rem)] font-light italic leading-none tracking-[-0.06em] text-ivory/[0.05]"
+            class="font-display text-[clamp(10rem,28vw,24rem)] font-light italic leading-[1.1] tracking-[-0.06em] text-ivory/[0.08]"
             aria-hidden="true"
           >origen</span>
         </div>
@@ -273,7 +273,7 @@ useScrollScenes(pageRef);
                 The table is set.<br />The coast is waiting.
               </p>
               <div class="mt-6 flex items-center gap-6">
-                <BaseButton to="/visit#reservation">Reserve your table</BaseButton>
+                <BaseButton to="/reservations">Reserve your table</BaseButton>
                 <div class="max-w-14 text-sage/25">
                   <SignatureStroke />
                 </div>

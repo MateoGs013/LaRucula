@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import { siteMeta } from '@/app/app-config';
+import { getBlogPost } from '@/data/mock-blog-posts';
 
 import { routes } from './routes';
 
@@ -24,20 +25,39 @@ const router = createRouter({
   },
 });
 
+function setMeta(attr, name, content) {
+  if (!content) return;
+  let el = document.querySelector(`meta[${attr}="${name}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
 router.afterEach((to) => {
-  document.title = to.meta?.title ?? siteMeta.name;
+  let title = to.meta?.title ?? siteMeta.name;
+  let description = to.meta?.description ?? siteMeta.description;
+  let ogImage = to.meta?.ogImage ?? siteMeta.ogImage;
 
-  const description =
-    to.meta?.description ?? siteMeta.description;
-  let descriptionTag = document.querySelector('meta[name="description"]');
-
-  if (!descriptionTag) {
-    descriptionTag = document.createElement('meta');
-    descriptionTag.setAttribute('name', 'description');
-    document.head.appendChild(descriptionTag);
+  // Dynamic blog post meta
+  if (to.name === 'blog-post' && to.params.slug) {
+    const post = getBlogPost(to.params.slug);
+    if (post) {
+      title = `${post.title} | LaRucula`;
+      description = post.excerpt;
+      ogImage = post.image;
+    }
   }
 
-  descriptionTag.setAttribute('content', description);
+  document.title = title;
+  setMeta('name', 'description', description);
+  setMeta('property', 'og:title', title);
+  setMeta('property', 'og:description', description);
+  setMeta('property', 'og:type', to.meta?.ogType ?? 'website');
+  setMeta('property', 'og:image', ogImage);
+  setMeta('property', 'og:url', window.location.href);
 });
 
 export default router;

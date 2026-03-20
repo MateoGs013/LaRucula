@@ -3,7 +3,9 @@ import { ref } from 'vue';
 
 import BaseButton from '@/components/ui/BaseButton.vue';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
-import { contactDetails } from '@/app/app-config';
+import ContactForm from '@/components/contact/ContactForm.vue';
+import SocialLinks from '@/components/ui/SocialLinks.vue';
+import { contactDetails, socialLinks } from '@/app/app-config';
 import { useRevealMotion } from '@/composables/useRevealMotion';
 import { useImageReveal } from '@/composables/useImageReveal';
 import { useScrollScenes } from '@/composables/useScrollScenes';
@@ -32,7 +34,7 @@ useScrollScenes(pageRef);
         <!-- "venir" as the hero’s visual identity — not a ghost, THE element -->
         <div class="pl-[var(--lr-space-gutter)] lg:pl-[5vw]" aria-hidden="true">
           <p
-            class="pointer-events-none select-none font-display text-[clamp(10rem,20vw,22rem)] font-light italic leading-[0.78] tracking-[-0.06em] text-ivory/[0.12]"
+            class="pointer-events-none select-none font-display text-[clamp(10rem,20vw,22rem)] font-light italic leading-[0.78] tracking-[-0.06em] text-ivory/[0.06]"
           >venir</p>
         </div>
 
@@ -59,11 +61,11 @@ useScrollScenes(pageRef);
       </div>
     </section>
 
-    <!-- ═══ RESERVATION — asymmetric editorial booking ═══ -->
+    <!-- ═══ RESERVATION — clear CTA to table selection ═══ -->
     <section id="reservation" class="relative overflow-hidden bg-cream py-20 md:py-28 lg:py-36">
       <!-- Overscaled typographic moment -->
       <div class="pointer-events-none absolute left-[-4vw] top-1/2 -translate-y-1/2 select-none" aria-hidden="true">
-        <span class="font-display text-[clamp(8rem,18vw,20rem)] font-light italic leading-none tracking-[-0.05em] text-ink/[0.035]">Reserve</span>
+        <span class="font-display text-[clamp(8rem,18vw,20rem)] font-light italic leading-none tracking-[-0.05em] text-ink/[0.035]">reserva</span>
       </div>
 
       <div class="relative z-10 px-[var(--lr-space-gutter)] lg:px-[5vw]">
@@ -77,15 +79,15 @@ useScrollScenes(pageRef);
               </h2>
               <p class="mt-5 max-w-md text-[1rem] leading-7 text-stone">
                 We keep the dining room intimate — thirty covers, no more.
-                Reservations ensure your evening unfolds without haste.
+                Choose your table and reserve your evening online.
               </p>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-4" data-reveal>
-              <BaseButton :href="`tel:${contactDetails.phone}`">
-                Call to reserve
+              <BaseButton to="/reservations">
+                Choose your table
               </BaseButton>
-              <BaseButton variant="ghost" :href="`mailto:${contactDetails.email}`">
-                Write to us
+              <BaseButton variant="ghost" href="https://wa.me/34000000000" external>
+                WhatsApp
               </BaseButton>
             </div>
           </div>
@@ -211,42 +213,71 @@ useScrollScenes(pageRef);
       </div>
     </section>
 
-    <!-- ═══ CONTACT — centered intimate invitation ═══ -->
-    <section class="relative overflow-hidden bg-dusk text-ivory">
+    <!-- ═══ CONTACT — sculptural form on dark field ═══ -->
+    <section class="relative overflow-hidden bg-ink">
       <img
         src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80&auto=format"
         alt="Warm candlelit table setting"
-        class="absolute inset-0 h-full w-full object-cover opacity-[0.08]"
+        class="absolute inset-0 h-full w-full object-cover opacity-[0.06]"
         loading="lazy"
       />
-      <div class="relative flex min-h-[55vh] flex-col items-center justify-center px-6 py-20 text-center md:py-24 lg:min-h-[60vh]">
-        <div data-reveal>
-          <p class="eyebrow text-ivory/35!">Get in touch</p>
-          <h2 class="mt-3 font-display text-[clamp(2rem,4vw,3rem)] font-light italic leading-[0.95] text-ivory/80">
-            We answer the old way
-          </h2>
-        </div>
 
-        <!-- Overscaled phone — the focal moment -->
-        <a
-          :href="`tel:${contactDetails.phone}`"
-          class="mt-10 block font-display text-[clamp(2.2rem,5.5vw,4.5rem)] font-light italic leading-tight tracking-[-0.03em] text-ivory transition-colors hover:text-sand"
-          data-reveal
-        >
-          {{ contactDetails.phone }}
-        </a>
+      <!-- Architectural overscaled word bleeding left -->
+      <div class="pointer-events-none absolute -left-[3vw] top-[8vh] select-none" aria-hidden="true">
+        <p class="font-display text-[clamp(8rem,16vw,16rem)] font-light italic leading-none tracking-[-0.06em] text-ivory/[0.03]">
+          escríbenos
+        </p>
+      </div>
 
-        <div class="mt-6 space-y-1.5" data-reveal>
-          <a :href="`mailto:${contactDetails.email}`" class="block text-[1rem] text-ivory/45 transition-colors hover:text-ivory">
-            {{ contactDetails.email }}
-          </a>
-          <p class="text-[1rem] text-ivory/25">
-            {{ contactDetails.address }}
-          </p>
-        </div>
+      <div class="relative px-[var(--lr-space-gutter)] py-20 md:py-28 lg:px-[5vw] lg:py-36">
+        <div class="lg:grid lg:grid-cols-[4fr_5fr] lg:items-start lg:gap-12 xl:gap-20">
 
-        <div class="mt-8 max-w-16 text-ivory/15" data-reveal>
-          <SignatureStroke />
+          <!-- Left — direct contact, vertical rhythm -->
+          <div class="text-ivory">
+            <div data-reveal>
+              <p class="eyebrow text-ivory/30!">Get in touch</p>
+              <h2 class="mt-3 max-w-sm font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-[0.92] tracking-[-0.03em] text-ivory/80">
+                We answer<br />the old way
+              </h2>
+            </div>
+
+            <a
+              :href="`tel:${contactDetails.phone}`"
+              class="mt-10 block font-display text-[clamp(2.4rem,6vw,5rem)] font-light italic leading-tight tracking-[-0.04em] text-ivory/90 transition-colors hover:text-sand"
+              data-reveal
+            >
+              {{ contactDetails.phone }}
+            </a>
+
+            <div class="mt-8 space-y-2" data-reveal>
+              <a :href="`mailto:${contactDetails.email}`" class="block font-display text-[1.2rem] italic text-ivory/40 transition-colors hover:text-ivory">
+                {{ contactDetails.email }}
+              </a>
+              <p class="text-[0.95rem] text-ivory/20">
+                {{ contactDetails.address }}
+              </p>
+            </div>
+
+            <div class="mt-10 border-t border-ivory/8 pt-8" data-reveal>
+              <SocialLinks :links="socialLinks" tone="dark" />
+            </div>
+
+            <div class="mt-10 max-w-14 text-ivory/10" data-reveal>
+              <SignatureStroke />
+            </div>
+          </div>
+
+          <!-- Right — form as sculptural ivory surface -->
+          <div class="mt-14 lg:mt-0" data-reveal>
+            <div class="bg-ivory/[0.97] px-8 py-10 shadow-[0_8px_60px_rgba(0,0,0,0.25)] md:px-10 md:py-12 lg:px-12 lg:py-14">
+              <p class="font-display text-[1.4rem] italic leading-tight text-ink/60">
+                Write to us
+              </p>
+              <div class="mt-1 mb-8 h-px w-10 bg-toast/25" />
+              <ContactForm />
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

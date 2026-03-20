@@ -37,9 +37,14 @@ useScrollScenes(pageRef);
           />
         </div>
 
+        <!-- Ghost word — architectural, bleeds left edge -->
+        <div class="pointer-events-none absolute -left-[2vw] bottom-[22%] z-[1] select-none lg:bottom-[18%]" aria-hidden="true">
+          <p class="font-display text-[clamp(10rem,24vw,22rem)] font-light italic leading-none tracking-[-0.06em] text-ivory/[0.08]">mar</p>
+        </div>
+
         <!-- Scrims: top for header legibility, bottom for text -->
         <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-ink/50 to-transparent" />
-        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-linear-to-t from-ink/85 via-ink/40 to-transparent" />
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[60%] bg-linear-to-t from-ink/95 via-ink/55 to-transparent" />
 
         <!-- Anchor word — flush left, giant, bleeds into image -->
         <div class="absolute inset-x-0 bottom-0 z-10 pb-8 md:pb-12 lg:pb-16">
@@ -57,7 +62,7 @@ useScrollScenes(pageRef);
               </p>
               <div data-hero-cta class="invisible">
                 <BaseButton
-                  to="/visit#reservation"
+                  to="/reservations"
                   variant="ghost"
                   class="border-ivory/20! text-ivory! hover:border-ivory/40! hover:bg-ivory/8!"
                 >
@@ -232,7 +237,7 @@ useScrollScenes(pageRef);
             Come for the hour when the light turns gold.
           </p>
           <div class="mt-8">
-            <BaseButton to="/visit#reservation">Reserve your table</BaseButton>
+            <BaseButton to="/reservations">Reserve your table</BaseButton>
           </div>
         </div>
 

@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 import { waitForPageReady } from './helpers.js';
 
-const routes = ['/', '/menu', '/story', '/visit'];
+const routes = ['/', '/menu', '/story', '/visit', '/reservations', '/blog', '/blog/the-morning-catch'];
 
 for (const route of routes) {
   test(`a11y baseline: ${route}`, async ({ page }, testInfo) => {

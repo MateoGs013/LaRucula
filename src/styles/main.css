@@ -109,7 +109,6 @@
 @utility eyebrow {
   color: var(--lr-color-stone);
   font-family: var(--lr-font-body);
-  font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;

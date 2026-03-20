@@ -57,9 +57,9 @@ const wines = [
         <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-ink/60 to-transparent" />
 
         <!-- Overscaled ghost word — right-anchored -->
-        <div class="pointer-events-none absolute bottom-[12%] right-[-2vw] overflow-hidden select-none">
+        <div class="pointer-events-none absolute bottom-[20%] right-[-2vw] z-[1] overflow-hidden select-none">
           <span
-            class="font-display text-[clamp(10rem,25vw,22rem)] font-light italic leading-none tracking-[-0.06em] text-ivory/[0.04]"
+            class="font-display text-[clamp(10rem,25vw,22rem)] font-light italic leading-none tracking-[-0.06em] text-ivory/[0.08]"
             aria-hidden="true"
           >mesa</span>
         </div>
@@ -363,7 +363,7 @@ const wines = [
             </p>
           </div>
           <div class="mt-6 flex items-end justify-between lg:mt-0">
-            <BaseButton to="/visit#reservation" data-reveal>Reserve your table</BaseButton>
+            <BaseButton to="/reservations" data-reveal>Reserve your table</BaseButton>
             <div class="max-w-14 text-sage/25" data-reveal>
               <SignatureStroke />
             </div>

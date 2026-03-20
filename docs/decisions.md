@@ -450,3 +450,59 @@ The Visit page needed its own compositional identity distinct from HomePage (pan
 
 **Affected files:**
 `src/pages/VisitPage.vue`
+
+### 2026-03-20 — Architecture reorganization: reservation system, blog, contact, SEO
+
+**Decision:**
+Major architecture expansion to align the site with client budget requirements. Added three new routes, five new component families, two new composables, two mock data modules, and updated all existing pages for integration.
+
+**New route structure (8 routes):**
+- `/` — Home
+- `/menu` — Menu
+- `/story` — Story
+- `/visit` — Practical info + contact form + social links
+- `/reservations` — Dedicated table selection with interactive floor map
+- `/blog` — Blog index (featured + grid)
+- `/blog/:slug` — Blog detail
+- `/:pathMatch(.*)*` — 404
+
+**Reservation system:**
+Cinema-seat-selection metaphor. SVG-based floor plan with percentage-positioned tables. 4-step flow: Date & Time → Table Selection → Guest Details → Confirmation. Data-driven architecture: `mock-tables.js` defines zones (terrace/interior/private), table shapes (round/square/rect), states (available/reserved/selected), and time slots. `useReservation` composable manages the full flow state. API boundary: `submitReservation()` returns a Promise — swap `setTimeout` for real `fetch` when backend arrives.
+
+**Blog architecture:**
+`mock-blog-posts.js` provides 4 posts with structured body content (paragraph/blockquote blocks). Blog index: featured post (large editorial) + responsive grid. Blog detail: dynamic route with hero, article body, related posts. SEO: dynamic meta tags via router afterEach.
+
+**Contact & social integration:**
+- `ContactForm.vue`: editorial-styled form with mock submission (API-ready boundary)
+- `WhatsAppButton.vue`: fixed bottom-right floating CTA with delayed entrance
+- `SocialLinks.vue`: configurable light/dark tone social links
+- `app-config.js`: centralized WhatsApp number, social link URLs
+
+**SEO improvements:**
+- `index.html`: Open Graph + Twitter Card meta tags
+- `router/index.js`: dynamic OG meta per route (title, description, type, image, URL)
+- Blog posts get dynamic titles and descriptions from content
+
+**Navigation updates:**
+- Primary nav: Menu, Story, Blog, Visit (removed Home)
+- Header CTA: "Reserve" → `/reservations`
+- All existing page CTAs updated from `/visit#reservation` to `/reservations`
+- Footer: added SocialLinks + explicit Reservations link
+
+**VisitPage evolution:**
+Contact section redesigned from centered phone-only to two-column editorial layout: direct contact info + social links on left, full ContactForm on right. Reservation section updated with CTAs pointing to the dedicated `/reservations` page + WhatsApp link.
+
+**NotFoundPage redesign:**
+Replaced generic PageShell/SectionShell wrapper with full-viewport editorial 404: overscaled "404" numeral, "Lost at sea" messaging, coastal background image, SignatureStroke accent. Consistent with the site's dark-hero visual language.
+
+**API-ready boundaries (ready for backend):**
+- `useReservation.submitReservation()` → replace mock with POST `/api/reservations`
+- `ContactForm.handleSubmit()` → replace mock with POST `/api/contact`
+- `mock-tables.js` → replace with GET `/api/tables?date=...&time=...`
+- `mock-blog-posts.js` → replace with CMS API
+
+**Why:**
+The original site had 4 routes and no conversion infrastructure. Client budget requires facilitating reservations, contact, and content marketing. The architecture adds these capabilities while preserving the editorial visual language and keeping clear boundaries between mock data and future API integration.
+
+**Affected files:**
+`index.html`, `src/app/app-config.js`, `src/router/routes.js`, `src/router/index.js`, `src/App.vue`, `src/data/mock-tables.js` (new), `src/data/mock-blog-posts.js` (new), `src/composables/useReservation.js` (new), `src/composables/useSeoMeta.js` (new), `src/components/reservation/TableNode.vue` (new), `src/components/reservation/FloorMap.vue` (new), `src/components/reservation/BookingForm.vue` (new), `src/components/reservation/GuestForm.vue` (new), `src/components/reservation/BookingSummary.vue` (new), `src/pages/ReservationsPage.vue` (new), `src/pages/BlogPage.vue` (new), `src/pages/BlogPostPage.vue` (new), `src/components/ui/WhatsAppButton.vue` (new), `src/components/ui/SocialLinks.vue` (new), `src/components/contact/ContactForm.vue` (new), `src/pages/VisitPage.vue`, `src/pages/HomePage.vue`, `src/pages/MenuPage.vue`, `src/pages/StoryPage.vue`, `src/pages/NotFoundPage.vue`, `src/components/layout/SiteFooter.vue`

@@ -1,7 +1,8 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
-import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
+import SocialLinks from '@/components/ui/SocialLinks.vue';
+import { contactDetails, primaryNavigation, siteMeta, socialLinks } from '@/app/app-config';
 </script>
 
 <template>
@@ -40,6 +41,8 @@ import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
               </a>
             </div>
           </div>
+
+          <SocialLinks :links="socialLinks" tone="dark" />
         </div>
 
         <nav class="flex flex-col gap-3">
@@ -51,6 +54,12 @@ import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
             class="text-[0.875rem] uppercase tracking-[0.15em] text-ivory/55 transition-colors duration-300 hover:text-ivory/85"
           >
             {{ item.label }}
+          </RouterLink>
+          <RouterLink
+            to="/reservations"
+            class="text-[0.875rem] uppercase tracking-[0.15em] text-ivory/55 transition-colors duration-300 hover:text-ivory/85"
+          >
+            Reservations
           </RouterLink>
         </nav>
       </div>
