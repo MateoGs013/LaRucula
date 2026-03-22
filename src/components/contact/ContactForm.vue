@@ -1,11 +1,9 @@
 <script setup>
-/**
- * Editorial contact form that integrates with the brand visual system.
- * Front-end only — form submission shows a visual confirmation.
- * Ready for API integration (replace handleSubmit with fetch).
- */
 import { ref } from 'vue';
+
+import { getErrorMessage } from '@/api/errors';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
+import { submitContact } from '@/services/contactService';
 
 const form = ref({
   name: '',
@@ -17,18 +15,26 @@ const form = ref({
 
 const submitted = ref(false);
 const submitting = ref(false);
+const errorMessage = ref('');
 
 async function handleSubmit() {
   submitting.value = true;
-  // Mock: simulate API delay — replace with real fetch
-  await new Promise((r) => setTimeout(r, 800));
-  submitted.value = true;
-  submitting.value = false;
+  errorMessage.value = '';
+
+  try {
+    await submitContact(form.value);
+    submitted.value = true;
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error, 'Unable to send the message right now.');
+  } finally {
+    submitting.value = false;
+  }
 }
 
 function resetForm() {
   form.value = { name: '', email: '', phone: '', subject: '', message: '' };
   submitted.value = false;
+  errorMessage.value = '';
 }
 </script>
 
@@ -61,6 +67,13 @@ function resetForm() {
 
     <!-- Form -->
     <form v-if="!submitted" @submit.prevent="handleSubmit" class="space-y-6">
+      <p
+        v-if="errorMessage"
+        class="border-l-2 border-toast/30 pl-4 text-[0.95rem] leading-7 text-toast/80"
+      >
+        {{ errorMessage }}
+      </p>
+
       <div class="grid gap-6 md:grid-cols-2">
         <div>
           <label for="contact-name" class="eyebrow mb-2 block text-[0.75rem]">Name *</label>

@@ -21,18 +21,22 @@ const {
   date,
   time,
   partySize,
+  floorPlanMeta,
   selectedTableId,
   hoveredTableId,
   guest,
   tables,
   selectedTable,
   timeSlots,
+  layoutLoading,
+  availabilityLoading,
+  loadError,
+  submitError,
   canProceedToTable,
   canProceedToGuest,
   canConfirm,
   bookingSummary,
   selectTable,
-  deselectTable,
   hoverTable,
   unhoverTable,
   nextStep,
@@ -50,6 +54,8 @@ async function handleConfirm() {
     const result = await submitReservation();
     confirmationId.value = result.confirmationId;
     nextStep();
+  } catch {
+    // Keep the user on the guest step so they can retry.
   } finally {
     submitting.value = false;
   }
@@ -156,6 +162,13 @@ const steps = [
                     @update:party-size="partySize = $event"
                     @next="nextStep"
                   />
+                  <p
+                    v-if="availabilityLoading || loadError"
+                    class="mt-5 max-w-md text-[0.95rem] leading-7 text-stone/55"
+                    data-reveal
+                  >
+                    {{ availabilityLoading ? 'Refreshing the room for that time and party size…' : loadError }}
+                  </p>
                 </div>
               </div>
               <!-- Atmospheric image — right column on desktop -->
@@ -196,6 +209,7 @@ const steps = [
 
                 <FloorMap
                   :tables="tables"
+                  :layout-meta="floorPlanMeta"
                   :selected-table-id="selectedTableId"
                   :hovered-table-id="hoveredTableId"
                   :party-size="partySize"
@@ -203,6 +217,19 @@ const steps = [
                   @hover="hoverTable"
                   @unhover="unhoverTable"
                 />
+                <p
+                  v-if="layoutLoading || availabilityLoading || loadError"
+                  class="mt-5 max-w-md text-[0.95rem] leading-7 text-stone/55"
+                  data-reveal
+                >
+                  {{
+                    layoutLoading
+                      ? 'Loading the dining room…'
+                      : availabilityLoading
+                        ? 'Checking which tables are still open…'
+                        : loadError
+                  }}
+                </p>
               </div>
             </div>
 
@@ -243,6 +270,13 @@ const steps = [
                     @next="handleConfirm"
                     @prev="prevStep"
                   />
+                  <p
+                    v-if="submitError"
+                    class="mt-5 max-w-md text-[0.95rem] leading-7 text-toast/70"
+                    data-reveal
+                  >
+                    {{ submitError }}
+                  </p>
                 </div>
               </div>
               <!-- Editorial summary sidebar -->
@@ -299,7 +333,7 @@ const steps = [
             <div class="mt-4 flex flex-wrap gap-4 lg:justify-end">
               <BaseButton
                 variant="ghost"
-                href="https://wa.me/34000000000"
+                :href="`https://wa.me/${contactDetails.whatsapp}`"
                 external
               >
                 WhatsApp

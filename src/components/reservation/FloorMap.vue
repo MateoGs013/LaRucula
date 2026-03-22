@@ -9,10 +9,10 @@
  * is driven by data, making it easy to replace once real dimensions arrive.
  */
 import TableNode from './TableNode.vue';
-import { floorPlanMeta } from '@/data/mock-tables';
 
 const props = defineProps({
   tables: { type: Array, required: true },
+  layoutMeta: { type: Object, required: true },
   selectedTableId: { type: String, default: null },
   hoveredTableId: { type: String, default: null },
   partySize: { type: Number, default: 2 },
@@ -46,7 +46,7 @@ function isSelectable(table) {
     <!-- SVG Floor Plan -->
     <div class="relative overflow-hidden rounded-sm border border-ink/6 bg-cream/50">
       <svg
-        :viewBox="`0 0 100 ${100 / floorPlanMeta.aspectRatio}`"
+        :viewBox="`0 0 100 ${100 / layoutMeta.aspectRatio}`"
         class="w-full"
         role="img"
         aria-label="Restaurant floor plan — select your preferred table"
@@ -54,12 +54,12 @@ function isSelectable(table) {
         <!-- Background zones -->
         <g class="zones" aria-hidden="true">
           <rect
-            v-for="zone in floorPlanMeta.zones"
+            v-for="zone in layoutMeta.zones"
             :key="zone.id"
             :x="zone.bounds.x"
-            :y="zone.bounds.y * (100 / floorPlanMeta.aspectRatio) / 100"
+            :y="zone.bounds.y * (100 / layoutMeta.aspectRatio) / 100"
             :width="zone.bounds.w"
-            :height="zone.bounds.h * (100 / floorPlanMeta.aspectRatio) / 100"
+            :height="zone.bounds.h * (100 / layoutMeta.aspectRatio) / 100"
             :class="`zone-${zone.id}`"
           />
         </g>
@@ -67,10 +67,10 @@ function isSelectable(table) {
         <!-- Zone labels -->
         <g class="zone-labels" aria-hidden="true">
           <text
-            v-for="zone in floorPlanMeta.zones"
+            v-for="zone in layoutMeta.zones"
             :key="zone.id + '-label'"
             :x="zone.bounds.x + zone.bounds.w / 2"
-            :y="(zone.bounds.y + 5) * (100 / floorPlanMeta.aspectRatio) / 100"
+            :y="(zone.bounds.y + 5) * (100 / layoutMeta.aspectRatio) / 100"
             text-anchor="middle"
             class="zone-label-text"
           >{{ zone.label }}</text>

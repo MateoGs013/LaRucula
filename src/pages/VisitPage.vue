@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import BaseButton from '@/components/ui/BaseButton.vue';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
@@ -14,6 +14,18 @@ const pageRef = ref(null);
 useRevealMotion(pageRef);
 useImageReveal(pageRef);
 useScrollScenes(pageRef);
+
+const contactAddress = computed(() => {
+  const parts = String(contactDetails.address || '')
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  return {
+    street: parts[0] || 'Passeig de la Mar 18',
+    locality: parts.slice(1).join(', ') || contactDetails.city || 'Costa del Sol',
+  };
+});
 </script>
 
 <template>
@@ -53,8 +65,8 @@ useScrollScenes(pageRef);
 
         <!-- Address at bottom-right -->
         <div class="absolute bottom-6 right-[var(--lr-space-gutter)] z-10 hidden text-right md:block lg:right-[5vw]">
-          <p class="text-[0.85rem] font-medium uppercase tracking-[0.2em] text-ivory/25">Passeig de la Mar 18</p>
-          <p class="mt-0.5 text-[0.8rem] tracking-[0.15em] text-ivory/15">Costa del Sol</p>
+          <p class="text-[0.85rem] font-medium uppercase tracking-[0.2em] text-ivory/25">{{ contactAddress.street }}</p>
+          <p class="mt-0.5 text-[0.8rem] tracking-[0.15em] text-ivory/15">{{ contactAddress.locality }}</p>
         </div>
 
         <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-ink/40 to-transparent" />
@@ -86,7 +98,7 @@ useScrollScenes(pageRef);
               <BaseButton to="/reservations">
                 Choose your table
               </BaseButton>
-              <BaseButton variant="ghost" href="https://wa.me/34000000000" external>
+              <BaseButton variant="ghost" :href="`https://wa.me/${contactDetails.whatsapp}`" external>
                 WhatsApp
               </BaseButton>
             </div>
