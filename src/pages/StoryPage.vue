@@ -1,16 +1,108 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import BaseButton from '@/components/ui/BaseButton.vue';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
 import { useRevealMotion } from '@/composables/useRevealMotion';
 import { useImageReveal } from '@/composables/useImageReveal';
+import { useSiteContentValue } from '@/composables/useSiteContent';
 import { useScrollScenes } from '@/composables/useScrollScenes';
 
 const pageRef = ref(null);
 useRevealMotion(pageRef);
 useImageReveal(pageRef);
 useScrollScenes(pageRef);
+
+const heroLabel = useSiteContentValue('story.hero.label', 'Our story');
+const heroTitle = useSiteContentValue('story.hero.title', 'Built where\nthe land ends');
+const heroTitleLines = computed(() => heroTitle.value.split('\n'));
+
+const placeLineOne = useSiteContentValue('story.place.line_1', 'A kitchen');
+const placeLineTwo = useSiteContentValue('story.place.line_2', 'facing');
+const placeLineThree = useSiteContentValue('story.place.line_3', 'the sea');
+const placeBodyOne = useSiteContentValue(
+  'story.place.body_1',
+  'The Costa del Sol taught us what a restaurant could be — not a building with a menu, but a place where light, tide, and season shape everything that reaches the table.'
+);
+const placeBodyTwo = useSiteContentValue(
+  'story.place.body_2',
+  'LaRucula sits at the edge. The terrace faces south. The mornings smell of salt and rosemary. The afternoons stretch long and golden.'
+);
+
+const kitchenLabel = useSiteContentValue('story.kitchen.label', 'The kitchen');
+const kitchenTitle = useSiteContentValue('story.kitchen.title', 'Hands that\nknow the coast');
+const kitchenTitleLines = computed(() => kitchenTitle.value.split('\n'));
+const kitchenBody = useSiteContentValue(
+  'story.kitchen.body',
+  'The kitchen runs on instinct refined by decades of Mediterranean work. Every morning begins at the port — choosing fish, reading the catch, weighing what the sea decided to offer. The menu follows.'
+);
+const kitchenQuote = useSiteContentValue(
+  'story.kitchen.quote',
+  'We cook what the fisherman brings.\nNothing more, nothing less.'
+);
+const kitchenQuoteLines = computed(() => kitchenQuote.value.split('\n'));
+
+const ritualLabel = useSiteContentValue('story.ritual.label', 'The day');
+const ritualTitle = useSiteContentValue(
+  'story.ritual.title',
+  'A restaurant that lives by the hours'
+);
+
+const morningTime = useSiteContentValue('story.ritual.morning.time', '7am');
+const morningTitle = useSiteContentValue('story.ritual.morning.title', 'The port');
+const morningBody = useSiteContentValue(
+  'story.ritual.morning.body',
+  'The day begins before the kitchen opens. The chef walks the harbour, reads the boats, selects the catch. The menu is still unwritten.'
+);
+const afternoonTime = useSiteContentValue('story.ritual.afternoon.time', '1pm');
+const afternoonTitle = useSiteContentValue('story.ritual.afternoon.title', 'The terrace');
+const afternoonBody = useSiteContentValue(
+  'story.ritual.afternoon.body',
+  'Lunch is long and unhurried. The terrace fills slowly. Bread arrives warm. Wine is poured from a local bottle. The sea is always in view.'
+);
+const eveningTime = useSiteContentValue('story.ritual.evening.time', '9pm');
+const eveningTitle = useSiteContentValue('story.ritual.evening.title', 'The table');
+const eveningBody = useSiteContentValue(
+  'story.ritual.evening.body',
+  'Candles are lit. The dinner menu arrives with the evening breeze. Courses come slowly, each one a conversation between land and sea.'
+);
+
+const ritualMoments = computed(() => [
+  {
+    time: morningTime.value,
+    title: morningTitle.value,
+    body: morningBody.value,
+  },
+  {
+    time: afternoonTime.value,
+    title: afternoonTitle.value,
+    body: afternoonBody.value,
+  },
+  {
+    time: eveningTime.value,
+    title: eveningTitle.value,
+    body: eveningBody.value,
+  },
+]);
+
+const spaceLabel = useSiteContentValue('story.space.label', 'The space');
+const spaceTitle = useSiteContentValue('story.space.title', 'Stone, light,\nand the weight of the sea');
+const spaceTitleLines = computed(() => spaceTitle.value.split('\n'));
+const spaceBody = useSiteContentValue(
+  'story.space.body',
+  'The building is old. The walls are thick and cool. The floors are worn smooth by decades of salt air and footsteps.'
+);
+const spaceNote = useSiteContentValue(
+  'story.space.note',
+  'built in 1962, reimagined for today'
+);
+
+const closingTitle = useSiteContentValue(
+  'story.closing.title',
+  'The table is set.\nThe coast is waiting.'
+);
+const closingTitleLines = computed(() => closingTitle.value.split('\n'));
+const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table');
 </script>
 
 <template>
@@ -38,12 +130,12 @@ useScrollScenes(pageRef);
 
         <div class="absolute inset-x-0 bottom-0 z-10 pb-10 md:pb-14 lg:pb-16">
           <div class="pl-[var(--lr-space-gutter)] lg:pl-[5vw]">
-            <p class="eyebrow text-ivory/40!" data-reveal>Our story</p>
+            <p class="eyebrow text-ivory/40!" data-reveal>{{ heroLabel }}</p>
             <h1
               class="mt-3 font-display text-[clamp(3.2rem,9vw,8rem)] font-light italic leading-[0.88] tracking-[-0.05em] text-ivory [text-shadow:0_2px_40px_rgba(0,0,0,0.5)]"
               data-reveal
             >
-              Built where<br />the land ends
+              {{ heroTitleLines[0] }}<br />{{ heroTitleLines[1] || '' }}
             </h1>
             <div class="mt-5 max-w-16 text-ivory/20" data-reveal>
               <SignatureStroke />
@@ -58,9 +150,9 @@ useScrollScenes(pageRef);
       <div class="relative overflow-hidden">
         <blockquote class="font-display font-light italic leading-[0.92] tracking-[-0.035em] text-ink">
           <p>
-            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(2.4rem,4.5vw,4rem)] lg:pl-[5vw]">A kitchen</span>
-            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(5rem,13vw,12rem)] tracking-[-0.05em] text-ink/90 lg:pl-[10vw]">facing</span>
-            <span data-reveal-line class="invisible block pr-[var(--lr-space-gutter)] text-right text-[clamp(5rem,13vw,12rem)] tracking-[-0.05em] text-ink/90 lg:pr-[8vw]">the sea</span>
+            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(2.4rem,4.5vw,4rem)] lg:pl-[5vw]">{{ placeLineOne }}</span>
+            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(5rem,13vw,12rem)] tracking-[-0.05em] text-ink/90 lg:pl-[10vw]">{{ placeLineTwo }}</span>
+            <span data-reveal-line class="invisible block pr-[var(--lr-space-gutter)] text-right text-[clamp(5rem,13vw,12rem)] tracking-[-0.05em] text-ink/90 lg:pr-[8vw]">{{ placeLineThree }}</span>
           </p>
         </blockquote>
 
@@ -82,10 +174,10 @@ useScrollScenes(pageRef);
             <!-- Text — right, vertically centered, generous padding -->
             <div class="flex flex-col justify-center px-[var(--lr-space-gutter)] py-10 md:py-14 lg:px-12 lg:py-16" data-reveal>
               <p class="max-w-sm text-[1rem] leading-7 text-stone">
-                The Costa del Sol taught us what a restaurant could be — not a building with a menu, but a place where light, tide, and season shape everything that reaches the table.
+                {{ placeBodyOne }}
               </p>
               <p class="mt-4 max-w-sm text-[1rem] leading-7 text-stone/70">
-                LaRucula sits at the edge. The terrace faces south. The mornings smell of salt and rosemary. The afternoons stretch long and golden.
+                {{ placeBodyTwo }}
               </p>
             </div>
           </div>
@@ -104,18 +196,18 @@ useScrollScenes(pageRef);
         <!-- Text — left -->
         <div class="flex flex-col justify-center px-[var(--lr-space-gutter)] py-14 md:py-20 lg:px-14 lg:py-24 lg:order-1">
           <div data-reveal>
-            <p class="eyebrow text-ivory/35!">The kitchen</p>
+            <p class="eyebrow text-ivory/35!">{{ kitchenLabel }}</p>
             <h2 class="mt-3 font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-[0.95] tracking-[-0.03em]">
-              Hands that<br />know the coast
+              {{ kitchenTitleLines[0] }}<br />{{ kitchenTitleLines[1] || '' }}
             </h2>
           </div>
           <p class="mt-6 max-w-md text-[1rem] leading-7 text-ivory/50" data-reveal>
-            The kitchen runs on instinct refined by decades of Mediterranean work. Every morning begins at the port — choosing fish, reading the catch, weighing what the sea decided to offer. The menu follows.
+            {{ kitchenBody }}
           </p>
           <!-- Overlapping handwritten detail -->
           <div class="mt-8" data-reveal>
             <p class="font-accent text-[1.05rem] leading-relaxed text-toast/45">
-              "We cook what the fisherman brings.<br />Nothing more, nothing less."
+              "{{ kitchenQuoteLines[0] }}<br />{{ kitchenQuoteLines[1] || '' }}"
             </p>
           </div>
           <div class="mt-6 max-w-16 text-ivory/15" data-reveal>
@@ -146,9 +238,9 @@ useScrollScenes(pageRef);
 
       <div class="shell relative z-10">
         <div data-reveal>
-          <p class="eyebrow">The day</p>
+          <p class="eyebrow">{{ ritualLabel }}</p>
           <h2 class="mt-2 max-w-md font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-[0.95] tracking-[-0.03em] text-ink">
-            A restaurant that lives by the hours
+            {{ ritualTitle }}
           </h2>
         </div>
 
@@ -156,35 +248,18 @@ useScrollScenes(pageRef);
         <div class="mt-12 lg:mt-16">
           <div class="lg:grid lg:grid-cols-3 lg:gap-12">
             <!-- Morning -->
-            <div data-reveal>
-              <p class="font-display text-[clamp(3rem,6vw,4.5rem)] font-light italic leading-none tracking-[-0.04em] text-ink/10">7am</p>
+            <div
+              v-for="(moment, index) in ritualMoments"
+              :key="moment.title"
+              :class="index === 0 ? '' : 'mt-10 lg:mt-0'"
+              data-reveal
+            >
+              <p class="font-display text-[clamp(3rem,6vw,4.5rem)] font-light italic leading-none tracking-[-0.04em] text-ink/10">{{ moment.time }}</p>
               <h3 class="mt-3 font-display text-[1.2rem] italic leading-snug tracking-[-0.01em] text-ink">
-                The port
+                {{ moment.title }}
               </h3>
               <p class="mt-2 text-[1rem] leading-7 text-stone/65">
-                The day begins before the kitchen opens. The chef walks the harbour, reads the boats, selects the catch. The menu is still unwritten.
-              </p>
-            </div>
-
-            <!-- Afternoon -->
-            <div class="mt-10 lg:mt-0" data-reveal>
-              <p class="font-display text-[clamp(3rem,6vw,4.5rem)] font-light italic leading-none tracking-[-0.04em] text-ink/10">1pm</p>
-              <h3 class="mt-3 font-display text-[1.2rem] italic leading-snug tracking-[-0.01em] text-ink">
-                The terrace
-              </h3>
-              <p class="mt-2 text-[1rem] leading-7 text-stone/65">
-                Lunch is long and unhurried. The terrace fills slowly. Bread arrives warm. Wine is poured from a local bottle. The sea is always in view.
-              </p>
-            </div>
-
-            <!-- Evening -->
-            <div class="mt-10 lg:mt-0" data-reveal>
-              <p class="font-display text-[clamp(3rem,6vw,4.5rem)] font-light italic leading-none tracking-[-0.04em] text-ink/10">9pm</p>
-              <h3 class="mt-3 font-display text-[1.2rem] italic leading-snug tracking-[-0.01em] text-ink">
-                The table
-              </h3>
-              <p class="mt-2 text-[1rem] leading-7 text-stone/65">
-                Candles are lit. The dinner menu arrives with the evening breeze. Courses come slowly, each one a conversation between land and sea.
+                {{ moment.body }}
               </p>
             </div>
           </div>
@@ -237,15 +312,15 @@ useScrollScenes(pageRef);
       <!-- Floating text panel — anchored bottom-right, overlaps image edge -->
       <div class="relative z-10 -mt-20 md:-mt-28 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:flex lg:w-[33%] lg:items-end lg:pb-10 xl:w-[28%] xl:pb-14">
         <div class="mx-[var(--lr-space-gutter)] bg-cream p-6 md:p-8 lg:mx-0 lg:mr-[var(--lr-space-gutter)] lg:bg-cream/95 lg:shadow-[0_20px_60px_rgba(26,20,16,0.15)] lg:backdrop-blur-sm xl:mr-[5vw]" data-reveal>
-          <p class="eyebrow">The space</p>
+          <p class="eyebrow">{{ spaceLabel }}</p>
           <h2 class="mt-2 font-display text-[clamp(1.8rem,3.5vw,2.4rem)] font-light italic leading-[0.95] tracking-[-0.03em] text-ink">
-            Stone, light,<br />and the weight of the sea
+            {{ spaceTitleLines[0] }}<br />{{ spaceTitleLines[1] || '' }}
           </h2>
           <p class="mt-4 text-[1rem] leading-7 text-stone/70">
-            The building is old. The walls are thick and cool. The floors are worn smooth by decades of salt air and footsteps.
+            {{ spaceBody }}
           </p>
           <p class="mt-4 font-accent text-[1rem] leading-relaxed text-toast/45">
-            built in 1962, reimagined for today
+            {{ spaceNote }}
           </p>
         </div>
       </div>
@@ -270,10 +345,10 @@ useScrollScenes(pageRef);
             <!-- Text + CTA -->
             <div class="flex-1" data-reveal>
               <p class="font-display text-[clamp(2rem,5vw,4rem)] font-light italic leading-[0.95] tracking-[-0.04em] text-ink/40">
-                The table is set.<br />The coast is waiting.
+                {{ closingTitleLines[0] }}<br />{{ closingTitleLines[1] || '' }}
               </p>
               <div class="mt-6 flex items-center gap-6">
-                <BaseButton to="/reservations">Reserve your table</BaseButton>
+                <BaseButton to="/reservations">{{ closingCta }}</BaseButton>
                 <div class="max-w-14 text-sage/25">
                   <SignatureStroke />
                 </div>

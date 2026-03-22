@@ -7,6 +7,7 @@ import BaseButton from '@/components/ui/BaseButton.vue';
 import { useAsyncData } from '@/composables/useAsyncData';
 import { useImageReveal } from '@/composables/useImageReveal';
 import { useRevealMotion } from '@/composables/useRevealMotion';
+import { useSiteContentValue } from '@/composables/useSiteContent';
 import { useScrollScenes } from '@/composables/useScrollScenes';
 import { getMenuData, getMenuSnapshot } from '@/services/menuService';
 
@@ -56,6 +57,38 @@ const loadErrorMessage = computed(() =>
     ? getErrorMessage(error.value, 'Unable to load today’s menu. Showing the editorial fallback.')
     : ''
 );
+
+const kitchenCredit = useSiteContentValue('menu.kitchen.credit', '— the kitchen');
+const menuLoadingLabel = useSiteContentValue('menu.loading', 'Refreshing today’s selections…');
+
+const seaLabel = useSiteContentValue('menu.sea.label', 'Mar');
+const seaTitle = useSiteContentValue('menu.sea.title', 'From the sea');
+const seaFeaturedNote = useSiteContentValue('menu.sea.featured_note', 'catch of the day');
+const seaEmpty = useSiteContentValue('menu.sea.empty', 'The fish board is being rewritten for today’s catch.');
+
+const landLabel = useSiteContentValue('menu.land.label', 'Tierra');
+const landTitle = useSiteContentValue('menu.land.title', 'From the land');
+const landFeaturedNote = useSiteContentValue('menu.land.featured_note', "chef's choice");
+const landEmpty = useSiteContentValue('menu.land.empty', 'The kitchen is still writing the land chapter for today.');
+const landQuote = useSiteContentValue(
+  'menu.land.quote',
+  'The lamb rests for three hours before we serve it. Patience is a flavour.'
+);
+
+const sweetLabel = useSiteContentValue('menu.sweet.label', 'Dulce');
+const sweetTitle = useSiteContentValue('menu.sweet.title', 'To finish');
+const sweetEmpty = useSiteContentValue('menu.sweet.empty', 'Something sweet is still being plated for tonight.');
+const sweetCaption = useSiteContentValue('menu.sweet.caption', 'something sweet, if the evening asks for it');
+
+const wineLabel = useSiteContentValue('menu.wine.label', 'IV · Bodega');
+const wineTitle = useSiteContentValue('menu.wine.title', 'Wine & aperitivo');
+const wineDescription = useSiteContentValue(
+  'menu.wine.description',
+  "A short list of what we're drinking this season. Ask your server for the full cellar."
+);
+const wineEmpty = useSiteContentValue('menu.wine.empty', 'The cellar notes are being refreshed.');
+
+const closingCta = useSiteContentValue('menu.closing.cta', 'Reserve your table');
 </script>
 
 <template>
@@ -107,7 +140,7 @@ const loadErrorMessage = computed(() =>
             </p>
           </blockquote>
           <p class="mt-4 font-accent text-[1rem] text-sage/50 lg:mt-0" data-reveal>
-            — the kitchen
+            {{ kitchenCredit }}
           </p>
         </div>
         <p
@@ -115,7 +148,7 @@ const loadErrorMessage = computed(() =>
           class="mt-6 max-w-md text-[0.95rem] leading-7 text-stone/50"
           data-reveal
         >
-          {{ loading ? 'Refreshing today’s selections…' : loadErrorMessage }}
+          {{ loading ? menuLoadingLabel : loadErrorMessage }}
         </p>
       </div>
     </section>
@@ -130,9 +163,9 @@ const loadErrorMessage = computed(() =>
         <div class="lg:grid lg:grid-cols-[5fr_4fr] lg:gap-16">
           <div>
             <div data-reveal>
-              <p class="eyebrow">Mar</p>
+              <p class="eyebrow">{{ seaLabel }}</p>
               <h2 class="mt-2 font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-none tracking-[-0.03em] text-ink">
-                From the sea
+                {{ seaTitle }}
               </h2>
             </div>
 
@@ -143,7 +176,7 @@ const loadErrorMessage = computed(() =>
               <p class="mt-1.5 text-[1rem] leading-6 text-stone/60">
                 {{ featuredSeaDish.detail }}
               </p>
-              <p class="mt-2 font-accent text-[1rem] text-toast/55">catch of the day</p>
+              <p class="mt-2 font-accent text-[1rem] text-toast/55">{{ seaFeaturedNote }}</p>
             </div>
 
             <ul class="divide-y divide-ink/8">
@@ -168,7 +201,7 @@ const loadErrorMessage = computed(() =>
                 class="py-4 text-[1rem] leading-7 text-stone/55"
                 data-reveal
               >
-                The fish board is being rewritten for today’s catch.
+                {{ seaEmpty }}
               </li>
             </ul>
           </div>
@@ -212,16 +245,16 @@ const loadErrorMessage = computed(() =>
             </div>
             <div class="relative z-10 -mt-12 ml-6 max-w-[14rem]" data-reveal>
               <p class="font-accent text-[1rem] leading-relaxed text-toast/60">
-                "The lamb rests for three hours before we serve it. Patience is a flavour."
+                "{{ landQuote }}"
               </p>
             </div>
           </div>
 
           <div class="order-1 lg:order-2">
             <div data-reveal>
-              <p class="eyebrow">Tierra</p>
+              <p class="eyebrow">{{ landLabel }}</p>
               <h2 class="mt-2 font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-none tracking-[-0.03em] text-ink">
-                From the land
+                {{ landTitle }}
               </h2>
             </div>
 
@@ -232,7 +265,7 @@ const loadErrorMessage = computed(() =>
               <p class="mt-1.5 text-[1rem] leading-6 text-stone/60">
                 {{ featuredLandDish.detail }}
               </p>
-              <p class="mt-2 font-accent text-[1rem] text-toast/55">chef's choice</p>
+              <p class="mt-2 font-accent text-[1rem] text-toast/55">{{ landFeaturedNote }}</p>
             </div>
 
             <ul class="divide-y divide-ink/8">
@@ -254,7 +287,7 @@ const loadErrorMessage = computed(() =>
                 class="py-4 text-[1rem] leading-7 text-stone/55"
                 data-reveal
               >
-                The kitchen is still writing the land chapter for today.
+                {{ landEmpty }}
               </li>
             </ul>
           </div>
@@ -272,9 +305,9 @@ const loadErrorMessage = computed(() =>
         <div class="lg:grid lg:grid-cols-[3fr_2fr] lg:items-start lg:gap-16">
           <div>
             <div data-reveal>
-              <p class="eyebrow">Dulce</p>
+              <p class="eyebrow">{{ sweetLabel }}</p>
               <h2 class="mt-2 font-display text-[clamp(2rem,4.5vw,3.2rem)] font-light italic leading-none tracking-[-0.03em] text-ink">
-                To finish
+                {{ sweetTitle }}
               </h2>
             </div>
 
@@ -307,7 +340,7 @@ const loadErrorMessage = computed(() =>
                 class="text-[1rem] leading-7 text-stone/55"
                 data-reveal
               >
-                Something sweet is still being plated for tonight.
+                {{ sweetEmpty }}
               </p>
             </div>
           </div>
@@ -324,7 +357,7 @@ const loadErrorMessage = computed(() =>
               </div>
             </div>
             <p class="mt-4 font-accent text-[1rem] leading-relaxed text-toast/50 lg:ml-auto lg:max-w-[16rem]" data-reveal>
-              something sweet, if the evening asks for it
+              {{ sweetCaption }}
             </p>
           </div>
         </div>
@@ -336,12 +369,12 @@ const loadErrorMessage = computed(() =>
         <div class="lg:grid lg:grid-cols-[3fr_2fr] lg:gap-20">
           <div>
             <div data-reveal>
-              <p class="eyebrow text-ivory/35!">IV · Bodega</p>
+              <p class="eyebrow text-ivory/35!">{{ wineLabel }}</p>
               <h2 class="mt-2 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-light italic leading-none tracking-[-0.03em]">
-                Wine &amp; aperitivo
+                {{ wineTitle }}
               </h2>
               <p class="mt-4 max-w-sm text-[1rem] leading-7 text-ivory/45">
-                A short list of what we're drinking this season. Ask your server for the full cellar.
+                {{ wineDescription }}
               </p>
             </div>
 
@@ -382,7 +415,7 @@ const loadErrorMessage = computed(() =>
                 class="text-[1rem] leading-7 text-ivory/45"
                 data-reveal
               >
-                The cellar notes are being refreshed.
+                {{ wineEmpty }}
               </p>
             </div>
           </div>
@@ -399,7 +432,7 @@ const loadErrorMessage = computed(() =>
             </p>
           </div>
           <div class="mt-6 flex items-end justify-between lg:mt-0">
-            <BaseButton to="/reservations" data-reveal>Reserve your table</BaseButton>
+            <BaseButton to="/reservations" data-reveal>{{ closingCta }}</BaseButton>
             <div class="max-w-14 text-sage/25" data-reveal>
               <SignatureStroke />
             </div>
