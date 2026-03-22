@@ -16,9 +16,10 @@ The guidance is now intentionally permissive. No single HomePage concept or curr
 - reactive site bootstrap through `siteService` instead of hardcoded global config
 - `menu`, `blog`, `contact`, and `reservations` now read through service boundaries with mock/API switching
 - `.env.example` documents the toggle between local mock mode and future API mode
+- `docs/api-contract.md` defines the canonical public endpoint shapes for backend implementation
 
 ## What should happen next
-1. connect the real backend incrementally through the existing domain services, starting with `site`, `menu`, and `blog`
+1. implement the backend against `docs/api-contract.md`, starting with `site`, `menu`, and `blog`
 2. keep API payload normalization inside adapters so page components stay visually focused
 3. turn `contact` and `reservations` from mock submission/layout data into real endpoints without changing the route-level UX
 4. continue using `npm run ux` and `npm run a11y` during visual iteration instead of reviewing code only

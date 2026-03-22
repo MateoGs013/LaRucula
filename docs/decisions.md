@@ -517,3 +517,14 @@ The site already has a strong visual layer, and the next backend phase should no
 
 **Affected files:**
 `.env.example`, `src/api/config.js`, `src/api/client.js`, `src/api/errors.js`, `src/adapters/siteAdapter.js`, `src/adapters/menuAdapter.js`, `src/adapters/blogAdapter.js`, `src/adapters/reservationAdapter.js`, `src/services/siteService.js`, `src/services/menuService.js`, `src/services/blogService.js`, `src/services/contactService.js`, `src/services/reservationService.js`, `src/data/mock-site.js`, `src/data/mock-menu.js`, `src/app/app-config.js`, `src/main.js`, `src/router/index.js`, `src/components/contact/ContactForm.vue`, `src/composables/useAsyncData.js`, `src/composables/useReservation.js`, `src/components/reservation/FloorMap.vue`, `src/pages/MenuPage.vue`, `src/pages/BlogPage.vue`, `src/pages/BlogPostPage.vue`, `src/pages/ReservationsPage.vue`
+
+### 2026-03-22 — Canonical public API contract documented before backend build
+
+**Decision:**
+Added `docs/api-contract.md` as the canonical public API reference for the website. The document fixes the preferred endpoint list, request/response shapes, reservation geometry rules, error format, and rollout order so backend work can implement against the front-end boundaries already in place.
+
+**Why:**
+The integration layer is now ready, but without a written contract the backend would still be free to improvise payload shapes and push complexity back into the UI. Writing the contract now keeps the next phase focused: `site`, `menu`, and `blog` can be wired first, while `contact` and `reservations` remain contract-first without changing the current editorial interface.
+
+**Affected files:**
+`docs/api-contract.md`, `docs/decisions.md`
