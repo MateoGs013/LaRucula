@@ -5,6 +5,7 @@ import { floorPlanMeta, mockTables, mockTimeSlots } from '../src/data/mock-table
 import {
   appendContact,
   appendReservation,
+  isReservationConflictError,
   readReservations,
 } from './storage.js';
 
@@ -383,7 +384,21 @@ export async function createReservationRecord(rawPayload = {}) {
     createdAt: new Date().toISOString(),
   };
 
-  await appendReservation(reservationRecord);
+  try {
+    await appendReservation(reservationRecord);
+  } catch (error) {
+    if (error?.code === 'reservation_conflict' || isReservationConflictError(error)) {
+      return {
+        ok: false,
+        statusCode: 409,
+        code: 'table_unavailable',
+        message: 'The selected table is no longer available for that time.',
+        details: { tableId, date, time },
+      };
+    }
+
+    throw error;
+  }
 
   return {
     ok: true,

@@ -583,3 +583,14 @@ The admin panel should be able to adjust meaningful copy on high-traffic pages, 
 
 **Affected files:**
 `src/pages/MenuPage.vue`, `src/pages/StoryPage.vue`, `server/content.js`, `docs/decisions.md`
+
+### 2026-03-22 — Contact and reservations now persist through local SQLite storage
+
+**Decision:**
+Replaced the ad-hoc JSON runtime storage with a local SQLite database under `server/runtime/larucula.sqlite`, keeping the same public HTTP contract for `POST /api/contact`, `GET /api/reservations/availability`, and `POST /api/reservations`. The storage layer now creates tables on startup, migrates existing JSON records if present, and enforces a uniqueness rule on `date + time + table`.
+
+**Why:**
+The JSON files were enough to prove the route shapes, but they were not a durable persistence boundary for the next backend phase. Moving to SQLite gives the project a real data layer now without pulling in the complexity of Prisma, auth, or admin write flows yet. The HTTP contract stays unchanged, so the front-end integration and Pegasuz content work can keep moving independently.
+
+**Affected files:**
+`server/storage.js`, `server/content.js`, `docs/decisions.md`

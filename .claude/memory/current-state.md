@@ -22,10 +22,11 @@ The guidance is now intentionally permissive. No single HomePage concept or curr
 - `VisitPage` and `ContactForm` now consume the first page-level editable copy from Pegasuz `site-contents`
 - `ReservationsPage` and its booking flow components now consume CMS-managed operational copy while keeping the map/layout logic in code
 - `MenuPage` and `StoryPage` now consume selective CMS-managed copy while keeping menu data, imagery, layout, and authored composition in code
+- `contact` and `reservations` now persist through local SQLite storage instead of JSON runtime files, while keeping the same public API contract
 
 ## What should happen next
 1. decide whether `Home` should expose any selective editable copy through `site-contents` or stay fully authored in code for now
-2. replace the local JSON runtime persistence with real database-backed persistence and domain logic
-3. decide how reservation holds, expirations, and admin-side availability rules should work
+2. decide how reservation holds, expirations, and admin-side availability rules should work
+3. decide whether the local SQLite layer remains temporary or becomes the first durable backend store before a broader API migration
 4. continue using `npm run ux` and `npm run a11y` during visual iteration instead of reviewing code only
 5. document any additional integration or contract decisions back into `docs/decisions.md`

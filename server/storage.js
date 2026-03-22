@@ -1,44 +1,150 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { DatabaseSync } from 'node:sqlite';
 
 const serverDir = path.dirname(fileURLToPath(import.meta.url));
 const runtimeDir = path.join(serverDir, 'runtime');
-const contactsFile = path.join(runtimeDir, 'contacts.json');
-const reservationsFile = path.join(runtimeDir, 'reservations.json');
+const databaseFile = path.join(runtimeDir, 'larucula.sqlite');
+const legacyContactsFile = path.join(runtimeDir, 'contacts.json');
+const legacyReservationsFile = path.join(runtimeDir, 'reservations.json');
 
-const writeQueues = new Map();
+let database = null;
 let initialized = false;
 
-async function ensureRuntimeFile(filePath, fallbackValue) {
+function ensureDatabase() {
+  if (!database) {
+    throw new Error('Runtime storage has not been initialized.');
+  }
+
+  return database;
+}
+
+function readLegacyCollection(filePath) {
+  if (!existsSync(filePath)) {
+    return [];
+  }
+
   try {
-    await readFile(filePath, 'utf8');
+    const rawValue = readFileSync(filePath, 'utf8');
+    const parsed = JSON.parse(rawValue);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    await writeFile(filePath, JSON.stringify(fallbackValue, null, 2), 'utf8');
+    return [];
   }
 }
 
-async function readCollection(filePath) {
-  await initializeRuntimeStorage();
-  const rawValue = await readFile(filePath, 'utf8');
-  const parsed = JSON.parse(rawValue);
-  return Array.isArray(parsed) ? parsed : [];
+function getTableCount(tableName) {
+  const db = ensureDatabase();
+  const query = db.prepare(`SELECT COUNT(*) AS count FROM ${tableName}`);
+  return Number(query.get().count || 0);
 }
 
-function queueWrite(filePath, task) {
-  const previousTask = writeQueues.get(filePath) || Promise.resolve();
-  const nextTask = previousTask.catch(() => {}).then(task);
-  writeQueues.set(filePath, nextTask);
-  return nextTask;
-}
+function migrateLegacyContacts() {
+  if (getTableCount('contacts') > 0) {
+    return;
+  }
 
-async function appendCollectionItem(filePath, item) {
-  return queueWrite(filePath, async () => {
-    const currentItems = await readCollection(filePath);
-    currentItems.push(item);
-    await writeFile(filePath, JSON.stringify(currentItems, null, 2), 'utf8');
-    return item;
+  const legacyContacts = readLegacyCollection(legacyContactsFile);
+  if (legacyContacts.length === 0) {
+    return;
+  }
+
+  const db = ensureDatabase();
+  const insertContact = db.prepare(`
+    INSERT OR IGNORE INTO contacts (
+      id,
+      submitted_at,
+      name,
+      email,
+      phone,
+      subject,
+      message
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  legacyContacts.forEach((contact) => {
+    insertContact.run(
+      String(contact.id || ''),
+      String(contact.submittedAt || ''),
+      String(contact.name || ''),
+      String(contact.email || ''),
+      String(contact.phone || ''),
+      String(contact.subject || ''),
+      String(contact.message || '')
+    );
   });
+}
+
+function migrateLegacyReservations() {
+  if (getTableCount('reservations') > 0) {
+    return;
+  }
+
+  const legacyReservations = readLegacyCollection(legacyReservationsFile);
+  if (legacyReservations.length === 0) {
+    return;
+  }
+
+  const db = ensureDatabase();
+  const insertReservation = db.prepare(`
+    INSERT OR IGNORE INTO reservations (
+      confirmation_id,
+      created_at,
+      date,
+      time,
+      party_size,
+      table_id,
+      guest_name,
+      guest_email,
+      guest_phone,
+      guest_notes
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  legacyReservations.forEach((reservation) => {
+    insertReservation.run(
+      String(reservation.confirmationId || ''),
+      String(reservation.createdAt || ''),
+      String(reservation.date || ''),
+      String(reservation.time || ''),
+      Number(reservation.partySize || 0),
+      String(reservation.tableId || ''),
+      String(reservation.guest?.name || ''),
+      String(reservation.guest?.email || ''),
+      String(reservation.guest?.phone || ''),
+      String(reservation.guest?.notes || '')
+    );
+  });
+}
+
+function mapContactRow(row) {
+  return {
+    id: row.id,
+    submittedAt: row.submitted_at,
+    name: row.name,
+    email: row.email,
+    phone: row.phone,
+    subject: row.subject,
+    message: row.message,
+  };
+}
+
+function mapReservationRow(row) {
+  return {
+    confirmationId: row.confirmation_id,
+    createdAt: row.created_at,
+    date: row.date,
+    time: row.time,
+    partySize: row.party_size,
+    tableId: row.table_id,
+    guest: {
+      name: row.guest_name,
+      email: row.guest_email,
+      phone: row.guest_phone,
+      notes: row.guest_notes,
+    },
+  };
 }
 
 export async function initializeRuntimeStorage() {
@@ -46,24 +152,150 @@ export async function initializeRuntimeStorage() {
     return;
   }
 
-  await mkdir(runtimeDir, { recursive: true });
-  await ensureRuntimeFile(contactsFile, []);
-  await ensureRuntimeFile(reservationsFile, []);
+  mkdirSync(runtimeDir, { recursive: true });
+  database = new DatabaseSync(databaseFile);
+  database.exec(`
+    PRAGMA journal_mode = WAL;
+    CREATE TABLE IF NOT EXISTS contacts (
+      id TEXT PRIMARY KEY,
+      submitted_at TEXT NOT NULL,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT,
+      subject TEXT,
+      message TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS reservations (
+      confirmation_id TEXT PRIMARY KEY,
+      created_at TEXT NOT NULL,
+      date TEXT NOT NULL,
+      time TEXT NOT NULL,
+      party_size INTEGER NOT NULL,
+      table_id TEXT NOT NULL,
+      guest_name TEXT NOT NULL,
+      guest_email TEXT,
+      guest_phone TEXT NOT NULL,
+      guest_notes TEXT,
+      UNIQUE(date, time, table_id)
+    );
+    CREATE INDEX IF NOT EXISTS reservations_lookup_idx
+      ON reservations (date, time);
+  `);
+
+  migrateLegacyContacts();
+  migrateLegacyReservations();
   initialized = true;
 }
 
 export async function readContacts() {
-  return readCollection(contactsFile);
+  const db = ensureDatabase();
+  const query = db.prepare(`
+    SELECT
+      id,
+      submitted_at,
+      name,
+      email,
+      phone,
+      subject,
+      message
+    FROM contacts
+    ORDER BY submitted_at DESC
+  `);
+
+  return query.all().map(mapContactRow);
 }
 
 export async function appendContact(contactSubmission) {
-  return appendCollectionItem(contactsFile, contactSubmission);
+  const db = ensureDatabase();
+  const insertContact = db.prepare(`
+    INSERT INTO contacts (
+      id,
+      submitted_at,
+      name,
+      email,
+      phone,
+      subject,
+      message
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  insertContact.run(
+    contactSubmission.id,
+    contactSubmission.submittedAt,
+    contactSubmission.name,
+    contactSubmission.email,
+    contactSubmission.phone,
+    contactSubmission.subject,
+    contactSubmission.message
+  );
+
+  return contactSubmission;
 }
 
 export async function readReservations() {
-  return readCollection(reservationsFile);
+  const db = ensureDatabase();
+  const query = db.prepare(`
+    SELECT
+      confirmation_id,
+      created_at,
+      date,
+      time,
+      party_size,
+      table_id,
+      guest_name,
+      guest_email,
+      guest_phone,
+      guest_notes
+    FROM reservations
+    ORDER BY created_at DESC
+  `);
+
+  return query.all().map(mapReservationRow);
 }
 
 export async function appendReservation(reservationRecord) {
-  return appendCollectionItem(reservationsFile, reservationRecord);
+  const db = ensureDatabase();
+  const insertReservation = db.prepare(`
+    INSERT INTO reservations (
+      confirmation_id,
+      created_at,
+      date,
+      time,
+      party_size,
+      table_id,
+      guest_name,
+      guest_email,
+      guest_phone,
+      guest_notes
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  try {
+    insertReservation.run(
+      reservationRecord.confirmationId,
+      reservationRecord.createdAt,
+      reservationRecord.date,
+      reservationRecord.time,
+      reservationRecord.partySize,
+      reservationRecord.tableId,
+      reservationRecord.guest.name,
+      reservationRecord.guest.email,
+      reservationRecord.guest.phone,
+      reservationRecord.guest.notes
+    );
+  } catch (error) {
+    if (isReservationConflictError(error)) {
+      const conflictError = new Error('Reservation already exists for that date, time, and table.');
+      conflictError.code = 'reservation_conflict';
+      throw conflictError;
+    }
+
+    throw error;
+  }
+
+  return reservationRecord;
+}
+
+export function isReservationConflictError(error) {
+  return String(error?.message || '').includes('UNIQUE constraint failed: reservations.date, reservations.time, reservations.table_id');
 }
