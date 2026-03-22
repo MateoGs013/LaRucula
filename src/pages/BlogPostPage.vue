@@ -1,35 +1,66 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { useRoute, RouterLink } from 'vue-router';
+import { computed, ref, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 
-import BaseButton from '@/components/ui/BaseButton.vue';
+import { getErrorMessage } from '@/api/errors';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
-import { getBlogPost, mockBlogPosts } from '@/data/mock-blog-posts';
-import { useRevealMotion } from '@/composables/useRevealMotion';
+import BaseButton from '@/components/ui/BaseButton.vue';
+import { useAsyncData } from '@/composables/useAsyncData';
 import { useImageReveal } from '@/composables/useImageReveal';
+import { useRevealMotion } from '@/composables/useRevealMotion';
+import { getBlogPost, getBlogPostSnapshot, getBlogPostsSnapshot } from '@/services/blogService';
 
 const pageRef = ref(null);
 useRevealMotion(pageRef);
 useImageReveal(pageRef);
 
 const route = useRoute();
-const post = computed(() => getBlogPost(route.params.slug));
+const slug = computed(() => String(route.params.slug || '').trim());
 
-// Next post suggestion
-const relatedPosts = computed(() => {
-  if (!post.value) return [];
-  return mockBlogPosts.filter((p) => p.slug !== post.value.slug).slice(0, 2);
+const {
+  data: post,
+  loading,
+  error,
+  execute,
+} = useAsyncData((nextSlug) => getBlogPost(nextSlug), {
+  initialValue: getBlogPostSnapshot(slug.value),
 });
 
+watch(
+  slug,
+  (nextSlug) => {
+    post.value = getBlogPostSnapshot(nextSlug);
+    void execute(nextSlug);
+  },
+  { immediate: true }
+);
+
+const relatedPosts = computed(() => {
+  if (!post.value) return [];
+  return getBlogPostsSnapshot()
+    .filter((entry) => entry.slug !== post.value.slug)
+    .slice(0, 2);
+});
+
+const loadErrorMessage = computed(() =>
+  error.value
+    ? getErrorMessage(error.value, 'Unable to refresh this story. Showing the saved editorial version.')
+    : ''
+);
+
 function formatDate(iso) {
-  const d = new Date(iso + 'T12:00:00');
-  return d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const d = new Date(`${iso}T12:00:00`);
+  return d.toLocaleDateString('en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 }
 </script>
 
 <template>
   <div ref="pageRef">
-    <!-- Post not found -->
     <template v-if="!post">
       <section class="py-32">
         <div class="shell text-center">
@@ -37,6 +68,9 @@ function formatDate(iso) {
           <h1 class="mt-3 font-display text-[clamp(2rem,5vw,4rem)] font-light italic text-ink/50">
             This story doesn't exist yet.
           </h1>
+          <p v-if="loadErrorMessage" class="mx-auto mt-4 max-w-lg text-[1rem] leading-7 text-stone/55">
+            {{ loadErrorMessage }}
+          </p>
           <div class="mt-6">
             <BaseButton to="/blog">Back to stories</BaseButton>
           </div>
@@ -45,7 +79,6 @@ function formatDate(iso) {
     </template>
 
     <template v-else>
-      <!-- ═══ HERO — cinematic article header ═══ -->
       <section class="relative -mt-[var(--header-h)] overflow-hidden bg-ink">
         <div class="relative flex min-h-[75vh] flex-col justify-end">
           <img
@@ -58,7 +91,6 @@ function formatDate(iso) {
           <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-ink/60 to-transparent" />
           <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[50%] bg-linear-to-t from-ink/80 via-ink/30 to-transparent" />
 
-          <!-- Ghost word — post category as identity -->
           <div class="absolute bottom-[15vh] right-[var(--lr-space-gutter)] lg:right-[5vw]" aria-hidden="true">
             <p class="pointer-events-none select-none text-right font-display text-[clamp(5rem,14vw,12rem)] font-light italic leading-none tracking-[-0.06em] text-ivory/[0.06]">
               {{ post.category.toLowerCase() }}
@@ -75,16 +107,19 @@ function formatDate(iso) {
             <p class="mt-4 max-w-lg font-display text-[1.3rem] italic text-ivory/50">
               {{ post.subtitle }}
             </p>
+            <p
+              v-if="loading || loadErrorMessage"
+              class="mt-5 max-w-md text-[0.95rem] leading-7 text-ivory/38"
+            >
+              {{ loading ? 'Refreshing this story…' : loadErrorMessage }}
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- ═══ ARTICLE BODY — editorial rhythm ═══ -->
       <article class="py-16 md:py-24 lg:py-28">
         <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
           <template v-for="(block, i) in post.body" :key="i">
-
-            <!-- First paragraph: overscaled lead, wider column -->
             <p
               v-if="block.type === 'paragraph' && i === 0"
               class="mx-auto max-w-3xl font-display text-[clamp(1.2rem,2vw,1.5rem)] italic leading-[1.6] text-ink/80"
@@ -93,12 +128,10 @@ function formatDate(iso) {
               {{ block.content }}
             </p>
 
-            <!-- Image break after the first paragraph -->
             <div
               v-else-if="block.type === 'paragraph' && i === 1"
               class="my-14 lg:my-20"
             >
-              <!-- Full width image break to shatter the prose column -->
               <div class="-mx-[var(--lr-space-gutter)] lg:-mx-[5vw]" data-image-reveal data-image-reveal-direction="up">
                 <div class="aspect-[21/9] overflow-hidden">
                   <img
@@ -109,7 +142,6 @@ function formatDate(iso) {
                   />
                 </div>
               </div>
-              <!-- Then render the paragraph below -->
               <p
                 class="mx-auto mt-12 max-w-[42rem] text-[1.05rem] leading-8 text-stone lg:mt-16"
                 data-reveal
@@ -118,14 +150,15 @@ function formatDate(iso) {
               </p>
             </div>
 
-            <!-- Blockquote: margin-bleeding pull quote -->
             <div
               v-else-if="block.type === 'quote'"
               class="my-14 lg:my-20 lg:-ml-[8vw]"
               data-reveal
             >
               <div class="relative">
-                <span class="absolute -top-6 left-0 font-display text-[clamp(3rem,5vw,4.5rem)] leading-none text-toast/15" aria-hidden="true">"</span>
+                <span class="absolute -top-6 left-0 font-display text-[clamp(3rem,5vw,4.5rem)] leading-none text-toast/15" aria-hidden="true">
+                  "
+                </span>
                 <blockquote class="pl-6 lg:pl-8">
                   <p class="font-display text-[clamp(1.6rem,3.5vw,2.5rem)] font-light italic leading-[1.15] tracking-[-0.02em] text-ink/60">
                     {{ block.content }}
@@ -134,7 +167,6 @@ function formatDate(iso) {
               </div>
             </div>
 
-            <!-- Regular paragraphs -->
             <p
               v-else-if="block.type === 'paragraph'"
               class="mx-auto mt-6 max-w-[42rem] text-[1.05rem] leading-8 text-stone first:mt-0"
@@ -142,10 +174,8 @@ function formatDate(iso) {
             >
               {{ block.content }}
             </p>
-
           </template>
 
-          <!-- Closing accent -->
           <div class="mx-auto mt-16 max-w-[42rem]" data-reveal>
             <div class="flex items-center gap-6">
               <div class="h-px flex-1 bg-ink/8" />
@@ -158,16 +188,18 @@ function formatDate(iso) {
         </div>
       </article>
 
-      <!-- ═══ RELATED — editorial next reads ═══ -->
-      <section class="bg-cream py-16 md:py-24" v-if="relatedPosts.length">
+      <section v-if="relatedPosts.length" class="bg-cream py-16 md:py-24">
         <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
           <p class="eyebrow mb-10 lg:mb-14" data-reveal>More from the coast</p>
 
-          <!-- Asymmetric two-column: one large, one compact -->
-          <div class="lg:grid lg:grid-cols-[6fr_4fr] lg:gap-14 lg:items-start">
-            <!-- Primary next read — large -->
+          <div class="lg:grid lg:grid-cols-[6fr_4fr] lg:items-start lg:gap-14">
             <article v-if="relatedPosts[0]" data-reveal>
-              <RouterLink :to="`/blog/${relatedPosts[0].slug}`" class="group block" data-image-reveal data-image-reveal-direction="left">
+              <RouterLink
+                :to="`/blog/${relatedPosts[0].slug}`"
+                class="group block"
+                data-image-reveal
+                data-image-reveal-direction="left"
+              >
                 <div class="aspect-[3/2] overflow-hidden">
                   <img
                     :src="relatedPosts[0].image"
@@ -192,9 +224,13 @@ function formatDate(iso) {
               </div>
             </article>
 
-            <!-- Secondary next read — compact, top-offset on desktop -->
             <article v-if="relatedPosts[1]" class="mt-12 lg:mt-[12vh]" data-reveal>
-              <RouterLink :to="`/blog/${relatedPosts[1].slug}`" class="group block" data-image-reveal data-image-reveal-direction="right">
+              <RouterLink
+                :to="`/blog/${relatedPosts[1].slug}`"
+                class="group block"
+                data-image-reveal
+                data-image-reveal-direction="right"
+              >
                 <div class="aspect-[4/5] overflow-hidden">
                   <img
                     :src="relatedPosts[1].image"
@@ -219,7 +255,6 @@ function formatDate(iso) {
         </div>
       </section>
 
-      <!-- ═══ CLOSING CTA ═══ -->
       <section>
         <div class="px-[var(--lr-space-gutter)] py-14 md:py-18 lg:px-[5vw]">
           <div class="lg:flex lg:items-end lg:justify-between lg:gap-16" data-reveal>
