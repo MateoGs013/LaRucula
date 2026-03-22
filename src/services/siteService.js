@@ -1,7 +1,8 @@
 import { apiRequest } from '@/api/client';
-import { isApiEnabled } from '@/api/config';
+import { isApiEnabled, isPegasuzProvider } from '@/api/config';
 import { adaptSitePayload } from '@/adapters/siteAdapter';
 import { mockSitePayload } from '@/data/mock-site';
+import { getSiteContentPayload } from '@/services/siteContentService';
 
 let cachedSite = adaptSitePayload(mockSitePayload);
 let pendingSiteRequest = null;
@@ -13,6 +14,7 @@ function cloneSite(site) {
     navigation: site.navigation.map((item) => ({ ...item })),
     contact: { ...site.contact },
     socialLinks: site.socialLinks.map((item) => ({ ...item })),
+    contentMap: { ...(site.contentMap || {}) },
   };
 }
 
@@ -38,7 +40,9 @@ export async function getSiteConfig(options = {}) {
   }
 
   pendingSiteRequest = (async () => {
-    const payload = await apiRequest('/site');
+    const payload = isPegasuzProvider()
+      ? await getSiteContentPayload({ force })
+      : await apiRequest('/site');
     cachedSite = adaptSitePayload(payload);
     hasRemoteSite = true;
     return getSiteConfigSnapshot();

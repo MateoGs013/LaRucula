@@ -4,6 +4,11 @@ function normalizeBaseUrl(rawBaseUrl) {
   return value.endsWith('/api') ? value : `${value}/api`;
 }
 
+function normalizeProvider(rawProvider) {
+  const value = String(rawProvider || '').trim().toLowerCase();
+  return value === 'pegasuz' ? 'pegasuz' : 'generic';
+}
+
 const configuredMode = String(
   import.meta.env.VITE_API_MODE || import.meta.env.VITE_DATA_SOURCE || 'mock'
 )
@@ -12,10 +17,16 @@ const configuredMode = String(
 
 export const apiConfig = {
   mode: configuredMode === 'api' ? 'api' : 'mock',
+  provider: normalizeProvider(import.meta.env.VITE_API_PROVIDER),
   baseUrl: normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL),
+  clientSlug: String(import.meta.env.VITE_CLIENT_SLUG || import.meta.env.VITE_API_CLIENT_SLUG || '').trim(),
   timeoutMs: Number.parseInt(import.meta.env.VITE_API_TIMEOUT_MS || '10000', 10),
 };
 
 export function isApiEnabled() {
   return apiConfig.mode === 'api' && Boolean(apiConfig.baseUrl);
+}
+
+export function isPegasuzProvider() {
+  return apiConfig.provider === 'pegasuz';
 }

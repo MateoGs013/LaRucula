@@ -11,6 +11,7 @@ export const siteMeta = reactive({ ...defaultSiteConfig.meta });
 export const primaryNavigation = reactive([...defaultSiteConfig.navigation]);
 export const contactDetails = reactive({ ...defaultSiteConfig.contact });
 export const socialLinks = reactive([...defaultSiteConfig.socialLinks]);
+export const siteContentMap = reactive({ ...(defaultSiteConfig.contentMap || {}) });
 
 export const siteConfigState = reactive({
   loading: false,
@@ -27,6 +28,11 @@ function applySiteConfig(config) {
 
   primaryNavigation.splice(0, primaryNavigation.length, ...config.navigation);
   socialLinks.splice(0, socialLinks.length, ...config.socialLinks);
+
+  Object.keys(siteContentMap).forEach((key) => {
+    delete siteContentMap[key];
+  });
+  Object.assign(siteContentMap, config.contentMap || {});
 }
 
 export async function bootstrapSiteConfig(options = {}) {
@@ -38,6 +44,7 @@ export async function bootstrapSiteConfig(options = {}) {
       primaryNavigation,
       contactDetails,
       socialLinks,
+      siteContentMap,
     };
   }
 
@@ -52,7 +59,7 @@ export async function bootstrapSiteConfig(options = {}) {
     try {
       const config = await getSiteConfig({ force });
       applySiteConfig(config);
-      siteConfigState.source = 'remote';
+      siteConfigState.source = config.contentMap && Object.keys(config.contentMap).length > 0 ? 'remote-cms' : 'remote';
     } catch (error) {
       applySiteConfig(defaultSiteConfig);
       siteConfigState.error = getErrorMessage(error, 'Unable to load the site configuration.');
@@ -67,6 +74,7 @@ export async function bootstrapSiteConfig(options = {}) {
       primaryNavigation,
       contactDetails,
       socialLinks,
+      siteContentMap,
     };
   })();
 

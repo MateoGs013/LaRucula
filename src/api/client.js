@@ -1,26 +1,52 @@
+import axios from 'axios';
+
 import { apiConfig, isApiEnabled } from '@/api/config';
 import { ApiError } from '@/api/errors';
 
-function buildUrl(path, query) {
-  const normalizedPath = String(path || '').startsWith('/') ? path : `/${path}`;
-  const url = new URL(`${apiConfig.baseUrl}${normalizedPath}`);
+const api = axios.create({
+  baseURL: apiConfig.baseUrl,
+  timeout: apiConfig.timeoutMs,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+});
 
-  Object.entries(query || {}).forEach(([key, value]) => {
-    if (value === undefined || value === null || value === '') return;
-    url.searchParams.set(key, String(value));
-  });
+api.interceptors.request.use((config) => {
+  const nextHeaders = {
+    Accept: 'application/json',
+    ...(config.headers || {}),
+  };
 
-  return url.toString();
-}
-
-async function parseResponsePayload(response) {
-  const contentType = response.headers.get('content-type') || '';
-  if (contentType.includes('application/json')) {
-    return response.json().catch(() => null);
+  if (apiConfig.clientSlug) {
+    nextHeaders['x-client'] = apiConfig.clientSlug;
   }
 
-  const text = await response.text().catch(() => '');
-  return text || null;
+  if (typeof window !== 'undefined') {
+    const token = window.localStorage.getItem('token');
+    if (token && !nextHeaders.Authorization) {
+      nextHeaders.Authorization = `Bearer ${token}`;
+    }
+  }
+
+  config.headers = nextHeaders;
+  return config;
+});
+
+function normalizePath(path) {
+  return String(path || '').startsWith('/') ? path : `/${path}`;
+}
+
+function getErrorPayload(error) {
+  if (error?.response?.data) {
+    return error.response.data;
+  }
+
+  if (error?.message) {
+    return { message: error.message };
+  }
+
+  return null;
 }
 
 export async function apiRequest(path, options = {}) {
@@ -31,38 +57,19 @@ export async function apiRequest(path, options = {}) {
     });
   }
 
-  const controller = new AbortController();
-  const timeoutMs = options.timeoutMs ?? apiConfig.timeoutMs;
-  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
-
   try {
-    const response = await fetch(buildUrl(path, options.query), {
+    const response = await api.request({
+      url: normalizePath(path),
       method: options.method || 'GET',
-      headers: {
-        Accept: 'application/json',
-        ...(options.body ? { 'Content-Type': 'application/json' } : {}),
-        ...(options.headers || {}),
-      },
-      body: options.body ? JSON.stringify(options.body) : undefined,
-      signal: options.signal || controller.signal,
+      params: options.query,
+      data: options.body,
+      headers: options.headers,
+      signal: options.signal,
+      timeout: options.timeoutMs ?? apiConfig.timeoutMs,
     });
-
-    const payload = await parseResponsePayload(response);
-
-    if (!response.ok) {
-      throw new ApiError(
-        payload?.error || payload?.message || `Request failed with status ${response.status}.`,
-        {
-          status: response.status,
-          details: payload,
-          code: 'HTTP_ERROR',
-        }
-      );
-    }
-
-    return payload;
+    return response.data;
   } catch (error) {
-    if (error?.name === 'AbortError') {
+    if (axios.isAxiosError(error) && error.code === 'ECONNABORTED') {
       throw new ApiError('The request timed out.', {
         status: 408,
         code: 'TIMEOUT',
@@ -74,12 +81,24 @@ export async function apiRequest(path, options = {}) {
       throw error;
     }
 
+    if (axios.isAxiosError(error)) {
+      const payload = getErrorPayload(error);
+
+      throw new ApiError(
+        payload?.error?.message || payload?.message || `Request failed with status ${error.response?.status || 503}.`,
+        {
+          status: error.response?.status || 503,
+          code: payload?.error?.code || 'HTTP_ERROR',
+          details: payload,
+          cause: error,
+        }
+      );
+    }
+
     throw new ApiError('Unable to reach the API.', {
       status: 503,
       code: 'NETWORK_ERROR',
       cause: error,
     });
-  } finally {
-    window.clearTimeout(timeoutId);
   }
 }
