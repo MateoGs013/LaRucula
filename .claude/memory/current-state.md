@@ -12,10 +12,14 @@ The guidance is now intentionally permissive. No single HomePage concept or curr
 - Playwright-based UX review automation for desktop, tablet, and mobile
 - Axe baseline checks wired into the review flow
 - agent-facing UX review docs and a dedicated `ux-reviewer` agent / `ux-review-loop` skill
+- API-ready front-end foundation with `src/api/`, `src/services/`, and `src/adapters/`
+- reactive site bootstrap through `siteService` instead of hardcoded global config
+- `menu`, `blog`, `contact`, and `reservations` now read through service boundaries with mock/API switching
+- `.env.example` documents the toggle between local mock mode and future API mode
 
 ## What should happen next
-1. let Claude explore a genuinely modern redesign of `home` without loyalty to the current section system
-2. allow refactors to primitives, tokens, motion, and supporting libraries if they improve the work
-3. use `npm run ux` and `npm run a11y` during visual iteration instead of reviewing code only
-4. document any winning new system back into `docs/decisions.md`
-5. once a strong direction exists, extend it to `menu`, `story`, and `visit`
+1. connect the real backend incrementally through the existing domain services, starting with `site`, `menu`, and `blog`
+2. keep API payload normalization inside adapters so page components stay visually focused
+3. turn `contact` and `reservations` from mock submission/layout data into real endpoints without changing the route-level UX
+4. continue using `npm run ux` and `npm run a11y` during visual iteration instead of reviewing code only
+5. document any additional integration or contract decisions back into `docs/decisions.md`

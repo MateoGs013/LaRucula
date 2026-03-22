@@ -17,23 +17,23 @@ Whenever a meaningful architecture, UI, or motion decision is made:
 
 ## Entry template
 ### YYYY-MM-DD — Title
-**Decision:**  
+**Decision:**
 ...
 
-**Why:**  
+**Why:**
 ...
 
-**Affected files:**  
+**Affected files:**
 ...
 
 ### 2026-03-17 — Stable Vite and Tailwind foundation
-**Decision:**  
+**Decision:**
 The project scaffold uses Vite `7.3.1` with Tailwind CSS `4.2.1` and the official `@tailwindcss/vite` plugin instead of moving to Vite 8.
 
-**Why:**  
+**Why:**
 The official Tailwind Vite plugin currently supports Vite 5 through 7. Keeping the foundation on a compatible version avoids a forced peer-dependency mismatch in the base setup.
 
-**Affected files:**  
+**Affected files:**
 `package.json`, `package-lock.json`, `vite.config.js`
 
 ### 2026-03-17 — Token bridge through CSS variables
@@ -506,3 +506,14 @@ The original site had 4 routes and no conversion infrastructure. Client budget r
 
 **Affected files:**
 `index.html`, `src/app/app-config.js`, `src/router/routes.js`, `src/router/index.js`, `src/App.vue`, `src/data/mock-tables.js` (new), `src/data/mock-blog-posts.js` (new), `src/composables/useReservation.js` (new), `src/composables/useSeoMeta.js` (new), `src/components/reservation/TableNode.vue` (new), `src/components/reservation/FloorMap.vue` (new), `src/components/reservation/BookingForm.vue` (new), `src/components/reservation/GuestForm.vue` (new), `src/components/reservation/BookingSummary.vue` (new), `src/pages/ReservationsPage.vue` (new), `src/pages/BlogPage.vue` (new), `src/pages/BlogPostPage.vue` (new), `src/components/ui/WhatsAppButton.vue` (new), `src/components/ui/SocialLinks.vue` (new), `src/components/contact/ContactForm.vue` (new), `src/pages/VisitPage.vue`, `src/pages/HomePage.vue`, `src/pages/MenuPage.vue`, `src/pages/StoryPage.vue`, `src/pages/NotFoundPage.vue`, `src/components/layout/SiteFooter.vue`
+
+### 2026-03-22 — API-ready front-end boundaries with mock/API switching
+
+**Decision:**
+Introduced a small API integration layer built around a central `fetch` client, per-domain services, and adapters that normalize payloads before they reach the UI. The application now bootstraps global site configuration through `siteService`, and the `menu`, `blog`, `contact`, and `reservations` flows consume service-layer data instead of importing mocks directly from the pages. Added `.env.example` so the front can run in `mock` mode today and switch to `api` mode later without rewriting route components.
+
+**Why:**
+The site already has a strong visual layer, and the next backend phase should not force design-heavy pages to absorb transport logic or raw payload shapes. This boundary keeps API concerns out of the view layer, preserves the current editorial UI, and makes it possible to migrate domain by domain: `site`, `menu`, `blog`, `contact`, then `reservations`. Reservations remain contract-first: the UI already distinguishes room layout, availability, and booking submission so the real API can replace the placeholders incrementally.
+
+**Affected files:**
+`.env.example`, `src/api/config.js`, `src/api/client.js`, `src/api/errors.js`, `src/adapters/siteAdapter.js`, `src/adapters/menuAdapter.js`, `src/adapters/blogAdapter.js`, `src/adapters/reservationAdapter.js`, `src/services/siteService.js`, `src/services/menuService.js`, `src/services/blogService.js`, `src/services/contactService.js`, `src/services/reservationService.js`, `src/data/mock-site.js`, `src/data/mock-menu.js`, `src/app/app-config.js`, `src/main.js`, `src/router/index.js`, `src/components/contact/ContactForm.vue`, `src/composables/useAsyncData.js`, `src/composables/useReservation.js`, `src/components/reservation/FloorMap.vue`, `src/pages/MenuPage.vue`, `src/pages/BlogPage.vue`, `src/pages/BlogPostPage.vue`, `src/pages/ReservationsPage.vue`
