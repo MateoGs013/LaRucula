@@ -32,6 +32,30 @@ VITE_API_TIMEOUT_MS=10000
 
 When `VITE_API_MODE=api`, the front will request `${VITE_API_BASE_URL}/api/...`.
 
+## Local development
+The repository now includes a minimal public API implementation for the first integration phase.
+
+Run it with:
+
+```bash
+npm run api:dev
+```
+
+Current local coverage:
+- `GET /api/health`
+- `GET /api/site`
+- `GET /api/site-contents` (Pegasuz-compatible bootstrap bridge for local development)
+- `GET /api/menu`
+- `GET /api/blog/posts`
+- `GET /api/blog/posts/:slug`
+- `POST /api/contact`
+- `GET /api/reservations/layout`
+- `GET /api/reservations/availability`
+- `POST /api/reservations`
+
+The server lives in `server/` and intentionally stays small: Node `http`, no admin concerns, no database, no auth.
+For local persistence only, `contact` and `reservations` are stored in JSON files under `server/runtime/`. This is a development bridge, not the final production persistence strategy.
+
 ## Response conventions
 
 ### Preferred success shape

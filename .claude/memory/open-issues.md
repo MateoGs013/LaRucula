@@ -7,15 +7,16 @@
 
 ## Pending decisions
 - whether the API should expose already-shaped editorial copy blocks or more neutral content objects for the adapters to compose
-- how much real-time behavior reservations need in v1 beyond layout, availability, and booking submission
+- how much real-time behavior reservations need in v1 beyond the current local JSON-backed layout, availability, and booking submission
 - how far the site should lean into editorial hospitality versus dining-led storytelling once production content arrives
 - how much motion is appropriate once real imagery and real copy land
+- whether LaRucula should map more of its page-level editorial copy onto Pegasuz CMS keys or keep the CMS limited to global site content at first
+- whether `ReservationsPage` should expose editable operational copy through the same `site-contents` layer
 
 ## Pending implementation
-- implement the backend against `docs/api-contract.md` for `site`, `menu`, and `blog`
-- connect the real API to `site`, `menu`, and `blog` through the new service layer
-- replace mock submission in `contactService` with the production endpoint
-- replace reservation layout and availability placeholders with real API data while keeping the existing table-selection UI
+- replace the local JSON runtime persistence with real database-backed persistence for contact and reservations
+- decide how much of Home/Menu/Story/Reservations copy should be editable from Pegasuz `site-contents`
+- decide whether reservation availability should derive from explicit time-slot inventory, table rules, or held bookings
 - decide whether visit/contact-specific copy should also move behind `siteService`
 - replace placeholder imagery with a coherent photography set
 - validate mobile rhythm and performance again once real API content is flowing through the pages

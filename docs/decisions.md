@@ -528,3 +528,36 @@ The integration layer is now ready, but without a written contract the backend w
 
 **Affected files:**
 `docs/api-contract.md`, `docs/decisions.md`
+
+### 2026-03-22 — Minimal public API implemented for the public website contract
+
+**Decision:**
+Added a lightweight Node `http` server under `server/` plus `npm run api:dev` and `npm run api:start`. The local API now serves the full public website contract: `GET /api/site`, `GET /api/menu`, `GET /api/blog/posts`, `GET /api/blog/posts/:slug`, `POST /api/contact`, `GET /api/reservations/layout`, `GET /api/reservations/availability`, and `POST /api/reservations`. Contact and reservation submissions are validated and persisted to local JSON runtime files so the front can already run in true `api` mode end to end.
+
+**Why:**
+The front-end service layer was ready, but there was still no real backend target to validate against. Implementing the public endpoints now gives the project a concrete integration surface without introducing database, auth, or admin complexity before it is needed. Local JSON persistence is enough to verify restart behavior and booking collisions now, while keeping the next backend phase focused on real database persistence and reservation rules instead of inventing shapes or reworking route-level UI.
+
+**Affected files:**
+`package.json`, `server/content.js`, `server/createServer.js`, `server/index.js`, `server/storage.js`, `docs/api-contract.md`, `docs/decisions.md`, `.gitignore`
+
+### 2026-03-22 — Site bootstrap now supports Pegasuz CMS content
+
+**Decision:**
+The global site bootstrap can now consume Pegasuz's tenant-aware `GET /api/site-contents` endpoint in addition to the local generic `GET /api/site`. The central API client now supports `x-client` and a provider switch, while `siteService` adapts Pegasuz CMS keys into the current LaRucula site-config shape for brand name, reservation CTA label, navigation labels, contact details, and social links.
+
+**Why:**
+The immediate integration priority is editable site content from the admin panel, not finishing every public write flow. Pegasuz already exposes site CMS data through `site-contents`, so LaRucula should connect to that real content source first instead of inventing another global config contract. This keeps the current visual system intact while making header, footer, contact, and global brand metadata manageable from the existing admin.
+
+**Affected files:**
+`package.json`, `package-lock.json`, `src/api/config.js`, `src/api/client.js`, `src/services/siteContentService.js`, `src/services/siteService.js`, `src/adapters/siteAdapter.js`, `src/app/app-config.js`, `server/content.js`, `server/createServer.js`, `.env.example`, `docs/api-contract.md`, `docs/decisions.md`
+
+### 2026-03-22 — Visit page and contact form now consume admin-managed site content
+
+**Decision:**
+The first page-level CMS integration is intentionally narrow: `VisitPage` and `ContactForm` now read operational copy from `siteContentMap`, using Pegasuz `site-contents` keys for hero text, contact messaging, follow-up copy, form labels, placeholders, submit states, and success message. The underlying layout and motion stay unchanged.
+
+**Why:**
+This is the highest-value extension of the admin-managed content layer without forcing the whole editorial site into a generic CMS schema too early. It lets the panel own contact-facing copy immediately while preserving the authored composition of the page.
+
+**Affected files:**
+`src/composables/useSiteContent.js`, `src/pages/VisitPage.vue`, `src/components/contact/ContactForm.vue`, `server/content.js`, `docs/decisions.md`
