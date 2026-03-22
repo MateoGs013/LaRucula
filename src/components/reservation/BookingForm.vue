@@ -3,6 +3,8 @@
  * Reservation booking form — date, time, party size selection.
  * Step 1 of the reservation flow.
  */
+import { useSiteContentValue } from '@/composables/useSiteContent';
+
 const props = defineProps({
   date: { type: String, default: '' },
   time: { type: String, default: '' },
@@ -12,6 +14,12 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:date', 'update:time', 'update:partySize', 'next']);
+const dateLabel = useSiteContentValue('reservations.form.date_label', 'Date');
+const guestsLabel = useSiteContentValue('reservations.form.guests_label', 'Guests');
+const timeLabel = useSiteContentValue('reservations.form.time_label', 'Time');
+const lunchLabel = useSiteContentValue('reservations.form.lunch_label', 'Lunch');
+const dinnerLabel = useSiteContentValue('reservations.form.dinner_label', 'Dinner');
+const continueLabel = useSiteContentValue('reservations.form.submit', 'Choose your table');
 
 const partySizes = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -26,7 +34,7 @@ function getTodayISO() {
     <div class="space-y-8">
       <!-- Date -->
       <div>
-        <label for="res-date" class="eyebrow mb-2 block text-[0.75rem]">Date</label>
+        <label for="res-date" class="eyebrow mb-2 block text-[0.75rem]">{{ dateLabel }}</label>
         <input
           id="res-date"
           type="date"
@@ -39,7 +47,7 @@ function getTodayISO() {
 
       <!-- Party size -->
       <div>
-        <p class="eyebrow mb-3 text-[0.75rem]">Guests</p>
+        <p class="eyebrow mb-3 text-[0.75rem]">{{ guestsLabel }}</p>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="size in partySizes"
@@ -57,10 +65,10 @@ function getTodayISO() {
 
       <!-- Time -->
       <div>
-        <p class="eyebrow mb-3 text-[0.75rem]">Time</p>
+        <p class="eyebrow mb-3 text-[0.75rem]">{{ timeLabel }}</p>
 
         <!-- Lunch -->
-        <p class="mb-2 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-stone/40">Lunch</p>
+        <p class="mb-2 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-stone/40">{{ lunchLabel }}</p>
         <div class="mb-4 flex flex-wrap gap-2">
           <button
             v-for="slot in timeSlots.lunch"
@@ -76,7 +84,7 @@ function getTodayISO() {
         </div>
 
         <!-- Dinner -->
-        <p class="mb-2 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-stone/40">Dinner</p>
+        <p class="mb-2 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-stone/40">{{ dinnerLabel }}</p>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="slot in timeSlots.dinner"
@@ -100,7 +108,7 @@ function getTodayISO() {
         class="inline-flex w-full items-center justify-center border border-ink bg-ink px-6 py-4 text-[0.8rem] font-medium uppercase tracking-[0.2em] text-ivory transition-all duration-300 hover:bg-dusk disabled:cursor-not-allowed disabled:opacity-30 sm:w-auto"
         @click="emit('next')"
       >
-        Choose your table
+        {{ continueLabel }}
       </button>
     </div>
   </div>

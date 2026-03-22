@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import BaseButton from '@/components/ui/BaseButton.vue';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
@@ -11,10 +11,53 @@ import { contactDetails } from '@/app/app-config';
 import { useReservation } from '@/composables/useReservation';
 import { useRevealMotion } from '@/composables/useRevealMotion';
 import { useImageReveal } from '@/composables/useImageReveal';
+import { useSiteContentValue } from '@/composables/useSiteContent';
 
 const pageRef = ref(null);
 useRevealMotion(pageRef);
 useImageReveal(pageRef);
+const heroEyebrow = useSiteContentValue('reservations.hero.label', 'Reservations');
+const heroTitle = useSiteContentValue('reservations.hero.title', 'Choose your evening');
+const heroDescription = useSiteContentValue(
+  'reservations.hero.description',
+  'Thirty covers, each with a view. Select your table, set your time, and let the coast take care of the rest.'
+);
+const stepDetailsLabel = useSiteContentValue('reservations.progress.details', 'Date & time');
+const stepTableLabel = useSiteContentValue('reservations.progress.table', 'Your table');
+const stepGuestLabel = useSiteContentValue('reservations.progress.guest', 'Details');
+const stepConfirmLabel = useSiteContentValue('reservations.progress.confirm', 'Confirmed');
+const detailsTitle = useSiteContentValue('reservations.details.title', 'When shall we expect you?');
+const detailsDescription = useSiteContentValue(
+  'reservations.details.description',
+  "Choose your date, party size, and preferred time. We'll show you the available tables."
+);
+const detailsLoadingLabel = useSiteContentValue(
+  'reservations.details.loading',
+  'Refreshing the room for that time and party size…'
+);
+const mapCaption = useSiteContentValue('reservations.details.image_caption', 'every table has a story');
+const tableTitle = useSiteContentValue('reservations.table.title', 'Your table');
+const guestSingular = useSiteContentValue('reservations.table.guest_singular', 'guest');
+const guestPlural = useSiteContentValue('reservations.table.guest_plural', 'guests');
+const tableDescription = useSiteContentValue(
+  'reservations.table.description',
+  'Tables with enough seats are highlighted.'
+);
+const layoutLoadingLabel = useSiteContentValue('reservations.table.loading_layout', 'Loading the dining room…');
+const availabilityLoadingLabel = useSiteContentValue('reservations.table.loading_availability', 'Checking which tables are still open…');
+const tableContinueLabel = useSiteContentValue('reservations.table.continue', 'Continue');
+const tableBackLabel = useSiteContentValue('reservations.table.back', '← Change date');
+const guestTitle = useSiteContentValue('reservations.guest.title', 'Almost there');
+const guestDescription = useSiteContentValue('reservations.guest.description', 'A few details so we can welcome you properly.');
+const summaryEyebrow = useSiteContentValue('reservations.sidebar.eyebrow', 'Your reservation');
+const directRouteTitle = useSiteContentValue('reservations.contact.title', 'Prefer the direct route?');
+const directRouteDescription = useSiteContentValue(
+  'reservations.contact.description',
+  'Call us, write to us, or send a message. We answer the old way.'
+);
+const whatsappLabel = useSiteContentValue('reservations.contact.whatsapp_label', 'WhatsApp');
+
+const guestSummaryLabel = computed(() => (partySize.value === 1 ? guestSingular.value : guestPlural.value));
 
 const {
   step,
@@ -66,13 +109,12 @@ function handleReset() {
   reset();
 }
 
-// Step labels for progress indicator
-const steps = [
-  { key: 'details', label: 'Date & time' },
-  { key: 'table', label: 'Your table' },
-  { key: 'guest', label: 'Details' },
-  { key: 'confirm', label: 'Confirmed' },
-];
+const steps = computed(() => [
+  { key: 'details', label: stepDetailsLabel.value },
+  { key: 'table', label: stepTableLabel.value },
+  { key: 'guest', label: stepGuestLabel.value },
+  { key: 'confirm', label: stepConfirmLabel.value },
+]);
 </script>
 
 <template>
@@ -98,12 +140,12 @@ const steps = [
         </div>
 
         <div class="relative z-10 -mt-8 pb-10 pl-[var(--lr-space-gutter)] md:-mt-12 md:pb-14 lg:-mt-14 lg:pb-16 lg:pl-[5vw]" data-reveal>
-          <p class="eyebrow text-ivory/40!">Reservations</p>
+          <p class="eyebrow text-ivory/40!">{{ heroEyebrow }}</p>
           <h1 class="mt-3 max-w-xl font-display text-[clamp(3rem,7vw,6rem)] font-light italic leading-[0.88] tracking-[-0.04em] text-ivory [text-shadow:0_2px_40px_rgba(0,0,0,0.5)]">
-            Choose your<br />evening
+            {{ heroTitle }}
           </h1>
           <p class="mt-4 max-w-md text-[1rem] leading-7 text-ivory/45">
-            Thirty covers, each with a view. Select your table, set your time, and let the coast take care of the rest.
+            {{ heroDescription }}
           </p>
           <div class="mt-5 max-w-16 text-ivory/20">
             <SignatureStroke />
@@ -144,10 +186,10 @@ const steps = [
               <div>
                 <div data-reveal>
                   <h2 class="font-display text-[clamp(2.2rem,5vw,4rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ink">
-                    When shall we<br />expect you?
+                    {{ detailsTitle }}
                   </h2>
                   <p class="mt-4 max-w-md text-[1rem] leading-7 text-stone/70">
-                    Choose your date, party size, and preferred time. We'll show you the available tables.
+                    {{ detailsDescription }}
                   </p>
                 </div>
                 <div class="mt-10">
@@ -167,7 +209,7 @@ const steps = [
                     class="mt-5 max-w-md text-[0.95rem] leading-7 text-stone/55"
                     data-reveal
                   >
-                    {{ availabilityLoading ? 'Refreshing the room for that time and party size…' : loadError }}
+                    {{ availabilityLoading ? detailsLoadingLabel : loadError }}
                   </p>
                 </div>
               </div>
@@ -182,7 +224,7 @@ const steps = [
                   />
                 </div>
                 <p class="mt-3 font-accent text-[1rem] text-toast/40">
-                  every table has a story
+                  {{ mapCaption }}
                 </p>
               </div>
             </div>
@@ -192,11 +234,11 @@ const steps = [
           <div v-else-if="step === 'table'" key="table">
             <div class="mb-8" data-reveal>
               <h2 class="font-display text-[clamp(2.2rem,5vw,4rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ink">
-                Your table
+                {{ tableTitle }}
               </h2>
               <p class="mt-3 max-w-lg text-[1rem] leading-7 text-stone/70">
-                {{ partySize }} {{ partySize === 1 ? 'guest' : 'guests' }} · {{ time }} ·
-                Tables with enough seats are highlighted.
+                {{ partySize }} {{ guestSummaryLabel }} · {{ time }} ·
+                {{ tableDescription }}
               </p>
             </div>
 
@@ -224,9 +266,9 @@ const steps = [
                 >
                   {{
                     layoutLoading
-                      ? 'Loading the dining room…'
+                      ? layoutLoadingLabel
                       : availabilityLoading
-                        ? 'Checking which tables are still open…'
+                        ? availabilityLoadingLabel
                         : loadError
                   }}
                 </p>
@@ -239,13 +281,13 @@ const steps = [
                 class="inline-flex items-center justify-center border border-ink bg-ink px-6 py-4 text-[0.8rem] font-medium uppercase tracking-[0.2em] text-ivory transition-all duration-300 hover:bg-dusk disabled:cursor-not-allowed disabled:opacity-30"
                 @click="nextStep"
               >
-                Continue
+                {{ tableContinueLabel }}
               </button>
               <button
                 class="inline-flex items-center px-4 py-3 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-stone/60 transition-colors hover:text-ink"
                 @click="prevStep"
               >
-                ← Change date
+                {{ tableBackLabel }}
               </button>
             </div>
           </div>
@@ -256,10 +298,10 @@ const steps = [
               <div>
                 <div data-reveal>
                   <h2 class="font-display text-[clamp(2.2rem,5vw,4rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ink">
-                    Almost there
+                    {{ guestTitle }}
                   </h2>
                   <p class="mt-4 max-w-md text-[1rem] leading-7 text-stone/70">
-                    A few details so we can welcome you properly.
+                    {{ guestDescription }}
                   </p>
                 </div>
                 <div class="mt-10">
@@ -282,10 +324,10 @@ const steps = [
               <!-- Editorial summary sidebar -->
               <div class="mt-12 lg:mt-0">
                 <div class="border-l-2 border-toast/15 pl-8">
-                  <p class="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-toast/50">Your reservation</p>
+                  <p class="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-toast/50">{{ summaryEyebrow }}</p>
                   <div class="mt-5 space-y-4 text-[1.05rem]">
                     <p class="font-display italic text-ink/70">{{ date }}</p>
-                    <p class="text-stone/70">{{ time }} · {{ partySize }} {{ partySize === 1 ? 'guest' : 'guests' }}</p>
+                    <p class="text-stone/70">{{ time }} · {{ partySize }} {{ guestSummaryLabel }}</p>
                     <p v-if="selectedTable" class="font-display text-[1.2rem] italic text-ink">
                       Table {{ selectedTable.id }} — {{ selectedTable.label }}
                     </p>
@@ -317,10 +359,10 @@ const steps = [
         <div class="lg:grid lg:grid-cols-[5fr_4fr] lg:gap-16 lg:items-end" data-reveal>
           <div>
             <p class="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ink/40">
-              Prefer the<br />direct route?
+              {{ directRouteTitle }}
             </p>
             <p class="mt-3 text-[1rem] leading-7 text-stone/50">
-              Call us, write to us, or send a message. We answer the old way.
+              {{ directRouteDescription }}
             </p>
           </div>
           <div class="mt-8 lg:mt-0 lg:text-right">
@@ -336,7 +378,7 @@ const steps = [
                 :href="`https://wa.me/${contactDetails.whatsapp}`"
                 external
               >
-                WhatsApp
+                {{ whatsappLabel }}
               </BaseButton>
             </div>
           </div>
