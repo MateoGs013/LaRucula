@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
+import { adminAccessConfig, prepareAdminAccess } from '@/app/admin-config';
 import SocialLinks from '@/components/ui/SocialLinks.vue';
 import { contactDetails, primaryNavigation, siteMeta, socialLinks } from '@/app/app-config';
 </script>
@@ -68,7 +69,17 @@ import { contactDetails, primaryNavigation, siteMeta, socialLinks } from '@/app/
     <div class="border-t border-ivory/8">
       <div class="shell flex flex-col items-start gap-3 py-5 text-[0.875rem] text-ivory/40 md:flex-row md:items-center md:justify-between">
         <p class="font-display text-[1.1rem] tracking-[-0.02em] text-ivory/50">{{ siteMeta.name }}</p>
-        <p>&copy; {{ new Date().getFullYear() }} · Beachfront dining, Costa del Sol</p>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <p>&copy; {{ new Date().getFullYear() }} · Beachfront dining, Costa del Sol</p>
+          <a
+            v-if="adminAccessConfig.enabled"
+            :href="adminAccessConfig.url"
+            class="text-[0.75rem] uppercase tracking-[0.16em] text-ivory/32 transition-colors duration-300 hover:text-ivory/68"
+            @click="prepareAdminAccess"
+          >
+            {{ adminAccessConfig.label }}
+          </a>
+        </div>
       </div>
     </div>
   </footer>

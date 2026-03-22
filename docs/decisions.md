@@ -594,3 +594,14 @@ The JSON files were enough to prove the route shapes, but they were not a durabl
 
 **Affected files:**
 `server/storage.js`, `server/content.js`, `docs/decisions.md`
+
+### 2026-03-22 — Public site now exposes a configured admin access point
+
+**Decision:**
+Added a small admin access link in the public footer, driven by environment config (`VITE_ADMIN_URL`, `VITE_ADMIN_TENANT`, `VITE_ADMIN_LABEL`). The public site now prepares the tenant slug in browser storage before redirecting to the admin login URL.
+
+**Why:**
+The editable content layer is already connected to Pegasuz, so the public site should give operators a direct path into the admin without exposing a heavy dashboard inside LaRucula itself. Keeping the link environment-driven avoids hardcoding hosting assumptions while making the tenant handoff trivial when both apps share origin or domain conventions.
+
+**Affected files:**
+`.env.example`, `src/app/admin-config.js`, `src/components/layout/SiteFooter.vue`, `docs/decisions.md`
