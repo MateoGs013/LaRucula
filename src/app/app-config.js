@@ -1,31 +1,74 @@
-export const siteMeta = {
-  name: 'LaRucula',
-  label: 'Editorial beachfront dining in Spain',
-  description:
-    'LaRucula is a premium beachfront restaurant on the Costa del Sol — Mediterranean dining shaped by the coast, the season, and the sea.',
-  reservationHref: '/reservations',
-  reservationLabel: 'Reserve',
-  ogImage: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&q=80&auto=format',
-};
+import { reactive } from 'vue';
 
-export const primaryNavigation = [
-  { label: 'Menu', to: '/menu' },
-  { label: 'Story', to: '/story' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Visit', to: '/visit' },
-];
+import { getErrorMessage } from '@/api/errors';
+import { adaptSitePayload } from '@/adapters/siteAdapter';
+import { mockSitePayload } from '@/data/mock-site';
+import { getSiteConfig } from '@/services/siteService';
 
-export const contactDetails = {
-  city: 'Beachfront Spain',
-  address: 'Passeig de la Mar 18, Costa del Sol',
-  hours: 'Lunch 13–16 · Dinner 20–23:30 · Closed Monday',
-  phone: '+34 000 000 000',
-  email: 'hola@larucula.example',
-  whatsapp: '+34000000000',
-};
+const defaultSiteConfig = adaptSitePayload(mockSitePayload);
 
-export const socialLinks = [
-  { label: 'Instagram', url: 'https://instagram.com/larucula' },
-  { label: 'Facebook', url: 'https://facebook.com/larucula' },
-  { label: 'TripAdvisor', url: 'https://tripadvisor.com/larucula' },
-];
+export const siteMeta = reactive({ ...defaultSiteConfig.meta });
+export const primaryNavigation = reactive([...defaultSiteConfig.navigation]);
+export const contactDetails = reactive({ ...defaultSiteConfig.contact });
+export const socialLinks = reactive([...defaultSiteConfig.socialLinks]);
+
+export const siteConfigState = reactive({
+  loading: false,
+  ready: false,
+  error: null,
+  source: 'mock',
+});
+
+let bootstrapPromise = null;
+
+function applySiteConfig(config) {
+  Object.assign(siteMeta, config.meta);
+  Object.assign(contactDetails, config.contact);
+
+  primaryNavigation.splice(0, primaryNavigation.length, ...config.navigation);
+  socialLinks.splice(0, socialLinks.length, ...config.socialLinks);
+}
+
+export async function bootstrapSiteConfig(options = {}) {
+  const { force = false } = options;
+
+  if (!force && siteConfigState.ready) {
+    return {
+      siteMeta,
+      primaryNavigation,
+      contactDetails,
+      socialLinks,
+    };
+  }
+
+  if (!force && bootstrapPromise) {
+    return bootstrapPromise;
+  }
+
+  bootstrapPromise = (async () => {
+    siteConfigState.loading = true;
+    siteConfigState.error = null;
+
+    try {
+      const config = await getSiteConfig({ force });
+      applySiteConfig(config);
+      siteConfigState.source = 'remote';
+    } catch (error) {
+      applySiteConfig(defaultSiteConfig);
+      siteConfigState.error = getErrorMessage(error, 'Unable to load the site configuration.');
+      siteConfigState.source = 'mock';
+    } finally {
+      siteConfigState.loading = false;
+      siteConfigState.ready = true;
+    }
+
+    return {
+      siteMeta,
+      primaryNavigation,
+      contactDetails,
+      socialLinks,
+    };
+  })();
+
+  return bootstrapPromise;
+}
