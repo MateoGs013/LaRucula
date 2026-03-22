@@ -6,6 +6,7 @@ import SignatureStroke from '@/components/svg/SignatureStroke.vue';
 import ContactForm from '@/components/contact/ContactForm.vue';
 import SocialLinks from '@/components/ui/SocialLinks.vue';
 import { contactDetails, socialLinks } from '@/app/app-config';
+import { useSiteContentValue } from '@/composables/useSiteContent';
 import { useRevealMotion } from '@/composables/useRevealMotion';
 import { useImageReveal } from '@/composables/useImageReveal';
 import { useScrollScenes } from '@/composables/useScrollScenes';
@@ -14,6 +15,14 @@ const pageRef = ref(null);
 useRevealMotion(pageRef);
 useImageReveal(pageRef);
 useScrollScenes(pageRef);
+const heroEyebrow = useSiteContentValue('contact.hero.label', 'Visit & reserve');
+const heroTitle = useSiteContentValue('contact.hero.title', 'Your table is waiting');
+const heroDescription = useSiteContentValue('contact.hero.description', '');
+const contactSectionTitle = useSiteContentValue('contact.info.title', 'We answer the old way');
+const contactSectionDescription = useSiteContentValue('contact.info.description', '');
+const contactFollowUsLabel = useSiteContentValue('contact.info.follow_us', 'Follow along');
+const contactResponseTime = useSiteContentValue('contact.info.response_time', '');
+const contactFormTitle = useSiteContentValue('contact.form.title', 'Write to us');
 
 const contactAddress = computed(() => {
   const parts = String(contactDetails.address || '')
@@ -52,12 +61,15 @@ const contactAddress = computed(() => {
 
         <!-- Invitation text overlapping the oversized word -->
         <div class="relative z-10 -mt-6 pb-10 pl-[var(--lr-space-gutter)] md:-mt-10 md:pb-14 lg:-mt-14 lg:pb-16 lg:pl-[5vw]" data-reveal>
-          <p class="eyebrow text-ivory/40!">Visit &amp; reserve</p>
+          <p class="eyebrow text-ivory/40!">{{ heroEyebrow }}</p>
           <h1
             class="mt-3 max-w-xl font-display text-[clamp(2.6rem,6vw,5rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ivory [text-shadow:0_2px_40px_rgba(0,0,0,0.5)]"
           >
-            Your table is waiting
+            {{ heroTitle }}
           </h1>
+          <p v-if="heroDescription" class="mt-4 max-w-md text-[1rem] leading-7 text-ivory/45">
+            {{ heroDescription }}
+          </p>
           <div class="mt-5 max-w-16 text-ivory/20">
             <SignatureStroke />
           </div>
@@ -249,8 +261,11 @@ const contactAddress = computed(() => {
             <div data-reveal>
               <p class="eyebrow text-ivory/30!">Get in touch</p>
               <h2 class="mt-3 max-w-sm font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-[0.92] tracking-[-0.03em] text-ivory/80">
-                We answer<br />the old way
+                {{ contactSectionTitle }}
               </h2>
+              <p v-if="contactSectionDescription" class="mt-4 max-w-md text-[1rem] leading-7 text-ivory/38">
+                {{ contactSectionDescription }}
+              </p>
             </div>
 
             <a
@@ -268,9 +283,13 @@ const contactAddress = computed(() => {
               <p class="text-[0.95rem] text-ivory/20">
                 {{ contactDetails.address }}
               </p>
+              <p v-if="contactResponseTime" class="pt-2 text-[0.9rem] text-ivory/28">
+                {{ contactResponseTime }}
+              </p>
             </div>
 
             <div class="mt-10 border-t border-ivory/8 pt-8" data-reveal>
+              <p class="eyebrow mb-3 text-ivory/25!">{{ contactFollowUsLabel }}</p>
               <SocialLinks :links="socialLinks" tone="dark" />
             </div>
 
@@ -283,7 +302,7 @@ const contactAddress = computed(() => {
           <div class="mt-14 lg:mt-0" data-reveal>
             <div class="bg-ivory/[0.97] px-8 py-10 shadow-[0_8px_60px_rgba(0,0,0,0.25)] md:px-10 md:py-12 lg:px-12 lg:py-14">
               <p class="font-display text-[1.4rem] italic leading-tight text-ink/60">
-                Write to us
+                {{ contactFormTitle }}
               </p>
               <div class="mt-1 mb-8 h-px w-10 bg-toast/25" />
               <ContactForm />

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 import { getErrorMessage } from '@/api/errors';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
+import { useSiteContentValue } from '@/composables/useSiteContent';
 import { submitContact } from '@/services/contactService';
 
 const form = ref({
@@ -16,6 +17,19 @@ const form = ref({
 const submitted = ref(false);
 const submitting = ref(false);
 const errorMessage = ref('');
+const nameLabel = useSiteContentValue('contact.form.name_label', 'Name *');
+const namePlaceholder = useSiteContentValue('contact.form.name_placeholder', 'Your name');
+const emailLabel = useSiteContentValue('contact.form.email_label', 'Email *');
+const emailPlaceholder = useSiteContentValue('contact.form.email_placeholder', 'your@email.com');
+const phoneLabel = useSiteContentValue('contact.form.phone_label', 'Phone');
+const phonePlaceholder = useSiteContentValue('contact.form.phone_placeholder', '+34 000 000 000');
+const subjectLabel = useSiteContentValue('contact.form.service_label', 'Subject');
+const subjectPlaceholder = useSiteContentValue('contact.form.service_placeholder', 'Reservation, event, or general inquiry');
+const messageLabel = useSiteContentValue('contact.form.message_label', 'Message *');
+const messagePlaceholder = useSiteContentValue('contact.form.message_placeholder', 'Tell us how we can help…');
+const submitLabel = useSiteContentValue('contact.form.submit', 'Send message');
+const submittingLabel = useSiteContentValue('contact.form.submitting', 'Sending…');
+const successMessage = useSiteContentValue('contact.form.success', "Thank you. We'll get back to you within 24 hours.");
 
 async function handleSubmit() {
   submitting.value = true;
@@ -51,7 +65,7 @@ function resetForm() {
           Message received
         </h3>
         <p class="mt-3 text-[1rem] leading-7 text-stone/60">
-          Thank you. We'll get back to you within 24 hours.
+          {{ successMessage }}
         </p>
         <div class="mt-6 max-w-16 text-sage/30">
           <SignatureStroke />
@@ -76,7 +90,7 @@ function resetForm() {
 
       <div class="grid gap-6 md:grid-cols-2">
         <div>
-          <label for="contact-name" class="eyebrow mb-2 block text-[0.75rem]">Name *</label>
+          <label for="contact-name" class="eyebrow mb-2 block text-[0.75rem]">{{ nameLabel }}</label>
           <input
             id="contact-name"
             v-model="form.name"
@@ -84,11 +98,11 @@ function resetForm() {
             required
             autocomplete="name"
             class="w-full border-b border-ink/15 bg-transparent py-3 font-display text-[1.1rem] italic text-ink outline-none transition-colors placeholder:text-stone/25 focus:border-toast/50"
-            placeholder="Your name"
+            :placeholder="namePlaceholder"
           />
         </div>
         <div>
-          <label for="contact-email" class="eyebrow mb-2 block text-[0.75rem]">Email *</label>
+          <label for="contact-email" class="eyebrow mb-2 block text-[0.75rem]">{{ emailLabel }}</label>
           <input
             id="contact-email"
             v-model="form.email"
@@ -96,42 +110,42 @@ function resetForm() {
             required
             autocomplete="email"
             class="w-full border-b border-ink/15 bg-transparent py-3 font-display text-[1.1rem] italic text-ink outline-none transition-colors placeholder:text-stone/25 focus:border-toast/50"
-            placeholder="your@email.com"
+            :placeholder="emailPlaceholder"
           />
         </div>
       </div>
       <div class="grid gap-6 md:grid-cols-2">
         <div>
-          <label for="contact-phone" class="eyebrow mb-2 block text-[0.75rem]">Phone</label>
+          <label for="contact-phone" class="eyebrow mb-2 block text-[0.75rem]">{{ phoneLabel }}</label>
           <input
             id="contact-phone"
             v-model="form.phone"
             type="tel"
             autocomplete="tel"
             class="w-full border-b border-ink/15 bg-transparent py-3 font-display text-[1.1rem] italic text-ink outline-none transition-colors placeholder:text-stone/25 focus:border-toast/50"
-            placeholder="+34 000 000 000"
+            :placeholder="phonePlaceholder"
           />
         </div>
         <div>
-          <label for="contact-subject" class="eyebrow mb-2 block text-[0.75rem]">Subject</label>
+          <label for="contact-subject" class="eyebrow mb-2 block text-[0.75rem]">{{ subjectLabel }}</label>
           <input
             id="contact-subject"
             v-model="form.subject"
             type="text"
             class="w-full border-b border-ink/15 bg-transparent py-3 font-display text-[1.1rem] italic text-ink outline-none transition-colors placeholder:text-stone/25 focus:border-toast/50"
-            placeholder="Reservation, event, or general inquiry"
+            :placeholder="subjectPlaceholder"
           />
         </div>
       </div>
       <div>
-        <label for="contact-message" class="eyebrow mb-2 block text-[0.75rem]">Message *</label>
+        <label for="contact-message" class="eyebrow mb-2 block text-[0.75rem]">{{ messageLabel }}</label>
         <textarea
           id="contact-message"
           v-model="form.message"
           required
           rows="4"
           class="w-full resize-none border-b border-ink/15 bg-transparent py-3 text-[1rem] leading-7 text-ink outline-none transition-colors placeholder:text-stone/25 focus:border-toast/50"
-          placeholder="Tell us how we can help…"
+          :placeholder="messagePlaceholder"
         />
       </div>
       <div class="pt-2">
@@ -140,7 +154,7 @@ function resetForm() {
           :disabled="submitting"
           class="inline-flex items-center border border-ink bg-ink px-6 py-4 text-[0.8rem] font-medium uppercase tracking-[0.2em] text-ivory transition-all duration-300 hover:bg-dusk disabled:opacity-50"
         >
-          {{ submitting ? 'Sending…' : 'Send message' }}
+          {{ submitting ? submittingLabel : submitLabel }}
         </button>
       </div>
     </form>
