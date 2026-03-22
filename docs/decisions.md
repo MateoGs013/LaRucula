@@ -561,3 +561,25 @@ This is the highest-value extension of the admin-managed content layer without f
 
 **Affected files:**
 `src/composables/useSiteContent.js`, `src/pages/VisitPage.vue`, `src/components/contact/ContactForm.vue`, `server/content.js`, `docs/decisions.md`
+
+### 2026-03-22 — Reservations flow now consumes CMS-managed operational copy
+
+**Decision:**
+Extended the same `site-contents` layer to the reservations experience, but only for operational microcopy: hero text, step labels, form labels/placeholders, helper text, loading states, summary labels, confirmation copy, and direct-contact fallback copy. The floor-map UI, booking logic, and page composition remain outside the CMS.
+
+**Why:**
+Reservations need editable operational text, but turning the table map or the full page composition into CMS-managed structure this early would weaken the authored UX. This split keeps the admin useful while preserving the current front-end architecture and interaction design.
+
+**Affected files:**
+`src/components/reservation/BookingForm.vue`, `src/components/reservation/GuestForm.vue`, `src/components/reservation/BookingSummary.vue`, `src/pages/ReservationsPage.vue`, `server/content.js`, `docs/decisions.md`
+
+### 2026-03-22 — Menu and Story now expose selective CMS-managed copy only
+
+**Decision:**
+Extended Pegasuz `site-contents` into `MenuPage` and `StoryPage`, but only for selective page copy: section labels, helper lines, fallback copy, CTA labels, and editorial text blocks that can be safely edited without changing the authored composition. Menu data, imagery, motion, and layout structure remain outside the CMS.
+
+**Why:**
+The admin panel should be able to adjust meaningful copy on high-traffic pages, but turning the full menu structure or the entire story composition into CMS-managed schema right now would flatten the visual direction and overfit the panel to design-heavy decisions. This keeps the current aesthetic intact while widening the surface of useful editable content.
+
+**Affected files:**
+`src/pages/MenuPage.vue`, `src/pages/StoryPage.vue`, `server/content.js`, `docs/decisions.md`
