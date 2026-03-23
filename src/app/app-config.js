@@ -13,6 +13,16 @@ export const contactDetails = reactive({ ...defaultSiteConfig.contact });
 export const socialLinks = reactive([...defaultSiteConfig.socialLinks]);
 export const siteContentMap = reactive({ ...(defaultSiteConfig.contentMap || {}) });
 
+// Structured content blocks for templates (footer, hero, etc.)
+export const siteContent = reactive({
+  brand: { ...defaultSiteConfig.content.brand },
+  footer: { ...defaultSiteConfig.content.footer },
+  hero: { ...defaultSiteConfig.content.hero },
+  intro: { ...defaultSiteConfig.content.intro },
+  short_about: defaultSiteConfig.content.short_about,
+  menu_cta: { ...defaultSiteConfig.content.menu_cta },
+});
+
 export const siteConfigState = reactive({
   loading: false,
   ready: false,
@@ -33,6 +43,13 @@ function applySiteConfig(config) {
     delete siteContentMap[key];
   });
   Object.assign(siteContentMap, config.contentMap || {});
+
+  Object.assign(siteContent.brand, config.content?.brand || defaultSiteConfig.content.brand);
+  Object.assign(siteContent.hero, config.content?.hero || defaultSiteConfig.content.hero);
+  Object.assign(siteContent.footer, config.content?.footer || defaultSiteConfig.content.footer);
+  Object.assign(siteContent.intro, config.content?.intro || defaultSiteConfig.content.intro);
+  Object.assign(siteContent.menu_cta, config.content?.menu_cta || defaultSiteConfig.content.menu_cta);
+  siteContent.short_about = config.content?.short_about || defaultSiteConfig.content.short_about;
 }
 
 export async function bootstrapSiteConfig(options = {}) {
@@ -44,6 +61,7 @@ export async function bootstrapSiteConfig(options = {}) {
       primaryNavigation,
       contactDetails,
       socialLinks,
+      siteContent,
       siteContentMap,
     };
   }
@@ -62,7 +80,7 @@ export async function bootstrapSiteConfig(options = {}) {
       siteConfigState.source = config.contentMap && Object.keys(config.contentMap).length > 0 ? 'remote-cms' : 'remote';
     } catch (error) {
       applySiteConfig(defaultSiteConfig);
-      siteConfigState.error = getErrorMessage(error, 'Unable to load the site configuration.');
+      siteConfigState.error = getErrorMessage(error, 'No se pudo cargar la configuración del sitio.');
       siteConfigState.source = 'mock';
     } finally {
       siteConfigState.loading = false;
@@ -74,6 +92,7 @@ export async function bootstrapSiteConfig(options = {}) {
       primaryNavigation,
       contactDetails,
       socialLinks,
+      siteContent,
       siteContentMap,
     };
   })();

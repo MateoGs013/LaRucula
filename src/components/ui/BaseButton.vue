@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
+import { useRouteContext } from '@/composables/useRouteContext';
+
 const props = defineProps({
   to: {
     type: [String, Object],
@@ -23,7 +25,13 @@ const props = defineProps({
     type: String,
     default: 'button',
   },
+  preserveEntry: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const { withContext } = useRouteContext();
 
 const componentTag = computed(() => {
   if (props.to) {
@@ -52,7 +60,11 @@ const variantClass = computed(
 
 const elementBindings = computed(() => {
   if (props.to) {
-    return { to: props.to };
+    return {
+      to: withContext(props.to, {
+        preserveEntry: props.preserveEntry,
+      }),
+    };
   }
 
   if (props.href) {

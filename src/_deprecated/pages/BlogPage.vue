@@ -39,7 +39,7 @@ function formatDate(iso) {
 <template>
   <div ref="pageRef">
     <section class="relative -mt-[var(--header-h)] overflow-hidden bg-ink">
-      <div class="relative flex min-h-[75vh] flex-col justify-end">
+      <div class="relative flex min-h-[62vh] flex-col justify-end">
         <img
           src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80&auto=format"
           alt="Mediterranean coastline in golden light"
@@ -73,9 +73,9 @@ function formatDate(iso) {
       </div>
     </section>
 
-    <section class="py-16 md:py-24 lg:py-32">
+    <section class="py-12 md:py-14 lg:py-18">
       <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
-        <div class="relative mb-8 lg:mb-12" data-reveal>
+        <div class="relative mb-6 lg:mb-8" data-reveal>
           <span class="font-display text-[clamp(5rem,12vw,10rem)] font-light leading-none tracking-[-0.05em] text-ink/[0.05]" aria-hidden="true">
             01
           </span>
@@ -98,7 +98,7 @@ function formatDate(iso) {
             </div>
           </RouterLink>
 
-          <div class="mt-8 lg:mt-12 lg:grid lg:grid-cols-[7fr_5fr] lg:gap-16" data-reveal>
+          <div class="mt-6 lg:mt-8 lg:grid lg:grid-cols-[7fr_5fr] lg:gap-12" data-reveal>
             <div>
               <p class="text-[0.75rem] font-medium uppercase tracking-[0.2em] text-toast/60">
                 {{ featured.category }} · {{ featured.readTime }} · {{ formatDate(featured.date) }}
@@ -135,9 +135,9 @@ function formatDate(iso) {
       </div>
     </section>
 
-    <section class="pb-16 md:pb-24 lg:pb-32">
+    <section class="pb-12 md:pb-14 lg:pb-18">
       <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
-        <article v-if="entries[0]" class="lg:grid lg:grid-cols-[7fr_4fr] lg:items-end lg:gap-14">
+        <article v-if="entries[0]" class="lg:grid lg:grid-cols-[7fr_4fr] lg:items-end lg:gap-10">
           <RouterLink
             :to="`/blog/${entries[0].slug}`"
             class="group block"
@@ -171,11 +171,11 @@ function formatDate(iso) {
           </div>
         </article>
 
-        <div v-if="entries[0] && entries[1]" class="my-14 lg:my-20 lg:ml-[20%]" data-reveal>
+        <div v-if="entries[0] && entries[1]" class="my-8 lg:my-10 lg:ml-[20%]" data-reveal>
           <div class="h-px w-20 bg-toast/20" />
         </div>
 
-        <article v-if="entries[1]" class="lg:grid lg:grid-cols-[4fr_6fr] lg:items-start lg:gap-14">
+        <article v-if="entries[1]" class="lg:grid lg:grid-cols-[4fr_6fr] lg:items-start lg:gap-10">
           <div class="order-2 lg:order-1" data-reveal>
             <span class="font-display text-[clamp(3rem,6vw,5rem)] font-light leading-none tracking-[-0.04em] text-ink/[0.06]" aria-hidden="true">
               03
@@ -214,11 +214,11 @@ function formatDate(iso) {
           </RouterLink>
         </article>
 
-        <div v-if="entries[1] && entries[2]" class="my-14 lg:my-20 lg:mr-[30%] lg:ml-auto" data-reveal>
+        <div v-if="entries[1] && entries[2]" class="my-8 lg:my-10 lg:mr-[30%] lg:ml-auto" data-reveal>
           <div class="h-px w-20 bg-toast/20 lg:ml-auto" />
         </div>
 
-        <article v-if="entries[2]" class="lg:grid lg:grid-cols-[5fr_3fr_4fr] lg:items-end lg:gap-10">
+        <article v-if="entries[2]" class="lg:grid lg:grid-cols-[5fr_3fr_4fr] lg:items-end lg:gap-8">
           <div data-reveal>
             <span class="font-display text-[clamp(3rem,6vw,5rem)] font-light leading-none tracking-[-0.04em] text-ink/[0.06]" aria-hidden="true">
               04
@@ -257,7 +257,7 @@ function formatDate(iso) {
     </section>
 
     <section class="border-t border-ink/8">
-      <div class="px-[var(--lr-space-gutter)] py-12 md:py-14 lg:px-[5vw]">
+        <div class="px-[var(--lr-space-gutter)] py-10 md:py-12 lg:px-[5vw]">
         <div class="flex items-center justify-between" data-reveal>
           <p class="font-accent text-[1rem] text-stone/40">
             More stories from the kitchen, the terrace, and the sea.

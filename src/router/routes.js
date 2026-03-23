@@ -1,11 +1,7 @@
 import HomePage from '@/pages/HomePage.vue';
 import MenuPage from '@/pages/MenuPage.vue';
+import MenuCategoryPage from '@/pages/MenuCategoryPage.vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
-import StoryPage from '@/pages/StoryPage.vue';
-import VisitPage from '@/pages/VisitPage.vue';
-import ReservationsPage from '@/pages/ReservationsPage.vue';
-import BlogPage from '@/pages/BlogPage.vue';
-import BlogPostPage from '@/pages/BlogPostPage.vue';
 
 export const routes = [
   {
@@ -13,9 +9,9 @@ export const routes = [
     name: 'home',
     component: HomePage,
     meta: {
-      title: 'LaRucula | Mediterranean beachfront dining',
+      title: 'LaRucula | Cocina mediterránea frente al mar',
       description:
-        'Premium beachfront restaurant on the Costa del Sol. Mediterranean kitchen shaped by the coast, the season, and the sea.',
+        'Restaurante premium frente al mar en la Costa del Sol. Cocina mediterránea marcada por la costa, la temporada y el mar.',
       ogType: 'website',
     },
   },
@@ -24,64 +20,20 @@ export const routes = [
     name: 'menu',
     component: MenuPage,
     meta: {
-      title: 'Menu | LaRucula',
+      title: 'Carta | LaRucula',
       description:
-        'Seasonal Mediterranean menu — fresh seafood, local produce, and a curated wine selection.',
+        'Carta mediterránea de temporada: pesca fresca, producto local y una selección de vinos curada.',
       ogType: 'website',
     },
   },
   {
-    path: '/story',
-    name: 'story',
-    component: StoryPage,
+    path: '/menu/:slug',
+    name: 'menu-category',
+    component: MenuCategoryPage,
     meta: {
-      title: 'Our Story | LaRucula',
-      description:
-        'A kitchen built where the land ends, shaped by the Mediterranean coast and decades of culinary tradition.',
-      ogType: 'article',
-    },
-  },
-  {
-    path: '/visit',
-    name: 'visit',
-    component: VisitPage,
-    meta: {
-      title: 'Visit & Contact | LaRucula',
-      description:
-        'Find us on the Costa del Sol. Directions, hours, contact form, and everything you need to plan your visit.',
+      title: 'Carta | LaRucula',
+      description: 'Categoría de la carta de LaRucula.',
       ogType: 'website',
-    },
-  },
-  {
-    path: '/reservations',
-    name: 'reservations',
-    component: ReservationsPage,
-    meta: {
-      title: 'Reserve Your Table | LaRucula',
-      description:
-        'Choose your table at LaRucula. Interactive floor plan with sea-view terrace, private dining, and intimate interior.',
-      ogType: 'website',
-    },
-  },
-  {
-    path: '/blog',
-    name: 'blog',
-    component: BlogPage,
-    meta: {
-      title: 'Stories | LaRucula',
-      description:
-        'Kitchen notes, seasonal reflections, and the rituals of Mediterranean coastal dining.',
-      ogType: 'website',
-    },
-  },
-  {
-    path: '/blog/:slug',
-    name: 'blog-post',
-    component: BlogPostPage,
-    meta: {
-      title: 'Stories | LaRucula',
-      description: 'A story from the coast.',
-      ogType: 'article',
     },
   },
   {
@@ -89,8 +41,9 @@ export const routes = [
     name: 'not-found',
     component: NotFoundPage,
     meta: {
-      title: 'Page not found | LaRucula',
-      description: 'This page does not exist at LaRucula.',
+      title: '404 | LaRucula',
+      description: 'Página no encontrada.',
+      ogType: 'website',
     },
   },
 ];

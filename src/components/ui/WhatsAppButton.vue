@@ -8,7 +8,7 @@ import { ref, onMounted } from 'vue';
 
 const props = defineProps({
   phone: { type: String, required: true },
-  message: { type: String, default: 'Hola, me gustaría hacer una reserva en LaRucula.' },
+  message: { type: String, default: 'Hola, me gustaría hacer una consulta sobre la carta de LaRucula.' },
 });
 
 const visible = ref(false);
@@ -38,7 +38,7 @@ function getWhatsAppUrl() {
       target="_blank"
       rel="noopener noreferrer"
       class="whatsapp-btn fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-dusk shadow-[0_4px_20px_rgba(26,20,16,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(26,20,16,0.35)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-toast md:bottom-8 md:right-8"
-      aria-label="Contact us on WhatsApp"
+      aria-label="Escribir por WhatsApp"
     >
       <!-- WhatsApp icon (simplified, brand-appropriate) -->
       <svg class="h-6 w-6 text-ivory" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

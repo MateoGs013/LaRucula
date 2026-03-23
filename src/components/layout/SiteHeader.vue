@@ -2,9 +2,11 @@
 import { ref, computed, inject, onMounted, onUnmounted, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
-import { primaryNavigation, siteMeta } from '@/app/app-config';
+import { primaryNavigation, siteContent, siteMeta } from '@/app/app-config';
+import { useRouteContext } from '@/composables/useRouteContext';
 
 const route = useRoute();
+const { withContext } = useRouteContext();
 const headerEl = ref(null);
 const scrolled = ref(false);
 const menuOpen = ref(false);
@@ -59,7 +61,7 @@ onUnmounted(() => {
     ]"
   >
     <div class="shell flex items-center justify-between py-4 md:py-5">
-      <RouterLink to="/" class="group">
+      <RouterLink :to="withContext('/')" class="group">
         <p
           class="font-display text-[1.7rem] leading-none tracking-[-0.04em] transition-colors duration-500"
           :class="isTransparent ? 'text-ivory' : 'text-ink group-hover:opacity-70'"
@@ -72,7 +74,7 @@ onUnmounted(() => {
         <RouterLink
           v-for="item in primaryNavigation"
           :key="item.to"
-          :to="item.to"
+          :to="withContext(item.to)"
           class="font-body text-[0.8rem] uppercase tracking-[0.2em] transition-colors duration-300"
           :class="[
             isActive(item)
@@ -86,23 +88,23 @@ onUnmounted(() => {
 
       <div class="flex items-center gap-4">
         <RouterLink
-          :to="siteMeta.reservationHref"
+          :to="withContext('/menu')"
           class="hidden items-center border px-4 py-2.5 text-[0.8rem] font-medium uppercase tracking-[0.2em] transition-all duration-300 sm:inline-flex"
           :class="isTransparent
             ? 'border-ivory/25 text-ivory hover:border-ivory/50 hover:bg-ivory/10'
             : 'border-ink/15 text-ink hover:border-ink/30 hover:bg-ink hover:text-ivory'"
         >
-          {{ siteMeta.reservationLabel }}
+          {{ siteContent.menu_cta.label }}
         </RouterLink>
 
         <button
           class="relative z-10 flex h-10 w-10 items-center justify-center md:hidden"
-          :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
+          :aria-label="menuOpen ? 'Cerrar menú' : 'Abrir menú'"
           aria-controls="mobile-nav"
           :aria-expanded="menuOpen"
           @click="menuOpen = !menuOpen"
         >
-          <span class="sr-only">Menu</span>
+          <span class="sr-only">Menú</span>
           <span class="flex flex-col items-center gap-1.25">
             <span
               class="block h-px w-5 origin-center transition-all duration-300"
@@ -138,7 +140,7 @@ onUnmounted(() => {
           <RouterLink
             v-for="item in primaryNavigation"
             :key="item.to"
-            :to="item.to"
+            :to="withContext(item.to)"
             class="font-display text-[1.3rem] tracking-[-0.01em] transition-colors"
             :class="isActive(item) ? 'text-ink' : 'text-stone hover:text-ink'"
             @click="menuOpen = false"
@@ -146,11 +148,11 @@ onUnmounted(() => {
             {{ item.label }}
           </RouterLink>
           <RouterLink
-            :to="siteMeta.reservationHref"
+            :to="withContext('/menu')"
             class="mt-3 inline-flex w-fit items-center border border-ink/15 px-5 py-3 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-ink transition-colors hover:bg-ink hover:text-ivory"
             @click="menuOpen = false"
           >
-            {{ siteMeta.reservationLabel }}
+            {{ siteContent.menu_cta.label }}
           </RouterLink>
         </div>
       </nav>

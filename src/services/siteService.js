@@ -14,6 +14,7 @@ function cloneSite(site) {
     navigation: site.navigation.map((item) => ({ ...item })),
     contact: { ...site.contact },
     socialLinks: site.socialLinks.map((item) => ({ ...item })),
+    content: structuredClone(site.content || {}),
     contentMap: { ...(site.contentMap || {}) },
   };
 }

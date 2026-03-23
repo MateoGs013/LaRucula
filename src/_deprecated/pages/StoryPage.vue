@@ -110,7 +110,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
 
     <!-- ═══ HERO — atmospheric architecture arrival ═══ -->
     <section class="relative -mt-[var(--header-h)] overflow-hidden bg-ink">
-      <div class="relative h-[75vh] min-h-[520px]">
+      <div class="relative h-[68vh] min-h-[480px]">
         <img
           src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80&auto=format"
           alt="Mediterranean architecture with warm stone walls and arched doorways in golden light"
@@ -146,22 +146,22 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
     </section>
 
     <!-- ═══ PLACE — editorial typography about the coast ═══ -->
-    <section class="py-16 md:py-20 lg:py-28">
+    <section class="py-12 md:py-14 lg:py-18">
       <div class="relative overflow-hidden">
-        <blockquote class="font-display font-light italic leading-[0.92] tracking-[-0.035em] text-ink">
+        <blockquote class="font-display font-light italic leading-[0.9] tracking-[-0.035em] text-ink">
           <p>
-            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(2.4rem,4.5vw,4rem)] lg:pl-[5vw]">{{ placeLineOne }}</span>
-            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(5rem,13vw,12rem)] tracking-[-0.05em] text-ink/90 lg:pl-[10vw]">{{ placeLineTwo }}</span>
-            <span data-reveal-line class="invisible block pr-[var(--lr-space-gutter)] text-right text-[clamp(5rem,13vw,12rem)] tracking-[-0.05em] text-ink/90 lg:pr-[8vw]">{{ placeLineThree }}</span>
+            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(2.3rem,4vw,3.8rem)] lg:pl-[5vw]">{{ placeLineOne }}</span>
+            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(4.2rem,10vw,9rem)] tracking-[-0.05em] text-ink/90 lg:pl-[8vw]">{{ placeLineTwo }}</span>
+            <span data-reveal-line class="invisible -mt-2 block pr-[var(--lr-space-gutter)] text-right text-[clamp(4.2rem,10vw,9rem)] tracking-[-0.05em] text-ink/90 lg:pr-[7vw]">{{ placeLineThree }}</span>
           </p>
         </blockquote>
 
         <!-- Flush side-by-side split — clean architectural division -->
-        <div class="mt-12 md:mt-16 lg:mt-20">
-          <div class="lg:grid lg:grid-cols-[5fr_4fr]">
+        <div class="mt-8 md:mt-10 lg:mt-12">
+          <div class="lg:grid lg:grid-cols-[4.5fr_3.5fr] lg:items-start">
             <!-- Image — coastal landscape, flush -->
             <div data-image-reveal data-image-reveal-direction="up">
-              <div class="aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[420px]">
+              <div class="aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[360px]">
                 <img
                   data-parallax="80"
                   src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80&auto=format"
@@ -172,7 +172,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
               </div>
             </div>
             <!-- Text — right, vertically centered, generous padding -->
-            <div class="flex flex-col justify-center px-[var(--lr-space-gutter)] py-10 md:py-14 lg:px-12 lg:py-16" data-reveal>
+            <div class="flex flex-col justify-center px-[var(--lr-space-gutter)] py-6 md:py-8 lg:px-10 lg:py-8" data-reveal>
               <p class="max-w-sm text-[1rem] leading-7 text-stone">
                 {{ placeBodyOne }}
               </p>
@@ -194,7 +194,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
     <section class="bg-dusk text-ivory">
       <div class="lg:grid lg:grid-cols-[4fr_5fr]">
         <!-- Text — left -->
-        <div class="flex flex-col justify-center px-[var(--lr-space-gutter)] py-14 md:py-20 lg:px-14 lg:py-24 lg:order-1">
+        <div class="flex flex-col justify-center px-[var(--lr-space-gutter)] py-12 md:py-16 lg:px-14 lg:py-18 lg:order-1">
           <div data-reveal>
             <p class="eyebrow text-ivory/35!">{{ kitchenLabel }}</p>
             <h2 class="mt-3 font-display text-[clamp(2.2rem,5vw,3.8rem)] font-light italic leading-[0.95] tracking-[-0.03em]">
@@ -216,7 +216,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
         </div>
         <!-- Image — portrait, right -->
         <div data-image-reveal data-image-reveal-direction="right" class="lg:order-2">
-          <div class="aspect-[3/4] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[600px]">
+          <div class="aspect-[3/4] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[520px]">
             <img
               data-parallax="60"
               src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=1000&q=80&auto=format"
@@ -230,7 +230,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
     </section>
 
     <!-- ═══ RITUAL — the rhythm of the day ═══ -->
-    <section class="relative overflow-hidden py-16 md:py-20 lg:py-28">
+    <section class="relative overflow-hidden py-12 md:py-14 lg:py-18">
       <!-- Ghost word -->
       <div class="pointer-events-none absolute left-[3vw] top-8 select-none" aria-hidden="true">
         <span class="font-display text-[clamp(7rem,15vw,13rem)] font-light leading-none tracking-[-0.05em] text-ink/[0.04]">ritual</span>
@@ -245,7 +245,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
         </div>
 
         <!-- Three moments — varied typography, editorial sequence -->
-        <div class="mt-12 lg:mt-16">
+        <div class="mt-10 lg:mt-12">
           <div class="lg:grid lg:grid-cols-3 lg:gap-12">
             <!-- Morning -->
             <div
@@ -266,7 +266,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
         </div>
 
         <!-- Image pair below ritual -->
-        <div class="mt-12 lg:mt-16">
+        <div class="mt-10 lg:mt-12">
           <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
             <div class="sm:w-3/5" data-image-reveal data-image-reveal-direction="up">
               <div class="aspect-[16/9] overflow-hidden">
@@ -299,7 +299,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
     <section class="relative">
       <!-- Full-bleed image — edge to edge, no container -->
       <div data-image-reveal data-image-reveal-direction="up">
-        <div class="aspect-[16/9] min-h-[400px] overflow-hidden lg:aspect-[2.2/1]">
+        <div class="aspect-[16/9] min-h-[340px] overflow-hidden lg:aspect-[2.2/1]">
           <img
             data-parallax="80"
             src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80&auto=format"
@@ -310,8 +310,8 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
         </div>
       </div>
       <!-- Floating text panel — anchored bottom-right, overlaps image edge -->
-      <div class="relative z-10 -mt-20 md:-mt-28 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:flex lg:w-[33%] lg:items-end lg:pb-10 xl:w-[28%] xl:pb-14">
-        <div class="mx-[var(--lr-space-gutter)] bg-cream p-6 md:p-8 lg:mx-0 lg:mr-[var(--lr-space-gutter)] lg:bg-cream/95 lg:shadow-[0_20px_60px_rgba(26,20,16,0.15)] lg:backdrop-blur-sm xl:mr-[5vw]" data-reveal>
+      <div class="relative z-10 -mt-16 md:-mt-20 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:flex lg:w-[32%] lg:items-end lg:pb-8 xl:w-[28%] xl:pb-12">
+        <div class="mx-[var(--lr-space-gutter)] bg-cream p-5 md:p-7 lg:mx-0 lg:mr-[var(--lr-space-gutter)] lg:bg-cream/95 lg:shadow-[0_20px_60px_rgba(26,20,16,0.15)] lg:backdrop-blur-sm xl:mr-[5vw]" data-reveal>
           <p class="eyebrow">{{ spaceLabel }}</p>
           <h2 class="mt-2 font-display text-[clamp(1.8rem,3.5vw,2.4rem)] font-light italic leading-[0.95] tracking-[-0.03em] text-ink">
             {{ spaceTitleLines[0] }}<br />{{ spaceTitleLines[1] || '' }}
@@ -328,7 +328,7 @@ const closingCta = useSiteContentValue('story.closing.cta', 'Reserve your table'
 
     <!-- ═══ CLOSING — image-anchored intimate farewell ═══ -->
     <section class="bg-cream">
-      <div class="py-16 md:py-20 lg:py-24">
+      <div class="py-14 md:py-16 lg:py-18">
         <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
           <div class="flex flex-col gap-8 sm:flex-row sm:items-end sm:gap-12 lg:gap-16">
             <!-- Coastal detail — focal anchor -->

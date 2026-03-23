@@ -62,7 +62,7 @@ function formatDate(iso) {
 <template>
   <div ref="pageRef">
     <template v-if="!post">
-      <section class="py-32">
+      <section class="py-24">
         <div class="shell text-center">
           <p class="eyebrow">404</p>
           <h1 class="mt-3 font-display text-[clamp(2rem,5vw,4rem)] font-light italic text-ink/50">
@@ -80,7 +80,7 @@ function formatDate(iso) {
 
     <template v-else>
       <section class="relative -mt-[var(--header-h)] overflow-hidden bg-ink">
-        <div class="relative flex min-h-[75vh] flex-col justify-end">
+        <div class="relative flex min-h-[62vh] flex-col justify-end">
           <img
             :src="post.image"
             :alt="post.imageAlt"
@@ -117,7 +117,7 @@ function formatDate(iso) {
         </div>
       </section>
 
-      <article class="py-16 md:py-24 lg:py-28">
+      <article class="py-12 md:py-14 lg:py-18">
         <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
           <template v-for="(block, i) in post.body" :key="i">
             <p
@@ -130,7 +130,7 @@ function formatDate(iso) {
 
             <div
               v-else-if="block.type === 'paragraph' && i === 1"
-              class="my-14 lg:my-20"
+              class="my-8 lg:my-10"
             >
               <div class="-mx-[var(--lr-space-gutter)] lg:-mx-[5vw]" data-image-reveal data-image-reveal-direction="up">
                 <div class="aspect-[21/9] overflow-hidden">
@@ -143,7 +143,7 @@ function formatDate(iso) {
                 </div>
               </div>
               <p
-                class="mx-auto mt-12 max-w-[42rem] text-[1.05rem] leading-8 text-stone lg:mt-16"
+                class="mx-auto mt-8 max-w-[42rem] text-[1.05rem] leading-8 text-stone lg:mt-10"
                 data-reveal
               >
                 {{ block.content }}
@@ -152,7 +152,7 @@ function formatDate(iso) {
 
             <div
               v-else-if="block.type === 'quote'"
-              class="my-14 lg:my-20 lg:-ml-[8vw]"
+              class="my-8 lg:my-10 lg:-ml-[8vw]"
               data-reveal
             >
               <div class="relative">
@@ -176,7 +176,7 @@ function formatDate(iso) {
             </p>
           </template>
 
-          <div class="mx-auto mt-16 max-w-[42rem]" data-reveal>
+          <div class="mx-auto mt-12 max-w-[42rem]" data-reveal>
             <div class="flex items-center gap-6">
               <div class="h-px flex-1 bg-ink/8" />
               <div class="max-w-16 text-sage/30">
@@ -188,11 +188,11 @@ function formatDate(iso) {
         </div>
       </article>
 
-      <section v-if="relatedPosts.length" class="bg-cream py-16 md:py-24">
+      <section v-if="relatedPosts.length" class="bg-cream py-12 md:py-14">
         <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
-          <p class="eyebrow mb-10 lg:mb-14" data-reveal>More from the coast</p>
+          <p class="eyebrow mb-8 lg:mb-10" data-reveal>More from the coast</p>
 
-          <div class="lg:grid lg:grid-cols-[6fr_4fr] lg:items-start lg:gap-14">
+          <div class="lg:grid lg:grid-cols-[6fr_4fr] lg:items-start lg:gap-10">
             <article v-if="relatedPosts[0]" data-reveal>
               <RouterLink
                 :to="`/blog/${relatedPosts[0].slug}`"
@@ -224,7 +224,7 @@ function formatDate(iso) {
               </div>
             </article>
 
-            <article v-if="relatedPosts[1]" class="mt-12 lg:mt-[12vh]" data-reveal>
+            <article v-if="relatedPosts[1]" class="mt-10 lg:mt-[9vh]" data-reveal>
               <RouterLink
                 :to="`/blog/${relatedPosts[1].slug}`"
                 class="group block"
@@ -256,7 +256,7 @@ function formatDate(iso) {
       </section>
 
       <section>
-        <div class="px-[var(--lr-space-gutter)] py-14 md:py-18 lg:px-[5vw]">
+        <div class="px-[var(--lr-space-gutter)] py-10 md:py-12 lg:px-[5vw]">
           <div class="lg:flex lg:items-end lg:justify-between lg:gap-16" data-reveal>
             <p class="font-display text-[clamp(1.8rem,4vw,3rem)] font-light italic leading-[0.92] tracking-[-0.03em] text-ink/35">
               Ready for the table?

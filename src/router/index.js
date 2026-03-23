@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import { siteMeta } from '@/app/app-config';
-import { getBlogPost, getBlogPostSnapshot } from '@/services/blogService';
+import { getMenuCategoryBySlug } from '@/services/menuService';
 
 import { routes } from './routes';
 
@@ -36,64 +36,29 @@ function setMeta(attr, name, content) {
   el.setAttribute('content', content);
 }
 
-function applyMeta({
-  title = siteMeta.name,
-  description = siteMeta.description,
-  ogType = 'website',
-  ogImage = siteMeta.ogImage,
-  url = window.location.href,
-}) {
+router.afterEach((to) => {
+  let title = to.meta?.title ?? siteMeta.name;
+  let description = to.meta?.description ?? siteMeta.description;
+  const ogImage = to.meta?.ogImage ?? siteMeta.ogImage;
+
+  // Dynamic menu category meta
+  if (to.name === 'menu-category' && to.params.slug) {
+    const cat = getMenuCategoryBySlug(to.params.slug, {
+      locale: to.query.lang,
+    });
+    if (cat) {
+      title = `${cat.name} | Carta | LaRucula`;
+      description = cat.short_description;
+    }
+  }
+
   document.title = title;
   setMeta('name', 'description', description);
   setMeta('property', 'og:title', title);
   setMeta('property', 'og:description', description);
-  setMeta('property', 'og:type', ogType);
+  setMeta('property', 'og:type', to.meta?.ogType ?? 'website');
   setMeta('property', 'og:image', ogImage);
-  setMeta('property', 'og:url', url);
-}
-
-router.afterEach((to) => {
-  let title = to.meta?.title ?? siteMeta.name;
-  let description = to.meta?.description ?? siteMeta.description;
-  let ogImage = to.meta?.ogImage ?? siteMeta.ogImage;
-
-  // Dynamic blog post meta from the cached service snapshot first.
-  if (to.name === 'blog-post' && to.params.slug) {
-    const slug = String(to.params.slug);
-    const post = getBlogPostSnapshot(slug);
-    if (post) {
-      title = `${post.title} | LaRucula`;
-      description = post.excerpt;
-      ogImage = post.image;
-    }
-
-    void (async () => {
-      try {
-        const resolvedPost = await getBlogPost(slug);
-        const currentRoute = router.currentRoute.value;
-
-        if (currentRoute.name !== 'blog-post' || String(currentRoute.params.slug) !== slug || !resolvedPost) {
-          return;
-        }
-
-        applyMeta({
-          title: `${resolvedPost.title} | LaRucula`,
-          description: resolvedPost.excerpt,
-          ogType: to.meta?.ogType ?? 'article',
-          ogImage: resolvedPost.image,
-        });
-      } catch {
-        // Keep the static route meta if the post cannot be resolved.
-      }
-    })();
-  }
-
-  applyMeta({
-    title,
-    description,
-    ogType: to.meta?.ogType ?? 'website',
-    ogImage,
-  });
+  setMeta('property', 'og:url', window.location.href);
 });
 
 export default router;

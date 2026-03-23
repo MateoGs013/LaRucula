@@ -11,6 +11,14 @@ export function useHeroMotion(scopeRef, readyRef) {
   const prefersReducedMotion = useReducedMotion();
   let context;
 
+  function showStatic(scope) {
+    scope.querySelectorAll('[data-hero-image], [data-hero-heading], [data-hero-lede], [data-hero-cta]').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.visibility = 'visible';
+      el.style.transform = 'none';
+    });
+  }
+
   function play(scope) {
     const { gsap } = ensureGsapPlugins();
 
@@ -65,7 +73,12 @@ export function useHeroMotion(scopeRef, readyRef) {
 
   onMounted(() => {
     const scope = unref(scopeRef);
-    if (!scope || prefersReducedMotion.value) return;
+    if (!scope) return;
+
+    if (prefersReducedMotion.value) {
+      showStatic(scope);
+      return;
+    }
 
     if (!readyRef || unref(readyRef)) {
       play(scope);

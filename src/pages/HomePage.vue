@@ -1,285 +1,292 @@
 <script setup>
-import { ref, inject } from 'vue';
+import { computed, ref, inject } from 'vue';
 import { RouterLink } from 'vue-router';
 
-import BaseButton from '@/components/ui/BaseButton.vue';
+import MenuIcon from '@/components/svg/MenuIcon.vue';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
-import { contactDetails, primaryNavigation, siteMeta } from '@/app/app-config';
+import { siteContent, contactDetails, socialLinks } from '@/app/app-config';
+import { getMenuNumberLocale } from '@/data/menu-ui-copy';
 import { useHeroMotion } from '@/composables/useHeroMotion';
-import { useImageReveal } from '@/composables/useImageReveal';
+import { useMenuContent } from '@/composables/useMenuContent';
 import { useRevealMotion } from '@/composables/useRevealMotion';
-import { useScrollScenes } from '@/composables/useScrollScenes';
+import { useRouteContext } from '@/composables/useRouteContext';
 
 const pageRef = ref(null);
 const heroRef = ref(null);
 const introComplete = inject('introComplete', ref(true));
+const { locale, menuData } = useMenuContent();
+const { withContext } = useRouteContext();
 
 useHeroMotion(heroRef, introComplete);
 useRevealMotion(pageRef);
-useImageReveal(pageRef);
-useScrollScenes(pageRef);
+
+const categories = computed(() => menuData.value.categories);
+const featuredItems = computed(() => menuData.value.featuredItems.slice(0, 3));
+
+function formatPrice(item) {
+  return new Intl.NumberFormat(getMenuNumberLocale(locale.value), {
+    style: 'currency',
+    currency: item.currency || 'EUR',
+    minimumFractionDigits: 0,
+  }).format(item.price);
+}
 </script>
 
 <template>
   <div ref="pageRef">
 
-    <!-- ═══ SCENE 1: HERO — asymmetric editorial arrival ═══ -->
-    <section ref="heroRef" data-scene="hero" class="relative -mt-[var(--header-h)]">
-      <div class="relative h-svh min-h-[600px] overflow-hidden">
-        <div class="absolute inset-0">
+    <!-- ═══ HERO — editorial, warm, direct ═══ -->
+    <section ref="heroRef" class="relative -mt-[var(--header-h)] overflow-hidden bg-dusk">
+      <div class="relative flex min-h-[72svh] flex-col justify-end pb-10 md:min-h-[76svh] md:pb-14 lg:min-h-[80svh] lg:pb-16">
+
+        <figure
+          class="pointer-events-none absolute inset-0 overflow-hidden"
+          aria-hidden="true"
+        >
           <img
-            data-hero-image
-            src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80&auto=format"
-            alt="Mediterranean beachfront terrace at golden hour"
-            class="invisible h-full w-full object-cover"
-            loading="eager"
+            v-if="siteContent.hero.image"
+            :src="siteContent.hero.image"
+            :alt="siteContent.hero.image_alt || ''"
+            class="h-full w-full object-cover opacity-65"
             fetchpriority="high"
+            data-hero-image
           />
+          <div class="absolute inset-0 bg-linear-to-r from-dusk/82 via-dusk/58 to-dusk/76" />
+          <div class="absolute inset-0 bg-linear-to-b from-ink/12 via-transparent to-ink/78" />
+          <!-- Decorative coastal line -->
+          <svg class="absolute bottom-[15%] left-0 w-full opacity-[0.06]" viewBox="0 0 1440 200" fill="none">
+            <path d="M0 100 Q 180 40, 360 100 T 720 100 T 1080 100 T 1440 100" stroke="currentColor" stroke-width="1.5" class="text-ivory"/>
+            <path d="M0 140 Q 200 80, 400 140 T 800 140 T 1200 140 T 1440 140" stroke="currentColor" stroke-width="1" class="text-ivory" opacity="0.5"/>
+          </svg>
+        </figure>
+
+        <!-- Content -->
+        <div class="relative z-10 px-[var(--lr-space-gutter)] lg:px-[5vw]">
+          <div class="max-w-[44rem]">
+          <p
+            data-hero-lede
+            class="invisible text-[0.78rem] font-medium uppercase tracking-[0.22em] text-ivory/35"
+          >
+            {{ siteContent.brand.tagline }}
+          </p>
+
+          <h1 data-hero-heading class="invisible mt-4 font-display font-light italic text-ivory">
+            <span class="block text-[clamp(3.5rem,10vw,9rem)] leading-[0.85] tracking-[-0.05em]">
+              {{ siteContent.hero.headline }}
+            </span>
+          </h1>
+
+          <p data-hero-lede class="invisible mt-5 max-w-[34ch] text-[1rem] leading-relaxed text-ivory/50">
+            {{ siteContent.hero.subheadline }}
+          </p>
+
+          <div data-hero-cta class="invisible mt-7 flex flex-wrap items-center gap-4">
+            <RouterLink
+              :to="withContext(siteContent.menu_cta.href)"
+              class="inline-flex items-center gap-2 border border-ivory/25 px-6 py-3.5 text-[0.82rem] font-medium uppercase tracking-[0.18em] text-ivory transition-all duration-300 hover:border-ivory/50 hover:bg-ivory/8"
+            >
+              {{ siteContent.menu_cta.label }}
+              <MenuIcon name="arrow-right" :size="16" />
+            </RouterLink>
+          </div>
+          </div>
         </div>
 
-        <!-- Ghost word — architectural, bleeds left edge -->
-        <div class="pointer-events-none absolute -left-[2vw] bottom-[22%] z-[1] select-none lg:bottom-[18%]" aria-hidden="true">
-          <p class="font-display text-[clamp(10rem,24vw,22rem)] font-light italic leading-none tracking-[-0.06em] text-ivory/[0.08]">mar</p>
-        </div>
+      </div>
+    </section>
 
-        <!-- Scrims: top for header legibility, bottom for text -->
-        <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-ink/50 to-transparent" />
-        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[60%] bg-linear-to-t from-ink/95 via-ink/55 to-transparent" />
-
-        <!-- Anchor word — flush left, giant, bleeds into image -->
-        <div class="absolute inset-x-0 bottom-0 z-10 pb-8 md:pb-12 lg:pb-16">
-          <div class="pl-[var(--lr-space-gutter)] lg:pl-[5vw]">
-            <h1 data-hero-heading class="invisible font-display font-light italic text-ivory [text-shadow:0_2px_32px_rgba(0,0,0,0.35)]">
-              <span class="block text-[clamp(1.1rem,2vw,1.4rem)] not-italic tracking-[0.15em] uppercase text-ivory/50 [text-shadow:none]">Mediterranean</span>
-              <span class="block text-[clamp(5rem,14vw,13rem)] leading-[0.82] tracking-[-0.06em] -ml-[0.04em]">coast</span>
-            </h1>
-            <div class="mt-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-10 lg:mt-8">
-              <p
-                data-hero-lede
-                class="invisible max-w-[28ch] text-[1rem] leading-7 text-ivory/60 [text-shadow:0_1px_6px_rgba(0,0,0,0.25)]"
-              >
-                Where the coast sets the table — a refined kitchen shaped by the season and the sea.
+    <!-- ═══ ABOUT — brief, editorial, one shot ═══ -->
+    <section class="py-18 md:py-20 lg:py-24">
+      <div class="shell">
+        <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-18">
+          <div>
+            <div class="max-w-8 text-sage/30" data-reveal>
+              <SignatureStroke />
+            </div>
+            <blockquote data-reveal class="mt-5">
+              <p class="max-w-xl font-display text-[clamp(1.5rem,3.2vw,2.4rem)] font-light italic leading-[1.15] tracking-[-0.02em] text-ink/70">
+                {{ siteContent.short_about }}
               </p>
-              <div data-hero-cta class="invisible">
-                <BaseButton
-                  to="/reservations"
-                  variant="ghost"
-                  class="border-ivory/20! text-ivory! hover:border-ivory/40! hover:bg-ivory/8!"
-                >
-                  Reserve
-                </BaseButton>
-              </div>
-            </div>
+            </blockquote>
           </div>
-        </div>
-
-        <div
-          data-scroll-indicator
-          class="absolute bottom-4 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
-        >
-          <span class="text-[0.8rem] uppercase tracking-[0.3em] text-ivory/25">Scroll</span>
-          <span class="block h-8 w-px bg-ivory/20" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Connecting motif: horizontal line echoing intro -->
-    <div class="shell-wide">
-      <div data-scene-divider class="mx-auto h-px w-0 bg-ink/10" />
-    </div>
-
-    <!-- ═══ SCENE 2: PHILOSOPHY — overscaled editorial typography ═══ -->
-    <section data-scene="philosophy" class="py-20 md:py-28 lg:py-36">
-      <div class="relative overflow-hidden">
-        <blockquote class="font-display font-light italic leading-[0.92] tracking-[-0.035em] text-ink">
-          <p>
-            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(2.8rem,5.5vw,5rem)] lg:pl-[5vw]">We buy</span>
-            <span data-reveal-line class="invisible block pl-[var(--lr-space-gutter)] text-[clamp(6rem,15vw,14rem)] tracking-[-0.05em] text-ink/90 lg:pl-[12vw]">fish</span>
-            <span data-reveal-line class="invisible block pr-[var(--lr-space-gutter)] text-right text-[clamp(2.8rem,5.5vw,5rem)] lg:pr-[8vw]">the morning</span>
-            <span data-reveal-line class="invisible block pr-[var(--lr-space-gutter)] text-right text-[clamp(2.8rem,5.5vw,5rem)] lg:pr-[8vw]">it's caught.</span>
-          </p>
-        </blockquote>
-
-        <!-- Editorial image + supporting copy — asymmetric two-column -->
-        <div class="mt-14 grid gap-8 px-[var(--lr-space-gutter)] md:mt-16 lg:mt-20 lg:grid-cols-[1fr_auto_1fr] lg:items-end lg:gap-12 lg:px-[5vw]">
-          <div data-reveal class="order-2 lg:order-1">
-            <p class="max-w-md text-[1rem] leading-7 text-stone">
-              The menu is a conversation between the sea and the kitchen — written fresh, every day.
-            </p>
-            <ul class="mt-6 space-y-2 font-display text-[1.05rem] italic leading-7 text-ink/35">
-              <li>Grilled octopus · fennel · preserved lemon</li>
-              <li>Sea bream crudo · citrus · olive oil</li>
-              <li>Langoustine · saffron · tomato water</li>
-            </ul>
-            <div class="mt-6 max-w-24 text-sage/40">
-              <SignatureStroke />
-            </div>
-          </div>
-          <div
-            class="order-1 w-36 sm:w-44 lg:order-2 lg:w-52"
-            data-image-reveal
-            data-image-reveal-direction="up"
-          >
-            <div class="aspect-[3/4] overflow-hidden">
-              <img
-                data-parallax="-40"
-                src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=800&q=80&auto=format"
-                alt="Fresh Mediterranean fish on ice at the market"
-                class="h-[110%] w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
-          <div class="order-3 hidden lg:block" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Connecting motif -->
-    <div class="shell-wide">
-      <div data-scene-divider class="mx-auto h-px w-0 bg-ink/10" />
-    </div>
-
-    <!-- ═══ SCENE 3: THE SPACE — overlapping editorial composition ═══ -->
-    <section data-scene="space" class="relative overflow-hidden py-12 lg:py-16">
-      <!-- Full-bleed panoramic with bottom scrim for overlapping text -->
-      <div data-image-reveal data-image-reveal-direction="up" class="relative">
-        <div class="aspect-[21/9] overflow-hidden">
-          <img
-            data-parallax="120"
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80&auto=format"
-            alt="Restaurant interior with Mediterranean light through arched windows"
-            class="h-[115%] w-full object-cover"
-            loading="lazy"
-          />
-        </div>
-        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[40%] bg-linear-to-t from-ink/30 to-transparent" />
-      </div>
-
-      <!-- Overlapping detail crop + heading — breaks out of the panoramic plane -->
-      <div class="shell relative z-10 -mt-20 lg:-mt-32">
-        <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:gap-16">
-          <div
-            class="w-40 shrink-0 sm:w-52 lg:w-64"
-            data-image-reveal
-            data-image-reveal-direction="right"
-          >
-            <div class="aspect-[3/4] overflow-hidden shadow-[0_24px_64px_rgba(26,20,16,0.2)] ring-4 ring-ivory">
-              <img
-                data-parallax="-80"
-                src="https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800&q=80&auto=format"
-                alt="Chef plating with focused precision"
-                class="h-[110%] w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
-          <div class="flex-1" data-reveal>
-            <p class="eyebrow mb-3">The space &amp; the craft</p>
-            <h2 class="max-w-lg font-display text-[clamp(2rem,4vw,3.2rem)] font-light italic leading-[1.05] tracking-[-0.02em] text-ink">
-              Built for the hour when light turns gold
-            </h2>
-            <div class="mt-6">
-              <BaseButton to="/menu" variant="text">Full menu</BaseButton>
-            </div>
+          <div class="mt-8 lg:mt-2" data-reveal>
+            <RouterLink
+              :to="withContext('/menu')"
+              class="inline-flex items-center gap-2 text-[0.82rem] font-medium uppercase tracking-[0.15em] text-stone/60 transition-colors hover:text-ink"
+            >
+              {{ menuData.uiCopy.menuLabel }}
+              <MenuIcon name="arrow-right" :size="15" />
+            </RouterLink>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ SCENE 4: EVENING — scroll-pinned dark immersion ═══ -->
-    <section data-scene="evening" data-evening-pin class="relative bg-dusk text-ivory">
-      <div class="lg:flex lg:min-h-[80vh]">
-        <!-- Text panel — pins on desktop while image scrolls -->
-        <div
-          data-evening-text
-          class="flex min-h-[40vh] flex-col justify-end px-[var(--lr-space-gutter)] pb-10 pt-20 lg:w-[42%] lg:min-h-0 lg:pb-14 lg:pr-12 lg:pt-28"
-        >
+    <!-- ═══ MENU STAGE — main product focus ═══ -->
+    <section class="relative overflow-hidden bg-ink py-18 text-ivory md:py-24 lg:py-28">
+      <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,245,230,0.1),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_44%)]" />
+        <svg class="absolute inset-x-0 top-0 w-full opacity-[0.08]" viewBox="0 0 1440 320" fill="none">
+          <path d="M0 118 C 160 92, 240 148, 400 124 C 590 95, 676 38, 862 72 C 1030 102, 1158 170, 1440 132" stroke="currentColor" stroke-width="1.2" class="text-ivory" />
+          <path d="M0 212 C 170 178, 312 244, 466 224 C 644 201, 764 132, 940 160 C 1130 190, 1260 260, 1440 236" stroke="currentColor" stroke-width="1" class="text-ivory" opacity="0.55" />
+        </svg>
+        <p class="absolute left-[4vw] top-8 font-display text-[clamp(5rem,16vw,14rem)] font-light italic leading-none tracking-[-0.08em] text-ivory/[0.04]">
+          {{ menuData.title }}
+        </p>
+      </div>
+
+      <div class="shell relative z-10">
+        <div class="lg:grid lg:grid-cols-[minmax(0,0.76fr)_minmax(0,1.24fr)] lg:items-start lg:gap-14 xl:gap-18">
           <div data-reveal>
-            <p class="eyebrow text-ivory/40!">Evening</p>
-            <p class="mt-3 font-display text-[clamp(5rem,12vw,9rem)] font-light italic leading-[0.8] tracking-[-0.05em] text-ivory/15">8pm</p>
-            <h2 class="mt-2 font-display text-[clamp(2.4rem,5vw,4rem)] font-light italic leading-none tracking-[-0.03em]">
-              The light changes.<br />So does the table.
-            </h2>
-            <p class="mt-6 max-w-sm text-[1rem] leading-7 text-ivory/50">
-              As the sun drops and the candles are lit, the dinner menu arrives with the evening breeze.
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.2em] text-ivory/35">
+              {{ menuData.uiCopy.homeMenuEyebrow }}
             </p>
-            <div class="mt-4 max-w-16 text-ivory/15">
-              <SignatureStroke />
+            <h2 class="mt-4 font-display text-[clamp(3rem,8vw,6.4rem)] font-light italic leading-[0.88] tracking-[-0.055em] text-ivory">
+              {{ menuData.title }}
+            </h2>
+            <p class="mt-5 max-w-[29rem] text-[0.98rem] leading-relaxed text-ivory/55">
+              {{ menuData.subtitle }}
+            </p>
+
+            <div v-if="featuredItems.length" class="mt-12 space-y-4">
+              <p class="text-[0.72rem] font-medium uppercase tracking-[0.18em] text-ivory/32">
+                {{ menuData.uiCopy.featuredListTitle }}
+              </p>
+              <article
+                v-for="item in featuredItems"
+                :key="item.id"
+                class="flex items-start justify-between gap-6 border-t border-ivory/8 py-4 last:border-b"
+              >
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-display text-[1.15rem] italic leading-snug tracking-[-0.02em] text-ivory/88">
+                      {{ item.name }}
+                    </h3>
+                    <span
+                      v-if="item.recommended"
+                      class="inline-flex items-center gap-1 rounded-full border border-toast/25 bg-toast/10 px-2 py-0.5 text-[0.66rem] uppercase tracking-[0.14em] text-toast"
+                    >
+                      <MenuIcon name="star" :size="11" />
+                      {{ menuData.uiCopy.featuredBadge }}
+                    </span>
+                  </div>
+                  <p class="mt-1 text-[0.84rem] leading-relaxed text-ivory/45">
+                    {{ item.description }}
+                  </p>
+                </div>
+                <span class="flex-shrink-0 font-display text-[1rem] tracking-[-0.02em] text-ivory/58">
+                  {{ formatPrice(item) }}
+                </span>
+              </article>
+            </div>
+
+            <div class="mt-12 flex flex-wrap items-center gap-5">
+              <RouterLink
+                :to="withContext('/menu')"
+                class="inline-flex items-center gap-2 border border-ivory/18 px-5 py-3 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-ivory transition-all duration-300 hover:border-ivory/38 hover:bg-ivory/8"
+              >
+                {{ siteContent.menu_cta.label }}
+                <MenuIcon name="arrow-right" :size="15" />
+              </RouterLink>
+              <p class="text-[0.78rem] uppercase tracking-[0.18em] text-ivory/28">
+                {{ menuData.uiCopy.qrReadyLabel }}
+              </p>
             </div>
           </div>
-        </div>
-        <!-- Image panel — scrolls past on desktop -->
-        <div class="lg:flex-1">
-          <div
-            data-image-reveal
-            data-image-reveal-direction="right"
-            class="relative aspect-[4/5] overflow-hidden lg:aspect-auto lg:h-[100vh]"
-          >
-            <img
-              data-parallax="70"
-              src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=1600&q=80&auto=format"
-              alt="Elegantly set dinner table with warm evening light"
-              class="h-full w-full object-cover brightness-[0.85]"
-              loading="lazy"
-            />
-            <div class="pointer-events-none absolute inset-0 bg-dusk/20" />
+
+          <div class="mt-12 grid gap-4 md:grid-cols-2 lg:mt-2" data-reveal>
+            <RouterLink
+              v-for="(cat, index) in categories"
+              :key="cat.slug"
+              :to="withContext(`/menu/${cat.slug}`)"
+              class="group relative overflow-hidden rounded-[1.6rem] border border-ivory/10 bg-ivory/4 px-5 py-5 transition-all duration-300 hover:border-ivory/24 hover:bg-ivory/7"
+              :class="index === 0 ? 'md:col-span-2 md:px-7 md:py-7' : 'min-h-[11.5rem] md:min-h-[12.5rem]'"
+            >
+              <div class="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-ivory/25 to-transparent opacity-60" />
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ivory/28">
+                    {{ String(index + 1).padStart(2, '0') }}
+                  </p>
+                  <h3 class="mt-3 font-display text-[clamp(1.5rem,2.8vw,2.35rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ivory">
+                    {{ cat.name }}
+                  </h3>
+                  <p class="mt-2 max-w-[20rem] text-[0.84rem] leading-relaxed text-ivory/46">
+                    {{ cat.short_description }}
+                  </p>
+                </div>
+                <div class="mt-1 flex-shrink-0 text-ivory/26 transition-colors duration-300 group-hover:text-ivory/48">
+                  <MenuIcon :name="cat.icon" :size="26" />
+                </div>
+              </div>
+              <div class="mt-8 inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ivory/38 transition-colors duration-300 group-hover:text-ivory/68">
+                {{ menuData.uiCopy.openCategoryLabel }}
+                <MenuIcon name="arrow-right" :size="13" />
+              </div>
+            </RouterLink>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ SCENE 5: INVITATION — closing scene (integrated footer) ═══ -->
-    <footer data-scene="close" class="bg-cream">
-      <div class="shell py-20 md:py-28 lg:py-36">
-        <div data-reveal>
-          <p class="max-w-[18ch] font-display text-[clamp(2.6rem,5.5vw,4.8rem)] font-light italic leading-[1.05] tracking-[-0.03em] text-ink/65">
-            Come for the hour when the light turns gold.
-          </p>
-          <div class="mt-8">
-            <BaseButton to="/reservations">Reserve your table</BaseButton>
+    <!-- ═══ CONTACT & INFO — practical, compact ═══ -->
+    <section class="py-16 md:py-18">
+      <div class="shell">
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-16">
+          <!-- Hours -->
+          <div data-reveal>
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/40">Horario</p>
+            <p class="mt-3 font-display text-[1.15rem] italic leading-relaxed text-ink/70">
+              {{ contactDetails.hours }}
+            </p>
           </div>
-        </div>
 
-        <div class="mt-16 grid gap-10 border-t border-ink/8 pt-10 md:mt-20 md:grid-cols-[1fr_auto]">
-          <div class="space-y-4 text-[1rem] leading-7 text-stone/70">
-            <p>{{ contactDetails.address }}</p>
-            <p>{{ contactDetails.hours }}</p>
-            <div class="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+          <!-- Location -->
+          <div data-reveal>
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/40">Ubicación</p>
+            <p class="mt-3 font-display text-[1.15rem] italic leading-relaxed text-ink/70">
+              {{ contactDetails.address }}
+            </p>
+          </div>
+
+          <!-- Contact -->
+          <div data-reveal>
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/40">Contacto</p>
+            <div class="mt-3 space-y-2">
               <a
                 :href="`tel:${contactDetails.phone}`"
-                class="transition-colors duration-300 hover:text-ink/80"
+                class="block font-display text-[1.15rem] italic text-ink/70 transition-colors hover:text-ink"
               >
                 {{ contactDetails.phone }}
               </a>
               <a
-                :href="`mailto:${contactDetails.email}`"
-                class="transition-colors duration-300 hover:text-ink/80"
+                :href="`https://wa.me/${contactDetails.whatsapp}`"
+                class="inline-flex items-center gap-2 text-[0.85rem] text-sage transition-colors hover:text-olive"
+                target="_blank"
+                rel="noopener"
               >
-                {{ contactDetails.email }}
+                <MenuIcon name="whatsapp" :size="16" />
+                WhatsApp
               </a>
             </div>
           </div>
-          <nav class="flex flex-col gap-2.5">
-            <RouterLink
-              v-for="item in primaryNavigation"
-              :key="item.to"
-              :to="item.to"
-              class="text-[0.8rem] uppercase tracking-[0.18em] text-stone/50 transition-colors duration-300 hover:text-ink"
-            >
-              {{ item.label }}
-            </RouterLink>
-          </nav>
         </div>
-      </div>
 
-      <div class="border-t border-ink/6">
-        <div class="shell flex flex-col items-start gap-2 py-5 text-[0.875rem] text-stone/40 sm:flex-row sm:items-center sm:justify-between">
-          <p class="font-display text-[1.05rem] tracking-[-0.02em] text-ink/30">{{ siteMeta.name }}</p>
-          <p>&copy; {{ new Date().getFullYear() }} · Beachfront dining, Costa del Sol</p>
+        <!-- Social -->
+        <div class="mt-12 flex flex-wrap gap-6 border-t border-ink/6 pt-10" data-reveal>
+          <a
+            v-for="link in socialLinks"
+            :key="link.url"
+            :href="link.url"
+            class="text-[0.82rem] uppercase tracking-[0.12em] text-stone/45 transition-colors hover:text-ink"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ link.label }}
+          </a>
         </div>
       </div>
-    </footer>
+    </section>
 
   </div>
 </template>

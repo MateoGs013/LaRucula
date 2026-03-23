@@ -122,7 +122,7 @@ const steps = computed(() => [
 
     <!-- ═══ HERO — editorial reservation arrival ═══ -->
     <section class="relative -mt-[var(--header-h)] overflow-hidden bg-ink">
-      <div class="relative flex min-h-[70vh] flex-col justify-end">
+      <div class="relative flex min-h-[64vh] flex-col justify-end">
         <img
           src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=1600&q=80&auto=format"
           alt="Elegantly set dinner table with warm Mediterranean evening light"
@@ -155,7 +155,7 @@ const steps = computed(() => [
     </section>
 
     <!-- ═══ RESERVATION FLOW ═══ -->
-    <section id="booking" class="relative py-16 md:py-20 lg:py-28">
+    <section id="booking" class="relative py-14 md:py-16 lg:py-20">
       <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
 
         <!-- Progress indicator — editorial, not stepper -->
@@ -244,7 +244,7 @@ const steps = computed(() => [
 
             <!-- Full-bleed map — the emotional centerpiece -->
             <div class="-mx-[var(--lr-space-gutter)] lg:-mx-[5vw]">
-              <div class="relative bg-dusk/[0.03] px-[var(--lr-space-gutter)] py-10 lg:px-[5vw] lg:py-14">
+                <div class="relative bg-dusk/[0.03] px-[var(--lr-space-gutter)] py-8 lg:px-[5vw] lg:py-10">
                 <!-- Subtle atmospheric border -->
                 <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-ink/8 to-transparent" />
                 <div class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-ink/8 to-transparent" />
@@ -355,7 +355,7 @@ const steps = computed(() => [
 
     <!-- ═══ ALTERNATIVE CONTACT — editorial farewell ═══ -->
     <section class="bg-cream">
-      <div class="px-[var(--lr-space-gutter)] py-16 md:py-20 lg:px-[5vw]">
+      <div class="px-[var(--lr-space-gutter)] py-12 md:py-14 lg:px-[5vw]">
         <div class="lg:grid lg:grid-cols-[5fr_4fr] lg:gap-16 lg:items-end" data-reveal>
           <div>
             <p class="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ink/40">

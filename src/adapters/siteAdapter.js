@@ -9,11 +9,14 @@ function pickFirstValue(...values) {
 
 function normalizeNavigation(items, fallbackItems) {
   const source = Array.isArray(items) && items.length > 0 ? items : fallbackItems;
+  const normalizedItems = source
+    .map((item) => ({
+      label: String(item.label || item.name || '').trim(),
+      to: String(item.to || item.href || item.path || '').trim(),
+    }))
+    .filter((item) => item.to === '/menu');
 
-  return source.map((item) => ({
-    label: String(item.label || item.name || '').trim(),
-    to: String(item.to || item.href || item.path || '').trim(),
-  }));
+  return normalizedItems.length > 0 ? normalizedItems : fallbackItems;
 }
 
 function normalizeSocialLinks(items, fallbackItems) {
@@ -53,23 +56,26 @@ function buildAddress(contentMap, fallbackContact) {
 }
 
 function buildPegasuzNavigation(contentMap, fallbackNavigation) {
-  const labelByRoute = {
-    '/menu': contentMap['header.nav.services'],
-    '/story': contentMap['header.nav.about'],
-    '/blog': contentMap['header.nav.blog'],
-    '/visit': contentMap['header.nav.contact'],
-  };
+  const menuLabel = pickFirstValue(
+    contentMap['header.nav.menu'],
+    contentMap['header.nav.services'],
+    fallbackNavigation.find((item) => item.to === '/menu')?.label,
+    'Carta'
+  );
 
-  return fallbackNavigation.map((item) => ({
-    ...item,
-    label: pickFirstValue(labelByRoute[item.to], item.label),
-  }));
+  return [
+    {
+      label: menuLabel,
+      to: '/menu',
+    },
+  ];
 }
 
 function buildPegasuzSocialLinks(contentMap, fallbackSocialLinks) {
   const socialLabels = {
     instagram: 'Instagram',
     facebook: 'Facebook',
+    tripadvisor: 'TripAdvisor',
     linkedin: 'LinkedIn',
   };
 
@@ -92,14 +98,65 @@ export function adaptSitePayload(rawPayload = {}) {
   const contentMap = buildContentMap(rawPayload);
 
   if (contentMap) {
+    const structuredContent = {
+      brand: {
+        name: pickFirstValue(contentMap['site.brand.name'], fallback.brand.name),
+        tagline: pickFirstValue(contentMap['site.brand.tagline'], fallback.brand.tagline),
+      },
+      hero: {
+        headline: pickFirstValue(
+          contentMap['home.hero.headline'],
+          contentMap['hero.headline'],
+          fallback.hero.headline
+        ),
+        subheadline: pickFirstValue(
+          contentMap['home.hero.subheadline'],
+          contentMap['hero.subheadline'],
+          fallback.hero.subheadline
+        ),
+        image: pickFirstValue(
+          contentMap['home.hero.image_url'],
+          contentMap['hero.image_url'],
+          fallback.hero.image
+        ),
+        image_alt: pickFirstValue(
+          contentMap['home.hero.image_alt'],
+          contentMap['hero.image_alt'],
+          fallback.hero.image_alt
+        ),
+      },
+      intro: {
+        label: pickFirstValue(contentMap['home.intro.label'], fallback.intro.label),
+        tagline: pickFirstValue(contentMap['home.intro.tagline'], fallback.intro.tagline),
+      },
+      short_about: pickFirstValue(
+        contentMap['home.short_about'],
+        contentMap['site.short_about'],
+        fallback.short_about
+      ),
+      menu_cta: {
+        label: pickFirstValue(
+          contentMap['home.menu_cta.label'],
+          contentMap['menu.cta.label'],
+          contentMap['header.cta_label'],
+          fallback.menu_cta.label
+        ),
+        href: pickFirstValue(contentMap['home.menu_cta.href'], fallback.menu_cta.href),
+      },
+      footer: {
+        closing: pickFirstValue(contentMap['footer.closing'], fallback.footer.closing),
+        copyright: pickFirstValue(contentMap['footer.copyright'], fallback.footer.copyright),
+      },
+    };
+
     return {
       meta: {
         name: pickFirstValue(contentMap['site.brand.name'], fallback.meta.name),
         label: pickFirstValue(fallback.meta.label),
         description: pickFirstValue(contentMap['footer.description'], fallback.meta.description),
-        reservationHref: pickFirstValue(fallback.meta.reservationHref),
-        reservationLabel: pickFirstValue(contentMap['header.cta_label'], fallback.meta.reservationLabel),
-        ogImage: pickFirstValue(fallback.meta.ogImage),
+        reservationHref: pickFirstValue(structuredContent.menu_cta.href, fallback.meta.reservationHref),
+        reservationLabel: pickFirstValue(structuredContent.menu_cta.label, fallback.meta.reservationLabel),
+        ogImage: pickFirstValue(structuredContent.hero.image, fallback.meta.ogImage),
       },
       navigation: buildPegasuzNavigation(contentMap, fallback.navigation),
       contact: {
@@ -111,6 +168,7 @@ export function adaptSitePayload(rawPayload = {}) {
         whatsapp: pickFirstValue(contentMap['site.contact.whatsapp'], contentMap['site.contact.phone'], fallback.contact.whatsapp),
       },
       socialLinks: buildPegasuzSocialLinks(contentMap, fallback.socialLinks),
+      content: structuredContent,
       contentMap,
     };
   }
@@ -148,6 +206,29 @@ export function adaptSitePayload(rawPayload = {}) {
       rawPayload.socialLinks || rawPayload.social || rawPayload.site?.socialLinks,
       fallback.socialLinks
     ),
+    content: {
+      brand: {
+        ...fallback.brand,
+        ...(rawPayload.brand || {}),
+      },
+      hero: {
+        ...fallback.hero,
+        ...(rawPayload.hero || {}),
+      },
+      intro: {
+        ...fallback.intro,
+        ...(rawPayload.intro || {}),
+      },
+      short_about: pickFirstValue(rawPayload.short_about, fallback.short_about),
+      menu_cta: {
+        ...fallback.menu_cta,
+        ...(rawPayload.menu_cta || {}),
+      },
+      footer: {
+        ...fallback.footer,
+        ...(rawPayload.footer || {}),
+      },
+    },
     contentMap: {},
   };
 }
