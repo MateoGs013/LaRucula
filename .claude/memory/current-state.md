@@ -1,32 +1,25 @@
 # Current State
 
 ## Status
-The guidance is now intentionally permissive. No single HomePage concept or current primitive set should be treated as binding for Claude.
+The public site has been simplified into a `menu-first` experience and is now deploy-ready against Pegasuz for shell content, with menu data still using local fallback until the SaaS exposes its menu domain.
 
 ## What exists
-- project scaffold with Vue 3, Vite, Tailwind CSS, GSAP, and Vue Router
-- stable baseline structure that Claude may keep or refactor
-- rewritten design docs with stronger research and broader autonomy
-- `docs/awwwards-analysis.md` as benchmark context, not a recipe
-- `docs/claude-design-guide.md` now explicitly allows replacing weak scaffold decisions
-- Playwright-based UX review automation for desktop, tablet, and mobile
+- public site reduced to `/`, `/menu`, `/menu/:slug`, and `404`
+- `menu-first` IA focused on QR usage and direct menu access
+- Home remains authored and immersive, but much simpler than the previous multi-page editorial site
+- Playwright UX review automation for desktop/tablet/mobile
 - Axe baseline checks wired into the review flow
-- agent-facing UX review docs and a dedicated `ux-reviewer` agent / `ux-review-loop` skill
-- API-ready front-end foundation with `src/api/`, `src/services/`, and `src/adapters/`
-- reactive site bootstrap through `siteService` instead of hardcoded global config
-- `menu`, `blog`, `contact`, and `reservations` now read through service boundaries with mock/API switching
-- `.env.example` documents the toggle between local mock mode and future API mode
-- `docs/api-contract.md` defines the canonical public endpoint shapes for backend implementation
-- a minimal local public API now exists in `server/` for the full public website contract, including `contact` and `reservations`, with local JSON persistence in `server/runtime/`
-- the global site bootstrap now supports Pegasuz `site-contents` so brand/contact/navigation data can come from the admin-managed CMS without changing the current visual shell
-- `VisitPage` and `ContactForm` now consume the first page-level editable copy from Pegasuz `site-contents`
-- `ReservationsPage` and its booking flow components now consume CMS-managed operational copy while keeping the map/layout logic in code
-- `MenuPage` and `StoryPage` now consume selective CMS-managed copy while keeping menu data, imagery, layout, and authored composition in code
-- `contact` and `reservations` now persist through local SQLite storage instead of JSON runtime files, while keeping the same public API contract
+- API/service/adapter foundation still in place
+- Pegasuz shell bootstrap through `GET /api/site-contents`
+- footer `Admin` link wired to `https://admin.pegasuz.com.ar/admin/login?tenant=larucula-mateo`
+- locale query preservation through route changes
+- QR mode for `/menu` and `/menu/:slug`
+- local fallback menu data in Spanish while Pegasuz menu endpoints are still missing
+- deploy guide and updated API contract docs aligned with the current menu-first app
 
 ## What should happen next
-1. decide whether `Home` should expose any selective editable copy through `site-contents` or stay fully authored in code for now
-2. decide how reservation holds, expirations, and admin-side availability rules should work
-3. decide whether the local SQLite layer remains temporary or becomes the first durable backend store before a broader API migration
-4. continue using `npm run ux` and `npm run a11y` during visual iteration instead of reviewing code only
-5. document any additional integration or contract decisions back into `docs/decisions.md`
+1. apply the reduced LaRucula CMS contract to tenant `larucula-mateo` in Pegasuz
+2. implement Pegasuz menu endpoints so the public site can stop using local menu fallback
+3. expose Pegasuz locales so the language selector can become real instead of dormant
+4. keep using `npm run ux` and `npm run a11y` during visual iteration and before deploys
+5. document any additional Pegasuz integration decisions back into `docs/decisions.md`

@@ -259,6 +259,19 @@ New architecture:
 
 **useHeroMotion**: Simplified timeline — removed ghost word targeting, tightened durations and offsets.
 
+### 2026-03-23 — Public deploy scope is shell-first, menu-fallback
+**Decision:**
+The public site is now treated as deploy-ready against Pegasuz with this split:
+- global shell content comes from Pegasuz `site-contents`
+- menu content still falls back to local data until Pegasuz exposes its menu endpoints
+- the deploy docs and API contract now reflect the simplified live app (`/`, `/menu`, `/menu/:slug`, `404`) instead of legacy routes
+
+**Why:**
+The project already has the correct tenant wiring and admin entry point, but the live Pegasuz API still does not expose the menu or locales domain. Documenting that split explicitly prevents false assumptions during deploy and makes the remaining SaaS work precise.
+
+**Affected files:**
+`docs/api-contract.md`, `docs/ux-review-workflow.md`, `docs/deploy-pegasuz.md`, `docs/decisions.md`
+
 **Composables no longer imported by HomePage**: useThesisLock, useThresholdInteraction, useRitualDepth, useGhostWords, useSurfaceGrain, useMagneticHover. Files retained but unused.
 
 **Why:**
@@ -605,3 +618,113 @@ The editable content layer is already connected to Pegasuz, so the public site s
 
 **Affected files:**
 `.env.example`, `src/app/admin-config.js`, `src/components/layout/SiteFooter.vue`, `docs/decisions.md`
+
+### 2026-03-22 — Production env now targets Pegasuz tenant `larucula-mateo`
+
+**Decision:**
+Aligned the production-facing environment defaults with the real Pegasuz tenant and admin entrypoint: `VITE_CLIENT_SLUG=larucula-mateo` and `VITE_ADMIN_URL=https://admin.pegasuz.com.ar/admin/login`.
+
+**Why:**
+LaRucula no longer needs placeholder deployment values. The public site should build directly against the actual Pegasuz tenant and expose the real admin login entrypoint that operators will use after deployment.
+
+**Affected files:**
+`.env.example`, `.env.production`, `docs/decisions.md`
+
+### 2026-03-23 — Public pages tightened for denser editorial rhythm
+
+**Decision:**
+Reduced the vertical height budget across the public-facing routes and restored the Home menu thesis section to a three-part composition: title on one side, dominant image in the middle, and supporting menu copy on the opposite side.
+
+**Why:**
+Several sections were visually correct but too tall for the actual viewport, which made the site feel more empty than intentional. Tightening hero heights and section paddings keeps the editorial tone while improving pacing and reducing blank vertical drift. Returning the Home menu scene to a triadic layout also restores stronger compositional balance between typography, imagery, and supporting copy.
+
+**Affected files:**
+`src/pages/HomePage.vue`, `src/pages/MenuPage.vue`, `src/pages/StoryPage.vue`, `src/pages/VisitPage.vue`, `src/pages/BlogPage.vue`, `src/pages/BlogPostPage.vue`, `src/pages/ReservationsPage.vue`, `docs/decisions.md`
+
+### 2026-03-23 — Major restructuring: menu-centric simplification
+
+**Decision:**
+Complete site restructuring from 8 routes to 4. The restaurant's core product — the menu — becomes the center of the experience. Reservation system, blog, story, and visit pages removed entirely.
+
+**New route structure:**
+- `/` — HomePage (simple brand entry, directs to menu)
+- `/menu` — MenuPage (core product: categories, prices, badges, availability)
+- `/menu/:slug` — MenuCategoryPage (QR-ready single category view)
+- `/:pathMatch(.*)*` — NotFoundPage
+
+**Key architectural changes:**
+
+1. **Menu as product**: New `mock-menu-v2.js` with full API-aligned data (5 categories: mar, tierra, postres, vinos, cocteles). Each item has id, slug, name, description, price, currency, badges, availability, recommended flag. Matches proposed `GET /menu`, `GET /menu/categories`, `GET /menu/categories/:slug` contracts.
+
+2. **SVG icon system**: New `MenuIcon.vue` with 16 inline SVG icons (fish, leaf, dessert, wine, cocktail, star, flame, vegetarian, gluten-free, clock, seasonal, unavailable, globe, arrow-right, whatsapp, location). Replaces photography dependency for visual identity.
+
+3. **i18n foundation**: `useLocale` composable with `?lang=` query parameter sync. `LocaleSelector` UI component. `mock-locales.js` config (es default, en, ca). Locale visible on `/menu` routes.
+
+4. **Menu component system**: `MenuCategoryNav` (sticky horizontal scrollable nav), `MenuItem` (price formatting, badges, availability states), `MenuBadge` (pill with icon + label).
+
+5. **Simplified HomePage**: Dark hero with SVG wave pattern (no photography), brand headline + menu CTA, brief about section, menu category cards grid, contact/hours/location info.
+
+6. **Header/Footer**: Menu CTA replaces reservation CTA. Footer adds WhatsApp link, removes reservation references. Navigation reduced to single "Menu" link.
+
+7. **Deprecated files moved to `src/_deprecated/`**: All reservation components, blog pages, story page, visit page, contact form, related services/adapters/composables/mock data preserved but out of active tree.
+
+**Why:**
+Client direction change: "una estructura mucho más simple." The restaurant needs a practical, QR-scannable menu experience — not an editorial magazine. The previous 8-route architecture with reservation system, blog, and narrative pages created complexity without business value. The new structure is focused, mobile-first, CMS-editable, and API-ready.
+
+**Affected files:**
+`src/router/routes.js`, `src/router/index.js`, `src/app/app-config.js`, `src/App.vue`, `src/layouts/DefaultLayout.vue`, `src/pages/HomePage.vue` (rewritten), `src/pages/MenuPage.vue` (rewritten), `src/pages/MenuCategoryPage.vue` (new), `src/pages/NotFoundPage.vue` (simplified), `src/data/mock-menu-v2.js` (new), `src/data/mock-locales.js` (new), `src/data/mock-site.js` (restructured), `src/composables/useLocale.js` (new), `src/components/svg/MenuIcon.vue` (new), `src/components/menu/MenuCategoryNav.vue` (new), `src/components/menu/MenuItem.vue` (new), `src/components/menu/MenuBadge.vue` (new), `src/components/ui/LocaleSelector.vue` (new), `src/components/layout/SiteHeader.vue`, `src/components/layout/SiteFooter.vue`, `docs/decisions.md`
+
+### 2026-03-23 — Menu-first architecture now runs through a single content and routing context
+
+**Decision:**
+Aligned the simplified site with a real menu-first content pipeline: `siteContent` now updates from the remote config instead of staying frozen on the mock bootstrap, menu pages now consume a single `menuService`/`menuAdapter` layer instead of importing `mock-menu-v2` directly, and route navigation preserves `?lang=` across the public shell. Added a minimal QR layout mode on `/menu` and `/menu/:slug` via `?entry=qr`, which hides global chrome and keeps only the reading-critical UI.
+
+**Why:**
+The previous simplification reduced routes, but the implementation was still split between old mocks, stale CMS mappings, and navigation that dropped locale state. That would have made menu translation, QR usage, and admin-edited content look correct in the UI while remaining brittle underneath. This pass closes that gap without reintroducing architectural complexity: one content context for editable site copy, one menu source of truth, and one lightweight QR variant for table use.
+
+**Affected files:**
+`src/app/app-config.js`, `src/adapters/siteAdapter.js`, `src/adapters/menuAdapter.js`, `src/services/siteService.js`, `src/services/menuService.js`, `src/composables/useMenuContent.js`, `src/composables/useRouteContext.js`, `src/data/menu-ui-copy.js`, `src/layouts/DefaultLayout.vue`, `src/router/index.js`, `src/pages/HomePage.vue`, `src/pages/MenuPage.vue`, `src/pages/MenuCategoryPage.vue`, `src/pages/NotFoundPage.vue`, `src/components/layout/SiteHeader.vue`, `src/components/layout/SiteFooter.vue`, `src/components/menu/MenuCategoryNav.vue`, `src/components/menu/MenuItem.vue`, `src/components/menu/MenuBadge.vue`, `src/components/ui/BaseButton.vue`, `server/content.js`, `server/createServer.js`, `tests/ux/routes.spec.js`, `tests/ux/a11y.spec.js`
+
+### 2026-03-23 — Home now uses one immersive hero image and a session-based intro overlay
+
+**Decision:**
+Reintroduced a branded loading/intro overlay for the homepage only, with immediate skip and automatic suppression for QR/menu entries. At the same time, the Home hero now uses a single photographic image again, but keeps the simplified menu-first structure and uses strong overlays so the page still feels restrained. Both the intro copy and the hero image are wired into `siteContent`, so Pegasuz can own them later instead of leaving them hardcoded in the component.
+
+**Why:**
+The menu-first simplification improved utility, but the first impression became too abstract and dry. One image in the hero restores atmosphere without returning to a photo-heavy site, and the intro gives the brand a more deliberate opening without blocking QR or day-to-day menu usage. Keeping those fields under the same content model matters because Pegasuz remains the editing surface; visual immersion cannot become an exception that the SaaS layer cannot reach.
+
+**Affected files:**
+`src/App.vue`, `src/components/intro/IntroOverlay.vue`, `src/pages/HomePage.vue`, `src/data/mock-site.js`, `src/adapters/siteAdapter.js`, `src/app/app-config.js`, `server/content.js`, `tests/ux/helpers.js`, `docs/decisions.md`
+
+### 2026-03-23 — Home menu section became a dark product stage instead of a neutral preview grid
+
+**Decision:**
+Rebuilt the Home menu section as the main product scene of the page: a dark “menu stage” with a large title, prominent category blocks, and a short list of featured dishes, instead of a polite cream card grid.
+
+**Why:**
+Once the site was simplified, the old menu preview became too quiet relative to its business importance. The client wants the menu to be the real centre of the experience, so this section now behaves like a second hero focused on product rather than atmosphere. It remains simple in structure, but it is intentionally more forceful and visually memorable.
+
+**Affected files:**
+`src/pages/HomePage.vue`, `src/data/menu-ui-copy.js`, `docs/decisions.md`
+
+### 2026-03-23 — Spanish is now the source locale until Pegasuz serves translations
+
+**Decision:**
+Set Spanish as the only active locale in the public shell for now, translated the active site and menu content to Spanish, and hid the language switcher unless more than one locale is available. Route metadata, accessibility labels, 404 copy, menu content, and the Pegasuz-ready site bootstrap now use Spanish as the default source language.
+
+**Why:**
+The project is about to move translation ownership to Pegasuz. Leaving English and Catalan toggles visible while the real content source remained incomplete would create a mixed-language experience and make the current site feel broken. Spanish now works as the single canonical content layer, and the locale switcher can reappear as soon as the SaaS API delivers real translated payloads.
+
+**Affected files:**
+`src/data/mock-site.js`, `src/data/mock-menu-v2.js`, `src/data/mock-locales.js`, `src/layouts/DefaultLayout.vue`, `src/components/intro/IntroOverlay.vue`, `src/components/layout/SiteHeader.vue`, `src/components/layout/SiteFooter.vue`, `src/components/ui/LocaleSelector.vue`, `src/components/ui/WhatsAppButton.vue`, `src/components/menu/MenuCategoryNav.vue`, `src/pages/HomePage.vue`, `src/pages/NotFoundPage.vue`, `src/router/routes.js`, `src/router/index.js`, `src/app/app-config.js`, `src/adapters/siteAdapter.js`, `docs/decisions.md`
+
+### 2026-03-23 — Pegasuz CMS contract narrowed to the active public shell
+
+**Decision:**
+Aligned the LaRucula Pegasuz contract with the current menu-first architecture. The CMS contract now exposes only the editable shell keys the front actually reads from `site_contents`: `site`, `header`, `home`, and `footer`. Legacy blocks for reservations, contact forms, story pages, and old editorial menu sections were removed from the contract seed.
+
+**Why:**
+The previous Pegasuz contract still represented an older, much larger site map. That made the admin confusing and suggested editable areas that no longer exist in the public app. Narrowing the contract keeps the SaaS layer honest: `site_contents` owns the global shell copy, while menu items and translation-ready product data continue to belong to the dedicated menu API domain.
+
+**Affected files:**
+`server/content.js`, `src/adapters/siteAdapter.js`, `C:/Users/mateo/Desktop/pegasuz/pegasuz/Pegasuz-Core/docs/contracts/larucula-mateo.cms-contract.json`, `C:/Users/mateo/Desktop/pegasuz/pegasuz/Pegasuz-Core/docs/contracts/README.md`, `docs/decisions.md`

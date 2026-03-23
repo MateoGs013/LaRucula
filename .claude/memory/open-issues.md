@@ -6,16 +6,13 @@
 - ~~there was no browser-based UX validation loop~~ → Playwright screenshot automation and Axe baseline are now available
 
 ## Pending decisions
-- whether the API should expose already-shaped editorial copy blocks or more neutral content objects for the adapters to compose
-- how much real-time behavior reservations need in v1 beyond the current local SQLite-backed layout, availability, and booking submission
-- how far the site should lean into editorial hospitality versus dining-led storytelling once production content arrives
-- how much motion is appropriate once real imagery and real copy land
-- whether `Home` should map any of its editorial copy onto Pegasuz CMS keys or remain entirely authored in code at first
-- whether the temporary local SQLite persistence should later be replaced by the main Pegasuz backend data layer or treated as the first production store
+- whether `Home` should expose more of its authored editorial copy to Pegasuz `site-contents` or stay mostly code-driven
+- whether the final QR experience should stay query-based (`?entry=qr`) or move to explicit QR-only routes once analytics or product needs justify it
+- how much imagery versus illustration/SVG should remain once real restaurant assets are available
 
 ## Pending implementation
-- decide how much of `Home` copy should be editable from Pegasuz `site-contents`
-- decide whether reservation availability should derive from explicit time-slot inventory, table rules, or held bookings
-- decide whether visit/contact-specific copy should also move behind `siteService`
-- replace placeholder imagery with a coherent photography set
-- validate mobile rhythm and performance again once real API content is flowing through the pages
+- apply the reduced LaRucula shell contract to the live Pegasuz tenant `larucula-mateo`
+- implement Pegasuz menu endpoints: `/api/menu`, `/api/menu/categories`, `/api/menu/categories/:slug`
+- implement Pegasuz locales endpoint so public i18n can move from local fallback to API-driven data
+- replace placeholder imagery with a coherent restaurant asset set once content production is ready
+- validate mobile rhythm and performance again once real Pegasuz menu content is flowing through the pages

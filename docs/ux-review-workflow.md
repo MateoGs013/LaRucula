@@ -39,8 +39,9 @@ It also primes lazy-loaded media before full-page screenshots, then validates of
 ## Current route coverage
 - `/`
 - `/menu`
-- `/story`
-- `/visit`
+- `/menu/mar`
+- `/menu/tierra`
+- `/menu/mar?entry=qr&lang=es`
 
 ## Current checks
 ### `tests/ux/home.spec.js`
@@ -54,10 +55,11 @@ It also primes lazy-loaded media before full-page screenshots, then validates of
 - horizontal overflow guard
 
 ### `tests/ux/routes.spec.js`
-- header screenshot for each route
+- header screenshot for each standard route
 - first viewport screenshot for each route
-- footer screenshot for each route
+- footer screenshot for each standard route
 - full-page screenshot for each route
+- QR-specific route capture without header/footer chrome
 - horizontal overflow guard
 
 ### `tests/ux/a11y.spec.js`
