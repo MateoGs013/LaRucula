@@ -7,6 +7,7 @@ export async function waitForPageReady(page, options = {}) {
   await page.waitForLoadState('domcontentloaded');
   await page.waitForLoadState('networkidle');
   await page.locator('main').waitFor({ state: 'visible' });
+  await dismissIntroIfPresent(page);
   await ensureFontsAndImagesReady(page, { includeOffscreen: false, timeoutMs: 5000 });
   await page.waitForTimeout(settleMs);
 }
@@ -140,4 +141,22 @@ async function ensureFontsAndImagesReady(page, options = {}) {
     },
     { includeOffscreen, timeoutMs }
   );
+}
+
+async function dismissIntroIfPresent(page) {
+  const introOverlay = page.locator('[data-intro-overlay]');
+  const introCount = await introOverlay.count();
+
+  if (!introCount) {
+    return;
+  }
+
+  const isVisible = await introOverlay.first().isVisible().catch(() => false);
+  if (!isVisible) {
+    return;
+  }
+
+  const skipButton = page.locator('[data-intro-skip]').first();
+  await skipButton.click({ force: true });
+  await introOverlay.first().waitFor({ state: 'hidden', timeout: 5000 });
 }
