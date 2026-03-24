@@ -28,13 +28,13 @@
 
 @layer base {
   html {
-    background: var(--lr-color-ivory);
+    background: var(--lr-color-cream);
     scroll-behavior: smooth;
   }
 
   body {
     min-height: 100vh;
-    background: var(--lr-color-ivory);
+    background: var(--lr-color-cream);
     color: var(--lr-color-ink);
     font-family: var(--lr-font-body);
     text-rendering: optimizeLegibility;

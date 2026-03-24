@@ -56,7 +56,7 @@ onUnmounted(() => {
     :class="[
       isTransparent
         ? 'bg-transparent'
-        : 'bg-ivory/95 backdrop-blur-xl shadow-[0_1px_0_rgba(26,20,16,0.06)]',
+        : 'bg-cream/94 backdrop-blur-xl shadow-[0_1px_0_rgba(36,28,22,0.05)]',
       visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
     ]"
   >
@@ -134,7 +134,7 @@ onUnmounted(() => {
       <nav
         v-if="menuOpen"
         id="mobile-nav"
-        class="border-t border-ink/5 bg-ivory/98 px-6 pb-8 pt-4 backdrop-blur-xl md:hidden"
+        class="border-t border-stone/8 bg-cream/96 px-6 pb-8 pt-4 backdrop-blur-xl md:hidden"
       >
         <div class="flex flex-col gap-4">
           <RouterLink
