@@ -37,7 +37,7 @@ function formatPrice(item) {
 
     <!-- ═══ HERO — editorial, warm, direct ═══ -->
     <section ref="heroRef" class="relative -mt-[var(--header-h)] overflow-hidden bg-dusk">
-      <div class="relative flex min-h-[72svh] flex-col justify-end pb-10 md:min-h-[76svh] md:pb-14 lg:min-h-[80svh] lg:pb-16">
+      <div class="relative flex min-h-[72svh] flex-col justify-end pb-12 md:min-h-[76svh] md:pb-16 lg:min-h-[80svh] lg:pb-18">
 
         <figure
           class="pointer-events-none absolute inset-0 overflow-hidden"
@@ -62,25 +62,26 @@ function formatPrice(item) {
 
         <!-- Content -->
         <div class="relative z-10 px-[var(--lr-space-gutter)] lg:px-[5vw]">
-          <div class="max-w-[44rem]">
+          <div class="max-w-[46rem]">
           <p
             data-hero-lede
-            class="invisible text-[0.78rem] font-medium uppercase tracking-[0.22em] text-ivory/35"
+            class="invisible inline-flex items-center gap-2 rounded-full border border-ivory/12 bg-ivory/[0.03] px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-ivory/44 backdrop-blur-sm"
           >
-            {{ siteContent.brand.tagline }}
+            <span class="inline-block h-1.5 w-1.5 rounded-full bg-sage/55" />
+            {{ siteContent.intro.tagline }}
           </p>
 
           <h1 data-hero-heading class="invisible mt-4 font-display font-light italic text-ivory">
-            <span class="block text-[clamp(3.5rem,10vw,9rem)] leading-[0.85] tracking-[-0.05em]">
+            <span class="block max-w-[9ch] text-[clamp(3.4rem,9.6vw,8.6rem)] leading-[0.84] tracking-[-0.055em]">
               {{ siteContent.hero.headline }}
             </span>
           </h1>
 
-          <p data-hero-lede class="invisible mt-5 max-w-[34ch] text-[1rem] leading-relaxed text-ivory/50">
+          <p data-hero-lede class="invisible mt-6 max-w-[32ch] text-[0.98rem] leading-relaxed text-ivory/54">
             {{ siteContent.hero.subheadline }}
           </p>
 
-          <div data-hero-cta class="invisible mt-7 flex flex-wrap items-center gap-4">
+          <div data-hero-cta class="invisible mt-8 flex flex-wrap items-center gap-4">
             <RouterLink
               :to="withContext(siteContent.menu_cta.href)"
               class="inline-flex items-center gap-2 border border-ivory/25 px-6 py-3.5 text-[0.82rem] font-medium uppercase tracking-[0.18em] text-ivory transition-all duration-300 hover:border-ivory/50 hover:bg-ivory/8"
@@ -96,9 +97,9 @@ function formatPrice(item) {
     </section>
 
     <!-- ═══ ABOUT — brief, editorial, one shot ═══ -->
-    <section class="py-18 md:py-20 lg:py-24">
+    <section class="py-20 md:py-22 lg:py-26">
       <div class="shell">
-        <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-18">
+        <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-20">
           <div>
             <div class="max-w-8 text-sage/30" data-reveal>
               <SignatureStroke />
@@ -123,9 +124,9 @@ function formatPrice(item) {
     </section>
 
     <!-- ═══ MENU STAGE — main product focus ═══ -->
-    <section class="relative overflow-hidden bg-ink py-18 text-ivory md:py-24 lg:py-28">
+    <section class="relative overflow-hidden bg-dusk py-18 text-ivory md:py-24 lg:py-28">
       <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,245,230,0.1),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_44%)]" />
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,245,230,0.08),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_44%)]" />
         <svg class="absolute inset-x-0 top-0 w-full opacity-[0.08]" viewBox="0 0 1440 320" fill="none">
           <path d="M0 118 C 160 92, 240 148, 400 124 C 590 95, 676 38, 862 72 C 1030 102, 1158 170, 1440 132" stroke="currentColor" stroke-width="1.2" class="text-ivory" />
           <path d="M0 212 C 170 178, 312 244, 466 224 C 644 201, 764 132, 940 160 C 1130 190, 1260 260, 1440 236" stroke="currentColor" stroke-width="1" class="text-ivory" opacity="0.55" />
@@ -199,7 +200,7 @@ function formatPrice(item) {
               v-for="(cat, index) in categories"
               :key="cat.slug"
               :to="withContext(`/menu/${cat.slug}`)"
-              class="group relative overflow-hidden rounded-[1.6rem] border border-ivory/10 bg-ivory/4 px-5 py-5 transition-all duration-300 hover:border-ivory/24 hover:bg-ivory/7"
+              class="group relative overflow-hidden rounded-[1.6rem] border border-ivory/12 bg-ivory/5 px-5 py-5 transition-all duration-300 hover:border-ivory/22 hover:bg-ivory/8"
               :class="index === 0 ? 'md:col-span-2 md:px-7 md:py-7' : 'min-h-[11.5rem] md:min-h-[12.5rem]'"
             >
               <div class="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-ivory/25 to-transparent opacity-60" />

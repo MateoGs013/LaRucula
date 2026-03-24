@@ -11,26 +11,22 @@ import { contactDetails, siteContent } from '@/app/app-config';
 const route = useRoute();
 const introComplete = ref(true);
 const hasSeenIntro = ref(false);
+const forceIntro = computed(() => {
+  const value = String(route.query.intro || '').trim().toLowerCase();
+  return value === '1' || value === 'true';
+});
 
 const shouldShowIntro = computed(
   () =>
     route.name === 'home' &&
     String(route.query.entry || '').trim().toLowerCase() !== 'qr' &&
-    !hasSeenIntro.value &&
+    (forceIntro.value || !hasSeenIntro.value) &&
     !introComplete.value
 );
 
 function markIntroSeen() {
   hasSeenIntro.value = true;
   introComplete.value = true;
-
-  if (typeof window !== 'undefined') {
-    window.sessionStorage.setItem('larucula-intro-seen', '1');
-  }
-}
-
-if (typeof window !== 'undefined') {
-  hasSeenIntro.value = window.sessionStorage.getItem('larucula-intro-seen') === '1';
 }
 
 watch(
@@ -39,7 +35,17 @@ watch(
     const isHomeRoute = route.name === 'home';
     const isQrEntry = String(route.query.entry || '').trim().toLowerCase() === 'qr';
 
-    if (!isHomeRoute || isQrEntry || hasSeenIntro.value) {
+    if (!isHomeRoute || isQrEntry) {
+      introComplete.value = true;
+      return;
+    }
+
+    if (forceIntro.value) {
+      introComplete.value = false;
+      return;
+    }
+
+    if (hasSeenIntro.value) {
       introComplete.value = true;
       return;
     }
@@ -60,7 +66,6 @@ provide('introComplete', introComplete);
     v-if="shouldShowIntro"
     :label="siteContent.intro.label"
     :tagline="siteContent.intro.tagline"
-    :image="siteContent.hero.image"
     @complete="markIntroSeen"
   />
   <WhatsAppButton :phone="contactDetails.whatsapp" />

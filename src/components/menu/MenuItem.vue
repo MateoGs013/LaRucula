@@ -25,12 +25,12 @@ function formatPrice(price, currency) {
 
 <template>
   <article
-    class="group relative py-5 transition-colors"
+    class="group relative py-4.5 md:py-5 transition-colors"
     :class="{
       'opacity-40': item.availability === 'unavailable',
     }"
   >
-    <div class="flex items-start justify-between gap-4">
+    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-6 gap-y-3 md:gap-x-8">
       <!-- Name + description -->
       <div class="min-w-0 flex-1">
         <div class="flex items-center gap-2">
@@ -48,7 +48,7 @@ function formatPrice(price, currency) {
         </div>
         <p
           v-if="item.description"
-          class="mt-1 text-[0.9rem] leading-relaxed text-stone/70"
+          class="mt-1 max-w-[56ch] text-[0.9rem] leading-relaxed text-stone/68"
         >
           {{ item.description }}
         </p>
@@ -64,10 +64,10 @@ function formatPrice(price, currency) {
       </div>
 
       <!-- Price -->
-      <div class="flex-shrink-0 pt-0.5">
+      <div class="flex-shrink-0 pt-0.5 text-right">
         <span
           v-if="item.availability !== 'unavailable' && item.price"
-          class="font-display text-[1.05rem] tabular-nums tracking-[-0.01em] text-ink/70"
+          class="font-display text-[1rem] tabular-nums tracking-[-0.01em] text-ink/62"
         >
           {{ formatPrice(item.price, item.currency) }}
         </span>

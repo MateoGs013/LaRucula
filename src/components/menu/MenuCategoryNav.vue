@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
+
 import MenuIcon from '@/components/svg/MenuIcon.vue';
 import { getMenuUiCopy } from '@/data/menu-ui-copy';
 import { useLocale } from '@/composables/useLocale';
@@ -19,18 +20,18 @@ const uiCopy = computed(() => getMenuUiCopy(locale.value));
 
 <template>
   <nav
-    class="sticky top-[var(--header-h,64px)] z-30 -mx-[var(--lr-space-gutter)] bg-ivory/95 backdrop-blur-md border-b border-ink/5"
+    class="sticky top-[var(--header-h,64px)] z-30 w-full border-b border-stone/8 bg-cream/94 backdrop-blur-md"
     aria-label="Categorías de la carta"
   >
-    <div class="flex gap-1 overflow-x-auto px-[var(--lr-space-gutter)] py-3 no-scrollbar">
-      <!-- "All" link to /menu -->
+    <div class="shell">
+      <div class="flex gap-1 overflow-x-auto py-2.5 no-scrollbar">
       <RouterLink
         :to="withContext('/menu', { preserveEntry: true })"
-        class="flex-shrink-0 flex items-center gap-1.5 rounded-full px-4 py-2 text-[0.78rem] font-medium uppercase tracking-[0.12em] transition-colors whitespace-nowrap"
+        class="flex flex-shrink-0 items-center gap-1.5 rounded-full px-4 py-1.75 text-[0.75rem] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors"
         :class="
           !activeSlug && route.name === 'menu'
             ? 'bg-ink text-ivory'
-            : 'text-stone/70 hover:bg-ink/5 hover:text-ink'
+            : 'text-stone/72 hover:bg-ink/4 hover:text-ink'
         "
       >
         {{ uiCopy.allLabel }}
@@ -40,16 +41,17 @@ const uiCopy = computed(() => getMenuUiCopy(locale.value));
         v-for="cat in categories"
         :key="cat.slug"
         :to="withContext(`/menu/${cat.slug}`, { preserveEntry: true })"
-        class="flex-shrink-0 flex items-center gap-1.5 rounded-full px-4 py-2 text-[0.78rem] font-medium uppercase tracking-[0.12em] transition-colors whitespace-nowrap"
+        class="flex flex-shrink-0 items-center gap-1.5 rounded-full px-4 py-1.75 text-[0.75rem] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors"
         :class="
           activeSlug === cat.slug
             ? 'bg-ink text-ivory'
-            : 'text-stone/70 hover:bg-ink/5 hover:text-ink'
+            : 'text-stone/72 hover:bg-ink/4 hover:text-ink'
         "
-      >
-        <MenuIcon :name="cat.icon" :size="15" />
-        <span>{{ cat.name }}</span>
-      </RouterLink>
+        >
+          <MenuIcon :name="cat.icon" :size="14" />
+          <span>{{ cat.name }}</span>
+        </RouterLink>
+      </div>
     </div>
   </nav>
 </template>
