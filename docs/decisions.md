@@ -272,6 +272,16 @@ The project already has the correct tenant wiring and admin entry point, but the
 **Affected files:**
 `docs/api-contract.md`, `docs/ux-review-workflow.md`, `docs/deploy-pegasuz.md`, `docs/decisions.md`
 
+### 2026-03-23 — Menu and shell harmonized around a shared editorial rhythm
+**Decision:**
+Refined the active public routes so `Home`, `Menu`, and QR/category pages feel like one system instead of two parallel aesthetics. The hero eyebrow was tightened into a more intentional hospitality label, `Menu` now uses a context-column plus items-column rhythm on desktop, and category/QR pages were compacted so they feel more aligned with the editorial shell while staying practical for table use.
+
+**Why:**
+The previous state was visually correct but inconsistent: `Home` felt cinematic and authored, while `Menu` and QR felt flatter, wider, and too sparse. The goal of this pass was not to redesign again, but to harmonize density, hierarchy, and spacing so the product-centered routes still feel premium and composed.
+
+**Affected files:**
+`src/pages/HomePage.vue`, `src/pages/MenuPage.vue`, `src/pages/MenuCategoryPage.vue`, `src/components/menu/MenuItem.vue`, `src/components/menu/MenuCategoryNav.vue`, `docs/decisions.md`
+
 **Composables no longer imported by HomePage**: useThesisLock, useThresholdInteraction, useRitualDepth, useGhostWords, useSurfaceGrain, useMagneticHover. Files retained but unused.
 
 **Why:**
@@ -728,3 +738,113 @@ The previous Pegasuz contract still represented an older, much larger site map. 
 
 **Affected files:**
 `server/content.js`, `src/adapters/siteAdapter.js`, `C:/Users/mateo/Desktop/pegasuz/pegasuz/Pegasuz-Core/docs/contracts/larucula-mateo.cms-contract.json`, `C:/Users/mateo/Desktop/pegasuz/pegasuz/Pegasuz-Core/docs/contracts/README.md`, `docs/decisions.md`
+
+### 2026-03-23 — Intro overlay now behaves like a brand threshold, not a second hero
+
+**Decision:**
+Redesigned the homepage intro overlay as a typographic arrival scene on a light editorial surface, with only a small atmospheric detail crop instead of another full-bleed photographic composition. The intro now feels distinct from the hero beneath it and no longer relies on browser storage to decide visibility; it appears once per app load and is still skipped automatically in QR entries.
+
+**Why:**
+The previous intro repeated too much of the hero logic: same image language, same dark atmosphere, similar framing. That made the opening feel redundant rather than intentional. Turning the intro into a lighter, more graphic threshold creates better contrast with the actual homepage hero and keeps the first impression more authored and less repetitive.
+
+**Affected files:**
+`src/App.vue`, `src/components/intro/IntroOverlay.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Intro timing now favors legibility over reflex dismissal
+
+**Decision:**
+Extended the intro hold time and removed dismissal on generic scroll, touch movement, or arbitrary key presses. The overlay now exits on its own after a slightly longer beat, via the explicit `Saltar` button, or with the `Escape` key.
+
+**Why:**
+The previous skip behavior made the intro feel broken because common trackpad or keyboard input dismissed it before the composition had time to land. The new behavior keeps the entry readable while preserving an explicit exit path.
+
+**Affected files:**
+`src/components/intro/IntroOverlay.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Intro can now be forced manually for design review
+
+**Decision:**
+Added a query-based override for the homepage intro: `?intro=1` or `?intro=true` forces the overlay to appear on `/`, even if it has already been seen during the current app runtime.
+
+**Why:**
+The intro is now runtime-only and no longer stored in browser persistence, which is cleaner for production but awkward while reviewing design iterations. A manual query override gives a predictable way to inspect the intro without weakening the default everyday behavior.
+
+**Affected files:**
+`src/App.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Menu page palette now bridges the homepage instead of breaking from it
+
+**Decision:**
+Retuned `/menu` from a flatter cream utility page into a warmer sand-and-toast surface with softer tonal separation, lighter dividers, and ivory content panels. The route keeps its practical menu-first behavior, but now carries more of the same Mediterranean warmth as the homepage instead of feeling like a different product.
+
+**Why:**
+The previous Carta page was readable, but its color logic felt too detached from the homepage: a clean cream utility surface after a much moodier arrival. Softening the transition and reusing warmer dusk, toast, and parchment tones makes the menu feel more authored and continuous without sacrificing legibility.
+
+**Affected files:**
+`src/pages/MenuPage.vue`, `docs/decisions.md`
+
+### 2026-03-24 — The public site now uses a tighter neutral palette with fewer tonal jumps
+
+**Decision:**
+Compressed the shared palette into a shorter ladder and applied it across shell, home, and carta routes. The overall canvas now rests on `cream`, reading surfaces sit on softer `ivory`, and dark scenes use a slightly lifted `dusk` instead of the harsher previous brown-black. Menu-specific custom beige blocks were replaced with the same shared neutrals.
+
+**Why:**
+The site had drifted into multiple browns and very bright light surfaces, which made transitions feel abrupt and occasionally too contrast-heavy. Tightening the palette makes Home, Carta, and QR states feel like one system instead of adjacent moods.
+
+**Affected files:**
+`src/styles/tokens/colors.css`, `src/styles/main.css`, `src/components/layout/SiteHeader.vue`, `src/components/menu/MenuCategoryNav.vue`, `src/pages/HomePage.vue`, `src/pages/MenuPage.vue`, `src/pages/MenuCategoryPage.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Intro is now fully typographic and no longer uses an image accent
+
+**Decision:**
+Removed the small image detail from the intro overlay and rebuilt it as a purely typographic and graphic threshold.
+
+**Why:**
+The cropped image inside the intro was competing with the real homepage hero instead of preparing it. The intro now works better as a short brand prelude: lighter, cleaner, and less redundant with the atmosphere that follows.
+
+**Affected files:**
+`src/App.vue`, `src/components/intro/IntroOverlay.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Menu routes now start darker but resolve into calmer reading surfaces
+
+**Decision:**
+Extended the same palette logic across both `/menu` and `/menu/:slug`: the top of the experience now opens with a dusk-to-parchment gradient that feels closer to the homepage, while the reading areas below were softened into lighter ivory panels with lower-contrast dividers and calmer shadows.
+
+**Why:**
+The menu needed two seemingly opposite things at once: stronger continuity with the moody homepage and a more elegant, quieter reading experience once the user is inside the carta. Using a darker tonal threshold only at the start, then resolving into lighter content surfaces, gives both without making the route feel either harsh or generic.
+
+**Affected files:**
+`src/pages/MenuPage.vue`, `src/pages/MenuCategoryPage.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Menu headers now use solid tonal blocks instead of gradients
+
+**Decision:**
+Replaced the gradient-led menu headers with taller solid `dusk` blocks on both `/menu` and `/menu/:slug`, keeping only very restrained linework and ghost typography as atmosphere.
+
+**Why:**
+The gradient made the menu entry feel over-designed and less controlled than the rest of the site. A solid tonal block gives the carta a cleaner architectural threshold, keeps continuity with the homepage, and lets the body of the menu feel calmer once the user enters the reading surface.
+
+**Affected files:**
+`src/pages/MenuPage.vue`, `src/pages/MenuCategoryPage.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Menu header was recomposed to match Home more closely
+
+**Decision:**
+Rebuilt the `/menu` header around the same visual language as the homepage: hospitality pill, large serif title, integrated notes, and one restrained image crop instead of floating utility pills. Also removed the empty locale shell when only one language is active, so the page no longer renders a blank rounded block above the menu notes.
+
+**Why:**
+The previous menu header still felt disconnected from Home and contained UI noise. The note pills looked detached from the main composition, and the locale wrapper left a meaningless empty block when Spanish was the only active locale. The new header is simpler, more authored, and more consistent with the rest of the site.
+
+**Affected files:**
+`src/pages/MenuPage.vue`, `src/pages/MenuCategoryPage.vue`, `docs/decisions.md`
+
+### 2026-03-24 — Menu hero now behaves like a compact sister to the homepage hero
+
+**Decision:**
+Rebuilt the `/menu` hero from scratch as a shorter, image-backed arrival scene that borrows the Home page language without copying its full layout. The route now uses the same atmospheric background image system and hospitality metadata, but in a more compact editorial block focused on title, subtitle, and notes rather than a large split composition.
+
+**Why:**
+The previous menu header still felt detached from the Home page and over-relied on utility composition. Treating the menu entry as a “sister hero” makes the transition from Home feel intentional, while keeping the menu route practical and faster to read once the user gets past the opening block.
+
+**Affected files:**
+`src/pages/MenuPage.vue`, `docs/decisions.md`
