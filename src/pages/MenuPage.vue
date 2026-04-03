@@ -7,13 +7,18 @@ import MenuIcon from '@/components/svg/MenuIcon.vue';
 import SignatureStroke from '@/components/svg/SignatureStroke.vue';
 import { siteContent } from '@/app/app-config';
 import { getMenuNumberLocale } from '@/data/menu-ui-copy';
+import LocaleSelector from '@/components/ui/LocaleSelector.vue';
 import { useMenuContent } from '@/composables/useMenuContent';
+import { useLocale } from '@/composables/useLocale';
 import { useRevealMotion } from '@/composables/useRevealMotion';
 import { useRouteContext } from '@/composables/useRouteContext';
 
 const pageRef = ref(null);
 const { locale, menuData } = useMenuContent();
+const { locales } = useLocale();
 const { isQrMode } = useRouteContext();
+
+const hasMultipleLocales = computed(() => locales.value.length > 1);
 
 useRevealMotion(pageRef);
 
@@ -77,6 +82,13 @@ function formatPrice(item) {
           <p class="mt-4 max-w-[34rem] text-[1rem] leading-relaxed text-ivory/76" data-reveal>
             {{ isQrMode ? menuData.uiCopy.qrHint : menuData.subtitle }}
           </p>
+
+          <div v-if="hasMultipleLocales" class="mt-5" data-reveal>
+            <div v-if="!isQrMode" class="rounded-full border border-ivory/14 bg-ivory/10 px-1.5 py-1 backdrop-blur-sm inline-flex">
+              <LocaleSelector />
+            </div>
+            <LocaleSelector v-else />
+          </div>
 
           <div
             v-if="menuData.notes.length && !isQrMode"
