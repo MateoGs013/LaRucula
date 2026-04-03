@@ -32,6 +32,9 @@ function markIntroSeen() {
 watch(
   () => route.fullPath,
   () => {
+    /* router hasn't resolved yet — skip */
+    if (!route.name) return;
+
     const isHomeRoute = route.name === 'home';
     const isQrEntry = String(route.query.entry || '').trim().toLowerCase() === 'qr';
 
