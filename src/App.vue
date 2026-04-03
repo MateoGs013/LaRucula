@@ -9,7 +9,7 @@ import WhatsAppButton from '@/components/ui/WhatsAppButton.vue';
 import { contactDetails, siteContent } from '@/app/app-config';
 
 const route = useRoute();
-const introComplete = ref(true);
+const introComplete = ref(false);
 const hasSeenIntro = ref(false);
 const forceIntro = computed(() => {
   const value = String(route.query.intro || '').trim().toLowerCase();
