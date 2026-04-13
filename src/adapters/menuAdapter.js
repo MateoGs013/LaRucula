@@ -26,6 +26,9 @@ function normalizeItem(item, fallbackItem = {}) {
     name: pickFirstValue(item?.name, item?.title, fallbackItem.name, ''),
     description: pickFirstValue(item?.description, item?.detail, fallbackItem.description, ''),
     price: item?.price ?? fallbackItem.price ?? null,
+    price_alt: item?.price_alt ?? fallbackItem.price_alt ?? null,
+    price_label: pickFirstValue(item?.price_label, fallbackItem.price_label, null),
+    price_alt_label: pickFirstValue(item?.price_alt_label, fallbackItem.price_alt_label, null),
     currency: pickFirstValue(item?.currency, fallbackItem.currency, 'EUR'),
     image: pickFirstValue(item?.image, fallbackItem.image, null),
     badges: Array.isArray(item?.badges) ? item.badges : fallbackItem.badges || [],
@@ -52,58 +55,103 @@ function normalizeCategory(category, fallbackCategory = {}) {
     icon: pickFirstValue(category?.icon, fallbackCategory.icon, 'star'),
     order: category?.order ?? fallbackCategory.order ?? 999,
     intro: pickFirstValue(category?.intro, fallbackCategory.intro, ''),
+    price_label: pickFirstValue(category?.price_label, fallbackCategory.price_label, null),
+    price_alt_label: pickFirstValue(category?.price_alt_label, fallbackCategory.price_alt_label, null),
     notes: (Array.isArray(category?.notes) ? category.notes : fallbackCategory.notes || [])
       .map(normalizeNote)
       .filter((note) => note.text),
     items: items
-      .map((item, index) => normalizeItem(item, fallbackItems[index]))
+      .map((item, index) => {
+        const normalized = normalizeItem(item, fallbackItems[index]);
+        // Inherit price labels from category if item doesn't have its own
+        if (!normalized.price_label && category?.price_label) {
+          normalized.price_label = category.price_label;
+        }
+        if (!normalized.price_alt_label && category?.price_alt_label) {
+          normalized.price_alt_label = category.price_alt_label;
+        }
+        return normalized;
+      })
       .sort((a, b) => a.order - b.order),
   };
 }
 
-function adaptLegacyMenuPayload(rawPayload = {}, fallback) {
-  const categoryBySlug = fallback.categories.reduce((accumulator, category) => {
-    accumulator[category.slug] = category;
-    return accumulator;
+function normalizeSection(section, fallbackSection = {}) {
+  const fallbackCategories = Array.isArray(fallbackSection.categories) ? fallbackSection.categories : [];
+  const categories = Array.isArray(section?.categories) && section.categories.length > 0
+    ? section.categories
+    : fallbackCategories;
+
+  const fallbackCatBySlug = fallbackCategories.reduce((acc, cat) => {
+    acc[cat.slug] = cat;
+    return acc;
   }, {});
 
-  return [
-    {
-      ...categoryBySlug.mar,
-      items: Array.isArray(rawPayload.seaMenu) ? rawPayload.seaMenu : categoryBySlug.mar.items,
-    },
-    {
-      ...categoryBySlug.tierra,
-      items: Array.isArray(rawPayload.landMenu) ? rawPayload.landMenu : categoryBySlug.tierra.items,
-    },
-    {
-      ...categoryBySlug.postres,
-      items: Array.isArray(rawPayload.sweetMenu) ? rawPayload.sweetMenu : categoryBySlug.postres.items,
-    },
-    {
-      ...categoryBySlug.vinos,
-      items: Array.isArray(rawPayload.wines)
-        ? rawPayload.wines.flatMap((group) => group.items || [])
-        : categoryBySlug.vinos.items,
-    },
-    categoryBySlug.cocteles,
-  ];
+  return {
+    id: pickFirstValue(section?.id, fallbackSection.id, ''),
+    slug: pickFirstValue(section?.slug, fallbackSection.slug, ''),
+    name: pickFirstValue(section?.name, fallbackSection.name, ''),
+    icon: pickFirstValue(section?.icon, fallbackSection.icon, 'star'),
+    order: section?.order ?? fallbackSection.order ?? 999,
+    intro: pickFirstValue(section?.intro, fallbackSection.intro, ''),
+    notes: (Array.isArray(section?.notes) ? section.notes : fallbackSection.notes || [])
+      .map(normalizeNote)
+      .filter((note) => note.text),
+    categories: categories
+      .map((cat) => normalizeCategory(cat, fallbackCatBySlug[cat.slug] || cat))
+      .sort((a, b) => a.order - b.order),
+  };
 }
 
-function resolveCategories(rawPayload, fallback) {
+/**
+ * Convert a flat-categories payload (legacy / Pegasuz API) into the sections structure.
+ * Groups categories by their `section` field if present, otherwise puts them in a single section.
+ */
+function categoriesToSections(categories) {
+  const sectionMap = new Map();
+
+  for (const cat of categories) {
+    const sectionSlug = cat.section || 'general';
+    const sectionName = cat.sectionName || cat.section || 'Menú';
+
+    if (!sectionMap.has(sectionSlug)) {
+      sectionMap.set(sectionSlug, {
+        id: `sec-${sectionSlug}`,
+        slug: sectionSlug,
+        name: sectionName,
+        icon: cat.icon || 'star',
+        order: sectionMap.size + 1,
+        intro: '',
+        notes: [],
+        categories: [],
+      });
+    }
+
+    sectionMap.get(sectionSlug).categories.push(cat);
+  }
+
+  return Array.from(sectionMap.values());
+}
+
+function resolveSections(rawPayload, fallback) {
+  // New format: sections array
+  if (Array.isArray(rawPayload?.sections) && rawPayload.sections.length > 0) {
+    return rawPayload.sections;
+  }
+
+  // Legacy format: flat categories array — group into sections
   if (Array.isArray(rawPayload?.categories) && rawPayload.categories.length > 0) {
-    return rawPayload.categories;
+    return categoriesToSections(rawPayload.categories);
   }
 
-  if (rawPayload?.seaMenu || rawPayload?.landMenu || rawPayload?.sweetMenu || rawPayload?.wines) {
-    return adaptLegacyMenuPayload(rawPayload, fallback);
-  }
-
-  return fallback.categories;
+  // Fallback to mock
+  return fallback.sections;
 }
 
-function resolveFeaturedItems(categories, featuredSlugs = []) {
-  const allItems = categories.flatMap((category) => category.items);
+function resolveFeaturedItems(sections, featuredSlugs = []) {
+  const allItems = sections
+    .flatMap((section) => section.categories)
+    .flatMap((category) => category.items);
 
   if (Array.isArray(featuredSlugs) && featuredSlugs.length > 0) {
     return featuredSlugs
@@ -118,23 +166,33 @@ export function adaptMenuPayload(rawPayload = {}, options = {}) {
   const fallback = mockMenuFull;
   const locale = String(options.locale || 'es').trim().toLowerCase();
 
-  const fallbackCategories = fallback.categories.reduce((accumulator, category) => {
-    accumulator[category.slug] = category;
-    return accumulator;
+  const fallbackSectionBySlug = fallback.sections.reduce((acc, section) => {
+    acc[section.slug] = section;
+    return acc;
   }, {});
 
-  const categories = resolveCategories(rawPayload, fallback)
-    .map((category) => normalizeCategory(category, fallbackCategories[category.slug] || category))
+  const sections = resolveSections(rawPayload, fallback)
+    .map((section) => normalizeSection(section, fallbackSectionBySlug[section.slug] || section))
     .sort((a, b) => a.order - b.order);
 
+  // Build flat categories list for backward compatibility
+  const categories = sections.flatMap((section) =>
+    section.categories.map((cat) => ({
+      ...cat,
+      section: section.slug,
+      sectionName: section.name,
+    }))
+  );
+
   const featuredSlugs = pickFirstValue(rawPayload.featured, fallback.featured, []);
-  const featuredItems = resolveFeaturedItems(categories, featuredSlugs);
+  const featuredItems = resolveFeaturedItems(sections, featuredSlugs);
 
   return {
     title: pickFirstValue(rawPayload.title, rawPayload.heroTitle, fallback.title),
     subtitle: pickFirstValue(rawPayload.subtitle, rawPayload.seasonalNote, fallback.subtitle),
     updatedAt: pickFirstValue(rawPayload.updated_at, rawPayload.updatedAt, fallback.updated_at),
     notes: pickFirstValue(rawPayload.notes, fallback.notes, []).map(normalizeNote).filter((note) => note.text),
+    sections,
     categories,
     featuredItems,
     uiCopy: getMenuUiCopy(locale),

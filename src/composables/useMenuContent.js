@@ -24,9 +24,13 @@ export function useMenuContent() {
     { flush: 'post' }
   );
 
+  const menuData = computed(() => data.value ?? initialMenu);
+
   return {
     locale,
-    menuData: computed(() => data.value ?? initialMenu),
+    menuData,
+    sections: computed(() => menuData.value.sections || []),
+    categories: computed(() => menuData.value.categories || []),
     loading,
     error,
     reloadMenu: execute,

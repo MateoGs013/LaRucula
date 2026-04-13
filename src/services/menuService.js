@@ -33,6 +33,19 @@ export function getMenuCategories(options = {}) {
     short_description: category.short_description,
     icon: category.icon,
     order: category.order,
+    section: category.section,
+    sectionName: category.sectionName,
+  }));
+}
+
+export function getMenuSections(options = {}) {
+  return getMenuSnapshot(options).sections.map((section) => ({
+    id: section.id,
+    slug: section.slug,
+    name: section.name,
+    icon: section.icon,
+    order: section.order,
+    categoryCount: section.categories.length,
   }));
 }
 
@@ -40,6 +53,12 @@ export function getMenuCategoryBySlug(slug, options = {}) {
   if (!slug) return null;
 
   return getMenuSnapshot(options).categories.find((category) => category.slug === slug) || null;
+}
+
+export function getMenuSectionBySlug(slug, options = {}) {
+  if (!slug) return null;
+
+  return getMenuSnapshot(options).sections.find((section) => section.slug === slug) || null;
 }
 
 export async function getMenuData(options = {}) {
