@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { siteMeta } from '@/app/app-config';
 import { getMenuCategoryBySlug } from '@/services/menuService';
+import { getSiteConfigSnapshot } from '@/services/siteService';
 
 import { routes } from './routes';
 
@@ -37,9 +37,10 @@ function setMeta(attr, name, content) {
 }
 
 router.afterEach((to) => {
-  let title = to.meta?.title ?? siteMeta.name;
-  let description = to.meta?.description ?? siteMeta.description;
-  const ogImage = to.meta?.ogImage ?? siteMeta.ogImage;
+  const siteConfig = getSiteConfigSnapshot({ locale: to.query.lang });
+  let title = to.meta?.title ?? siteConfig.meta.name;
+  let description = to.meta?.description ?? siteConfig.meta.description;
+  const ogImage = to.meta?.ogImage ?? siteConfig.meta.ogImage;
 
   // Dynamic menu category meta
   if (to.name === 'menu-category' && to.params.slug) {

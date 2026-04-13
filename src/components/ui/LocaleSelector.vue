@@ -2,8 +2,16 @@
 import { computed } from 'vue';
 import { useLocale } from '@/composables/useLocale';
 
+const props = defineProps({
+  tone: {
+    type: String,
+    default: 'light',
+  },
+});
+
 const { locale, locales, setLocale } = useLocale();
 const hasMultipleLocales = computed(() => locales.value.length > 1);
+const isDarkTone = computed(() => props.tone === 'dark');
 </script>
 
 <template>
@@ -14,8 +22,8 @@ const hasMultipleLocales = computed(() => locales.value.length > 1);
       class="rounded-full px-2.5 py-1 text-[0.75rem] font-medium uppercase tracking-[0.1em] transition-colors"
       :class="
         locale === loc.code
-          ? 'bg-ink text-ivory'
-          : 'text-stone/60 hover:bg-ink/5 hover:text-ink'
+          ? (isDarkTone ? 'bg-ivory text-ink' : 'bg-ink text-ivory')
+          : (isDarkTone ? 'text-ivory/70 hover:bg-ivory/10 hover:text-ivory' : 'text-stone/60 hover:bg-ink/5 hover:text-ink')
       "
       :aria-current="locale === loc.code ? 'true' : undefined"
       :aria-label="`Cambiar a ${loc.label}`"

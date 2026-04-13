@@ -2,6 +2,7 @@
 import { ref, computed, inject, onMounted, onUnmounted, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
+import LocaleSelector from '@/components/ui/LocaleSelector.vue';
 import { primaryNavigation, siteContent, siteMeta } from '@/app/app-config';
 import { useRouteContext } from '@/composables/useRouteContext';
 
@@ -87,6 +88,13 @@ onUnmounted(() => {
       </nav>
 
       <div class="flex items-center gap-4">
+        <div
+          class="hidden sm:block"
+          :class="isTransparent ? 'rounded-full border border-ivory/14 bg-ivory/10 px-1.5 py-1 backdrop-blur-sm' : ''"
+        >
+          <LocaleSelector :tone="isTransparent ? 'dark' : 'light'" />
+        </div>
+
         <RouterLink
           :to="withContext('/menu')"
           class="hidden items-center border px-4 py-2.5 text-[0.8rem] font-medium uppercase tracking-[0.2em] transition-all duration-300 sm:inline-flex"
@@ -137,6 +145,7 @@ onUnmounted(() => {
         class="border-t border-stone/8 bg-cream/96 px-6 pb-8 pt-4 backdrop-blur-xl md:hidden"
       >
         <div class="flex flex-col gap-4">
+          <LocaleSelector />
           <RouterLink
             v-for="item in primaryNavigation"
             :key="item.to"

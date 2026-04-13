@@ -3,10 +3,15 @@ import { isApiEnabled, isPegasuzProvider } from '@/api/config';
 import { adaptSitePayload } from '@/adapters/siteAdapter';
 import { mockSitePayload } from '@/data/mock-site';
 import { getSiteContentPayload } from '@/services/siteContentService';
+import { getCurrentLocale } from '@/composables/useLocale';
 
-let cachedSite = adaptSitePayload(mockSitePayload);
+let cachedSitePayload = mockSitePayload;
 let pendingSiteRequest = null;
-let hasRemoteSite = false;
+let hasRemoteSitePayload = false;
+
+function resolveLocale(options = {}) {
+  return String(options.locale || getCurrentLocale() || 'es').trim().toLowerCase();
+}
 
 function cloneSite(site) {
   return {
@@ -19,34 +24,38 @@ function cloneSite(site) {
   };
 }
 
-export function getSiteConfigSnapshot() {
-  return cloneSite(cachedSite);
+export function getSiteConfigSnapshot(options = {}) {
+  const locale = resolveLocale(options);
+  return cloneSite(adaptSitePayload(cachedSitePayload, { locale }));
 }
 
 export async function getSiteConfig(options = {}) {
+  const locale = resolveLocale(options);
   const { force = false } = options;
 
   if (!isApiEnabled()) {
-    cachedSite = adaptSitePayload(mockSitePayload);
-    hasRemoteSite = false;
-    return getSiteConfigSnapshot();
+    cachedSitePayload = mockSitePayload;
+    hasRemoteSitePayload = false;
+    return getSiteConfigSnapshot({ locale });
   }
 
   if (!force && pendingSiteRequest) {
-    return pendingSiteRequest;
+    await pendingSiteRequest;
+    return getSiteConfigSnapshot({ locale });
   }
 
-  if (!force && hasRemoteSite) {
-    return getSiteConfigSnapshot();
+  if (!force && hasRemoteSitePayload) {
+    return getSiteConfigSnapshot({ locale });
   }
 
   pendingSiteRequest = (async () => {
-    const payload = isPegasuzProvider()
+    cachedSitePayload = isPegasuzProvider()
       ? await getSiteContentPayload({ force })
-      : await apiRequest('/site');
-    cachedSite = adaptSitePayload(payload);
-    hasRemoteSite = true;
-    return getSiteConfigSnapshot();
+      : await apiRequest('/site', {
+        query: { locale },
+      });
+    hasRemoteSitePayload = true;
+    return getSiteConfigSnapshot({ locale });
   })();
 
   try {

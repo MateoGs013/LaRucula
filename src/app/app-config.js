@@ -1,101 +1,84 @@
 import { reactive } from 'vue';
 
-import { getErrorMessage } from '@/api/errors';
-import { adaptSitePayload } from '@/adapters/siteAdapter';
 import { mockSitePayload } from '@/data/mock-site';
-import { getSiteConfig } from '@/services/siteService';
+import { bootstrapLocales, getCurrentLocale, watchCurrentLocale } from '@/composables/useLocale';
+import { getSiteConfig, getSiteConfigSnapshot } from '@/services/siteService';
 
-const defaultSiteConfig = adaptSitePayload(mockSitePayload);
+const initialSiteConfig = getSiteConfigSnapshot({ locale: mockSitePayload?.defaultLocale || 'es' });
 
-export const siteMeta = reactive({ ...defaultSiteConfig.meta });
-export const primaryNavigation = reactive([...defaultSiteConfig.navigation]);
-export const contactDetails = reactive({ ...defaultSiteConfig.contact });
-export const socialLinks = reactive([...defaultSiteConfig.socialLinks]);
-export const siteContentMap = reactive({ ...(defaultSiteConfig.contentMap || {}) });
+export const siteMeta = reactive({
+  name: initialSiteConfig.meta.name,
+  label: initialSiteConfig.meta.label,
+  description: initialSiteConfig.meta.description,
+  ogImage: initialSiteConfig.meta.ogImage,
+  reservationHref: initialSiteConfig.meta.reservationHref,
+  reservationLabel: initialSiteConfig.meta.reservationLabel,
+});
 
-// Structured content blocks for templates (footer, hero, etc.)
+export const primaryNavigation = reactive(initialSiteConfig.navigation.map((item) => ({ ...item })));
+
+export const contactDetails = reactive({
+  city: initialSiteConfig.contact.city,
+  address: initialSiteConfig.contact.address,
+  hours: initialSiteConfig.contact.hours,
+  phone: initialSiteConfig.contact.phone,
+  email: initialSiteConfig.contact.email,
+  whatsapp: initialSiteConfig.contact.whatsapp,
+});
+
+export const socialLinks = reactive(initialSiteConfig.socialLinks.map((item) => ({ ...item })));
+
 export const siteContent = reactive({
-  brand: { ...defaultSiteConfig.content.brand },
-  footer: { ...defaultSiteConfig.content.footer },
-  hero: { ...defaultSiteConfig.content.hero },
-  intro: { ...defaultSiteConfig.content.intro },
-  short_about: defaultSiteConfig.content.short_about,
-  menu_cta: { ...defaultSiteConfig.content.menu_cta },
+  brand: { ...initialSiteConfig.content.brand },
+  hero: { ...initialSiteConfig.content.hero },
+  intro: { ...initialSiteConfig.content.intro },
+  short_about: initialSiteConfig.content.short_about,
+  menu_cta: { ...initialSiteConfig.content.menu_cta },
+  footer: { ...initialSiteConfig.content.footer },
 });
 
-export const siteConfigState = reactive({
-  loading: false,
-  ready: false,
-  error: null,
-  source: 'mock',
-});
+export const siteContentMap = reactive({ ...(initialSiteConfig.contentMap || {}) });
 
-let bootstrapPromise = null;
+function replaceReactiveArray(target, nextItems = []) {
+  target.splice(0, target.length, ...nextItems.map((item) => ({ ...item })));
+}
+
+function replaceReactiveRecord(target, nextRecord = {}) {
+  Object.keys(target).forEach((key) => {
+    delete target[key];
+  });
+
+  Object.entries(nextRecord || {}).forEach(([key, value]) => {
+    target[key] = value;
+  });
+}
 
 function applySiteConfig(config) {
   Object.assign(siteMeta, config.meta);
   Object.assign(contactDetails, config.contact);
+  Object.assign(siteContent.brand, config.content.brand);
+  Object.assign(siteContent.hero, config.content.hero);
+  Object.assign(siteContent.intro, config.content.intro);
+  siteContent.short_about = config.content.short_about;
+  Object.assign(siteContent.menu_cta, config.content.menu_cta);
+  Object.assign(siteContent.footer, config.content.footer);
 
-  primaryNavigation.splice(0, primaryNavigation.length, ...config.navigation);
-  socialLinks.splice(0, socialLinks.length, ...config.socialLinks);
-
-  Object.keys(siteContentMap).forEach((key) => {
-    delete siteContentMap[key];
-  });
-  Object.assign(siteContentMap, config.contentMap || {});
-
-  Object.assign(siteContent.brand, config.content?.brand || defaultSiteConfig.content.brand);
-  Object.assign(siteContent.hero, config.content?.hero || defaultSiteConfig.content.hero);
-  Object.assign(siteContent.footer, config.content?.footer || defaultSiteConfig.content.footer);
-  Object.assign(siteContent.intro, config.content?.intro || defaultSiteConfig.content.intro);
-  Object.assign(siteContent.menu_cta, config.content?.menu_cta || defaultSiteConfig.content.menu_cta);
-  siteContent.short_about = config.content?.short_about || defaultSiteConfig.content.short_about;
+  replaceReactiveArray(primaryNavigation, config.navigation);
+  replaceReactiveArray(socialLinks, config.socialLinks);
+  replaceReactiveRecord(siteContentMap, config.contentMap);
 }
 
-export async function bootstrapSiteConfig(options = {}) {
-  const { force = false } = options;
+let localeWatcherReady = false;
 
-  if (!force && siteConfigState.ready) {
-    return {
-      siteMeta,
-      primaryNavigation,
-      contactDetails,
-      socialLinks,
-      siteContent,
-      siteContentMap,
-    };
+/** Called at startup — fetches locales and the locale-aware site shell when backend is connected. */
+export async function bootstrapSiteConfig() {
+  await bootstrapLocales();
+  applySiteConfig(await getSiteConfig({ locale: getCurrentLocale(), force: true }));
+
+  if (!localeWatcherReady) {
+    watchCurrentLocale(async (nextLocale) => {
+      applySiteConfig(await getSiteConfig({ locale: nextLocale }));
+    });
+    localeWatcherReady = true;
   }
-
-  if (!force && bootstrapPromise) {
-    return bootstrapPromise;
-  }
-
-  bootstrapPromise = (async () => {
-    siteConfigState.loading = true;
-    siteConfigState.error = null;
-
-    try {
-      const config = await getSiteConfig({ force });
-      applySiteConfig(config);
-      siteConfigState.source = config.contentMap && Object.keys(config.contentMap).length > 0 ? 'remote-cms' : 'remote';
-    } catch (error) {
-      applySiteConfig(defaultSiteConfig);
-      siteConfigState.error = getErrorMessage(error, 'No se pudo cargar la configuración del sitio.');
-      siteConfigState.source = 'mock';
-    } finally {
-      siteConfigState.loading = false;
-      siteConfigState.ready = true;
-    }
-
-    return {
-      siteMeta,
-      primaryNavigation,
-      contactDetails,
-      socialLinks,
-      siteContent,
-      siteContentMap,
-    };
-  })();
-
-  return bootstrapPromise;
 }

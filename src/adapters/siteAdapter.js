@@ -1,5 +1,13 @@
 import { mockSitePayload } from '@/data/mock-site';
 
+function normalizeLocaleCode(value, fallback = 'es') {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (normalized === 'en') return 'en';
+  if (normalized === 'de') return 'de';
+  if (normalized === 'es') return 'es';
+  return fallback;
+}
+
 function pickFirstValue(...values) {
   return values.find((value) => {
     if (Array.isArray(value)) return value.length > 0;
@@ -28,7 +36,21 @@ function normalizeSocialLinks(items, fallbackItems) {
   }));
 }
 
-function buildContentMap(rawPayload = {}) {
+function resolveLocalizedSiteContentValue(item, locale) {
+  const normalizedLocale = normalizeLocaleCode(locale, 'es');
+
+  if (normalizedLocale === 'en') {
+    return pickFirstValue(item?.valueEn, item?.value, '');
+  }
+
+  if (normalizedLocale === 'de') {
+    return pickFirstValue(item?.valueDe, item?.value, '');
+  }
+
+  return pickFirstValue(item?.value, '');
+}
+
+function buildContentMap(rawPayload = {}, locale = 'es') {
   const items = Array.isArray(rawPayload)
     ? rawPayload
     : Array.isArray(rawPayload.items)
@@ -42,7 +64,7 @@ function buildContentMap(rawPayload = {}) {
   return items.reduce((map, item) => {
     const key = String(item?.key || '').trim();
     if (!key) return map;
-    map[key] = item?.value ?? '';
+    map[key] = resolveLocalizedSiteContentValue(item, locale);
     return map;
   }, {});
 }
@@ -93,9 +115,10 @@ function buildPegasuzSocialLinks(contentMap, fallbackSocialLinks) {
   return fallbackSocialLinks;
 }
 
-export function adaptSitePayload(rawPayload = {}) {
+export function adaptSitePayload(rawPayload = {}, options = {}) {
   const fallback = mockSitePayload;
-  const contentMap = buildContentMap(rawPayload);
+  const locale = normalizeLocaleCode(options?.locale, 'es');
+  const contentMap = buildContentMap(rawPayload, locale);
 
   if (contentMap) {
     const structuredContent = {
