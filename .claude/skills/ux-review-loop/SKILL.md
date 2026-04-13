@@ -1,3 +1,8 @@
+---
+name: ux-review-loop
+description: Review LaRucula pages through actual browser workflow for visual quality assurance. Use when a page has been redesigned, mobile quality needs checking, or you want browser screenshots for visual critique before sign-off.
+---
+
 # Skill: UX Review Loop
 
 ## Goal

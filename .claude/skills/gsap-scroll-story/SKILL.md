@@ -1,3 +1,8 @@
+---
+name: gsap-scroll-story
+description: Create a refined scroll-based motion sequence for LaRucula. Use when implementing scroll animations such as line reveals, image mask reveals, staggered text, or pinned storytelling sequences for LaRucula.
+---
+
 # Skill: GSAP Scroll Story
 
 ## Goal
