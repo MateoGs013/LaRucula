@@ -10,9 +10,8 @@ export const mockSitePayload = {
   hero: {
     headline: 'Donde la costa pone la mesa',
     subheadline: 'Cocina mediterránea guiada por la temporada y el mar.',
-    image:
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80',
-    image_alt: 'Comedor cálido con luz mediterránea y mesas vestidas',
+    image: '/images/hero-barrosa.jpg',
+    image_alt: 'Playa de La Barrosa al atardecer con palmeras y la torre de Santi Petri',
   },
   intro: {
     label: 'LaRucula',

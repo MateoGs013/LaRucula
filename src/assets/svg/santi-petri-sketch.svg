@@ -1,0 +1,282 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" fill="none" stroke="#2a2118" stroke-linecap="round" stroke-linejoin="round">
+
+  <!-- ============================================ -->
+  <!-- WATER — bold parallel ripple lines           -->
+  <!-- ============================================ -->
+  <g id="water">
+    <path d="M0 382 C40 379, 85 385, 140 381 C195 377, 240 383, 295 379 C310 378, 315 379, 318 378" stroke-width="2.5"/>
+    <path d="M572 378 C610 374, 660 380, 720 376 C780 372, 830 378, 870 374 C885 373, 895 376, 900 374" stroke-width="2.5"/>
+
+    <path d="M0 395 C50 391, 110 397, 180 393 C250 389, 300 395, 315 393" stroke-width="2" opacity="0.6"/>
+    <path d="M580 393 C640 389, 710 395, 790 391 C850 387, 880 393, 900 390" stroke-width="2" opacity="0.6"/>
+
+    <path d="M0 406 C65 402, 145 408, 240 404 C290 402, 310 405, 316 404" stroke-width="1.5" opacity="0.4"/>
+    <path d="M588 404 C660 400, 750 406, 850 402 C880 401, 895 404, 900 402" stroke-width="1.5" opacity="0.4"/>
+
+    <path d="M0 416 C80 412, 180 418, 270 414" stroke-width="1" opacity="0.25"/>
+    <path d="M600 414 C700 410, 820 416, 900 412" stroke-width="1" opacity="0.25"/>
+
+    <!-- rocks in water -->
+    <path d="M285 384 C288 380, 294 378, 300 380 C304 382, 302 386, 296 388 C290 389, 286 387, 285 384 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.08"/>
+    <path d="M592 382 C596 378, 604 377, 610 380 C614 383, 610 387, 604 388 C598 388, 593 386, 592 382 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.08"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- CLIFF — bold silhouette + ridge lines        -->
+  <!-- ============================================ -->
+  <g id="cliff">
+    <!-- SOLID FILL for the cliff mass -->
+    <path d="M318 378 C322 368, 328 354, 336 340 C344 326, 354 314, 366 302 C378 290, 390 280, 406 272 C418 266, 432 260, 448 256 C464 253, 478 252, 494 254 C510 256, 522 262, 534 270 C544 278, 552 290, 558 304 C564 318, 568 334, 571 352 C573 362, 574 372, 576 380 L318 380 Z" fill="#2a2118" fill-opacity="0.06" stroke="none"/>
+
+    <!-- main cliff outline — BOLD -->
+    <path d="M318 378 C322 368, 328 354, 336 340 C344 326, 354 314, 366 302 C378 290, 390 280, 406 272 C418 266, 432 260, 448 256 C464 253, 478 252, 494 254 C510 256, 522 262, 534 270 C544 278, 552 290, 558 304 C564 318, 568 334, 571 352 C573 362, 574 372, 576 380" stroke-width="3"/>
+
+    <!-- RIDGE LINES — internal geological structure -->
+    <path d="M334 352 C342 340, 354 328, 368 316 C380 306, 394 296, 410 288" stroke-width="2" opacity="0.45"/>
+    <path d="M348 338 C358 326, 370 314, 384 304 C396 294, 410 286, 426 278" stroke-width="1.6" opacity="0.35"/>
+    <path d="M366 318 C376 308, 388 298, 402 290 C414 282, 428 276, 442 270" stroke-width="1.3" opacity="0.28"/>
+
+    <!-- right face ridge lines -->
+    <path d="M540 280 C546 294, 552 310, 556 328 C560 344, 562 358, 566 372" stroke-width="2" opacity="0.45"/>
+    <path d="M548 296 C554 312, 558 330, 562 348 C564 360, 566 370, 568 378" stroke-width="1.6" opacity="0.35"/>
+
+    <!-- horizontal ledge lines on cliff face -->
+    <path d="M350 332 C366 326, 384 322, 404 318" stroke-width="1.4" opacity="0.3"/>
+    <path d="M370 310 C386 304, 404 300, 424 296" stroke-width="1.2" opacity="0.25"/>
+    <path d="M392 292 C406 288, 422 284, 440 282" stroke-width="1" opacity="0.22"/>
+
+    <!-- rocky outcrops — closed shapes -->
+    <path d="M326 360 C322 354, 318 358, 320 364 C324 368, 330 366, 326 360 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.1"/>
+    <path d="M340 340 C336 334, 332 338, 334 344 C338 348, 344 346, 340 340 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.08"/>
+    <path d="M358 318 C354 312, 350 316, 352 322 C356 326, 362 324, 358 318 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.07"/>
+
+    <!-- cliff base — bold rubble shapes -->
+    <path d="M308 382 C312 376, 318 374, 324 378 C328 380, 322 384, 316 385 C310 386, 306 384, 308 382 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.1"/>
+    <path d="M294 386 C298 380, 306 378, 312 382 C314 385, 308 388, 302 389 C296 389, 292 388, 294 386 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.08"/>
+    <path d="M576 382 C580 376, 588 374, 594 378 C598 381, 590 385, 584 386 C578 386, 574 384, 576 382 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.1"/>
+    <path d="M596 380 C600 374, 608 372, 614 376 C618 380, 610 384, 604 385 C598 385, 594 382, 596 380 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.08"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- CASTILLO — bold architectural shapes         -->
+  <!-- ============================================ -->
+  <g id="castillo">
+    <!-- solid wall fill -->
+    <path d="M240 380 L240 356 L246 356 L246 350 L252 350 L252 356 L260 356 L260 350 L266 350 L266 356 L274 356 L274 380 Z" fill="#2a2118" fill-opacity="0.15" stroke="none"/>
+    <!-- bold outline -->
+    <path d="M240 380 L240 356 L246 356 L246 350 L252 350 L252 356 L260 356 L260 350 L266 350 L266 356 L274 356 L274 380" stroke-width="2.5"/>
+    <!-- window -->
+    <path d="M250 366 L250 360 L264 360 L264 366 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.1"/>
+    <!-- crumbled wall — bold -->
+    <path d="M240 368 C230 363, 220 367, 212 374 C208 378, 206 382, 204 386" stroke-width="2.2"/>
+    <path d="M224 370 L224 362 L232 362 L232 368" stroke-width="1.8"/>
+    <!-- connecting wall -->
+    <path d="M274 372 C286 368, 298 370, 310 374 C316 376, 318 378, 318 378" stroke-width="2"/>
+    <!-- figures -->
+    <path d="M286 372 L286 364" stroke-width="1.4"/>
+    <path d="M290 372 L290 365" stroke-width="1.4"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- TORRE — solid dark block                     -->
+  <!-- ============================================ -->
+  <g id="torre">
+    <!-- SOLID FILL -->
+    <path d="M436 256 L436 148 L440 142 L478 142 L482 148 L482 256 Z" fill="#2a2118" fill-opacity="0.65" stroke="none"/>
+    <!-- bold outline -->
+    <path d="M436 256 L436 148 L440 142 L478 142 L482 148 L482 256" stroke-width="3.5"/>
+    <!-- crenellations -->
+    <path d="M432 150 L436 146" stroke-width="2.5"/>
+    <path d="M482 146 L486 150" stroke-width="2.5"/>
+    <path d="M440 142 L440 132 L450 132 L450 142" stroke-width="2.2" fill="#2a2118" fill-opacity="0.55"/>
+    <path d="M462 142 L462 132 L472 132 L472 142" stroke-width="2.2" fill="#2a2118" fill-opacity="0.55"/>
+
+    <!-- windows — lighter cutouts on dark tower -->
+    <path d="M450 162 L450 180 L468 180 L468 162 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.12"/>
+    <path d="M452 192 L452 208 L466 208 L466 192 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.1"/>
+    <path d="M454 222 L454 234 L464 234 L464 222 Z" stroke-width="1.4" fill="#2a2118" fill-opacity="0.08"/>
+
+    <!-- structure on top/beside tower -->
+    <path d="M420 272 L420 256 L436 256 L436 272" stroke-width="2" fill="#2a2118" fill-opacity="0.2"/>
+    <path d="M424 262 L424 258 L432 258 L432 262" stroke-width="1.2"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- VEGETATION — CLOSED leaf shapes with veins   -->
+  <!-- ============================================ -->
+  <g id="vegetation">
+
+    <!-- === LEFT CLIFF — small bushes === -->
+    <!-- bush shapes with defined outlines -->
+    <path d="M384 268 C376 258, 380 246, 390 240 C400 246, 404 258, 396 268 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.06"/>
+    <path d="M390 264 C384 254, 388 244, 396 238 C404 244, 406 254, 400 264 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.06"/>
+    <path d="M400 262 C394 252, 398 242, 406 236 C414 242, 416 252, 410 262 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.05"/>
+    <!-- leaf veins -->
+    <path d="M390 240 C390 250, 390 260, 390 268" stroke-width="0.9" opacity="0.3"/>
+    <path d="M396 238 C396 248, 398 256, 400 264" stroke-width="0.9" opacity="0.3"/>
+    <path d="M406 236 C406 246, 408 254, 410 262" stroke-width="0.9" opacity="0.28"/>
+
+    <!-- bush between tower and palms -->
+    <path d="M486 256 C480 244, 484 232, 494 226 C504 232, 506 244, 500 256 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.06"/>
+    <path d="M496 256 C490 244, 494 232, 504 226 C514 232, 516 244, 510 256 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.06"/>
+    <path d="M506 258 C500 246, 504 234, 514 228 C524 234, 526 246, 520 258 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M516 260 C510 248, 514 236, 524 230 C534 236, 536 248, 530 260 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.05"/>
+    <!-- veins -->
+    <path d="M494 226 L497 256" stroke-width="0.8" opacity="0.25"/>
+    <path d="M504 226 L507 256" stroke-width="0.8" opacity="0.25"/>
+    <path d="M514 228 L517 258" stroke-width="0.8" opacity="0.22"/>
+    <path d="M524 230 L527 260" stroke-width="0.8" opacity="0.22"/>
+
+    <!-- === RIGHT SIDE — DENSE VEGETATION WALL === -->
+
+    <!-- BACKGROUND VEGETATION MASS — filled shape -->
+    <path d="M530 258 C540 246, 556 240, 574 244 C592 248, 606 240, 624 244 C636 248, 646 258, 654 272 C662 286, 668 304, 674 324 C680 344, 684 362, 688 378 L576 378 C574 368, 570 354, 566 340 C562 326, 556 310, 550 296 C544 282, 538 270, 530 258 Z" fill="#2a2118" fill-opacity="0.08" stroke="none"/>
+
+    <!-- Layer of leaf/bush shapes cascading down — each one closed -->
+    <path d="M534 260 C526 246, 532 232, 544 226 C556 232, 560 246, 552 260 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.07"/>
+    <path d="M548 258 C540 244, 546 230, 558 224 C570 230, 574 244, 566 258 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.07"/>
+    <path d="M562 264 C554 250, 560 236, 572 230 C584 236, 588 250, 580 264 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.06"/>
+    <path d="M576 272 C568 258, 574 244, 586 238 C598 244, 602 258, 594 272 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.06"/>
+    <path d="M590 282 C582 268, 588 254, 600 248 C612 254, 616 268, 608 282 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.06"/>
+    <path d="M604 294 C596 280, 602 266, 614 260 C626 266, 630 280, 622 294 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M618 308 C610 294, 616 280, 628 274 C640 280, 644 294, 636 308 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M632 324 C624 310, 630 296, 642 290 C654 296, 658 310, 650 324 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M646 342 C638 328, 644 314, 656 308 C668 314, 672 328, 664 342 Z" stroke-width="1.4" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M660 358 C652 344, 658 330, 670 324 C682 330, 686 344, 678 358 Z" stroke-width="1.4" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M672 372 C666 360, 670 348, 680 342 C690 348, 694 360, 686 372 Z" stroke-width="1.2" fill="#2a2118" fill-opacity="0.04"/>
+
+    <!-- leaf veins inside shapes -->
+    <path d="M544 226 L543 260" stroke-width="0.8" opacity="0.25"/>
+    <path d="M558 224 L562 258" stroke-width="0.8" opacity="0.25"/>
+    <path d="M572 230 L571 264" stroke-width="0.8" opacity="0.22"/>
+    <path d="M586 238 L590 272" stroke-width="0.7" opacity="0.22"/>
+    <path d="M600 248 L599 282" stroke-width="0.7" opacity="0.2"/>
+    <path d="M614 260 L617 294" stroke-width="0.7" opacity="0.2"/>
+    <path d="M628 274 L630 308" stroke-width="0.6" opacity="0.18"/>
+    <path d="M642 290 L644 324" stroke-width="0.6" opacity="0.18"/>
+    <path d="M656 308 L658 342" stroke-width="0.6" opacity="0.16"/>
+    <path d="M670 324 L672 358" stroke-width="0.5" opacity="0.15"/>
+
+    <!-- secondary row of smaller leaf shapes (behind/between) -->
+    <path d="M542 252 C536 242, 540 234, 548 230 C556 234, 558 242, 552 252 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M570 254 C564 244, 568 236, 576 232 C584 236, 586 244, 580 254 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M598 266 C592 256, 596 248, 604 244 C612 248, 614 256, 608 266 Z" stroke-width="1.4" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M626 284 C620 274, 624 266, 632 262 C640 266, 642 274, 636 284 Z" stroke-width="1.4" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M654 306 C648 296, 652 288, 660 284 C668 288, 670 296, 664 306 Z" stroke-width="1.2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M676 336 C670 326, 674 318, 682 314 C690 318, 692 326, 686 336 Z" stroke-width="1.2" fill="#2a2118" fill-opacity="0.03"/>
+
+    <!-- outline contour of vegetation mass edge -->
+    <path d="M536 258 C544 246, 558 240, 574 244 C590 248, 604 240, 620 244 C634 248, 644 258, 652 272 C660 286, 666 304, 672 324 C678 342, 682 360, 686 376" stroke-width="2.4" opacity="0.5"/>
+
+    <!-- === FAR RIGHT VEGETATION === -->
+    <path d="M696 378 C694 366, 700 356, 710 348 C720 340, 728 336, 738 334" stroke-width="1.8" opacity="0.35"/>
+    <path d="M706 376 C704 364, 710 354, 720 346 C728 340, 736 338, 744 336" stroke-width="1.4" opacity="0.3"/>
+    <!-- leaf shapes near buildings -->
+    <path d="M700 378 C694 366, 700 354, 710 348 C720 354, 722 366, 714 378 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.04" opacity="0.5"/>
+    <path d="M714 374 C708 362, 714 350, 724 344 C734 350, 736 362, 728 374 Z" stroke-width="1.4" fill="#2a2118" fill-opacity="0.04" opacity="0.45"/>
+    <path d="M728 370 C722 358, 728 346, 738 340 C748 346, 750 358, 742 370 Z" stroke-width="1.2" fill="#2a2118" fill-opacity="0.03" opacity="0.4"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- PALM TREES — bold trunks, CLOSED fronds      -->
+  <!-- ============================================ -->
+  <g id="palmeras">
+
+    <!-- PALM 1 — left of tower -->
+    <path d="M410 266 C412 248, 408 228, 414 204 C418 184, 412 164, 418 140 C422 122, 416 106, 422 84" stroke-width="3"/>
+    <!-- closed frond shapes with inner vein -->
+    <path d="M422 84 C408 68, 388 62, 370 68 C376 58, 394 52, 410 62 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M392 62 L422 84" stroke-width="1" opacity="0.3"/>
+    <path d="M422 84 C404 64, 386 52, 370 54 C380 44, 400 42, 416 56 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M396 50 L422 84" stroke-width="0.9" opacity="0.25"/>
+    <path d="M422 84 C432 66, 448 58, 464 64 C454 54, 436 50, 424 62 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M446 58 L422 84" stroke-width="1" opacity="0.3"/>
+    <path d="M422 84 C436 66, 454 60, 470 66 C460 54, 442 48, 428 60 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M452 56 L422 84" stroke-width="0.9" opacity="0.25"/>
+    <path d="M422 84 C418 64, 414 46, 406 32 C414 40, 420 56, 422 72 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M410 38 L422 84" stroke-width="0.9" opacity="0.25"/>
+    <path d="M422 84 C426 64, 432 48, 442 34 C436 44, 428 60, 426 72 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M436 40 L422 84" stroke-width="0.9" opacity="0.25"/>
+
+    <!-- PALM 2 — right side, tall -->
+    <path d="M542 264 C540 242, 544 220, 538 194 C532 168, 540 144, 534 118 C530 100, 536 82, 532 60" stroke-width="2.8"/>
+    <path d="M532 60 C518 44, 498 38, 480 44 C488 34, 506 30, 522 42 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M502 36 L532 60" stroke-width="1" opacity="0.3"/>
+    <path d="M532 60 C516 40, 498 28, 482 30 C494 20, 514 18, 528 36 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M500 24 L532 60" stroke-width="0.9" opacity="0.25"/>
+    <path d="M532 60 C544 42, 560 36, 578 42 C566 32, 548 28, 536 40 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M562 36 L532 60" stroke-width="1" opacity="0.3"/>
+    <path d="M532 60 C548 42, 566 38, 582 44 C570 32, 552 28, 540 38 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M566 34 L532 60" stroke-width="0.9" opacity="0.25"/>
+    <path d="M532 60 C528 40, 526 24, 518 10 C524 20, 530 38, 532 50 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M522 16 L532 60" stroke-width="0.9" opacity="0.25"/>
+    <path d="M532 60 C536 42, 542 28, 552 14 C546 24, 538 40, 536 52 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M546 20 L532 60" stroke-width="0.9" opacity="0.25"/>
+
+    <!-- PALM 3 — tall from beach -->
+    <path d="M658 378 C655 350, 660 322, 652 290 C644 258, 654 230, 646 198 C640 172, 648 150, 642 122 C638 102, 644 86, 640 66" stroke-width="3"/>
+    <path d="M640 66 C624 48, 604 42, 586 48 C596 38, 616 34, 632 48 Z" stroke-width="2.4" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M612 40 L640 66" stroke-width="1" opacity="0.3"/>
+    <path d="M640 66 C622 44, 604 32, 588 34 C600 24, 622 22, 636 40 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M608 28 L640 66" stroke-width="0.9" opacity="0.25"/>
+    <path d="M640 66 C652 48, 670 42, 688 48 C676 38, 658 34, 644 46 Z" stroke-width="2.4" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M670 40 L640 66" stroke-width="1" opacity="0.3"/>
+    <path d="M640 66 C656 48, 674 44, 692 50 C680 38, 662 34, 648 44 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M674 38 L640 66" stroke-width="0.9" opacity="0.25"/>
+    <path d="M640 66 C636 44, 634 28, 626 14 C632 26, 638 44, 640 56 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M630 20 L640 66" stroke-width="0.9" opacity="0.25"/>
+    <path d="M640 66 C644 46, 650 32, 660 18 C654 28, 646 46, 644 58 Z" stroke-width="2.2" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M654 24 L640 66" stroke-width="0.9" opacity="0.25"/>
+    <!-- extra drooping fronds for biggest palm -->
+    <path d="M640 66 C628 58, 614 54, 600 58 C610 52, 622 50, 632 56 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.03"/>
+    <path d="M640 66 C654 60, 668 58, 680 62 C670 56, 656 54, 646 58 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.03"/>
+
+    <!-- PALM 4 — near buildings -->
+    <path d="M736 378 C734 354, 738 330, 732 302 C728 280, 734 262, 730 242" stroke-width="2.5"/>
+    <path d="M730 242 C718 228, 700 224, 686 228 C696 218, 712 216, 724 228 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M706 222 L730 242" stroke-width="0.9" opacity="0.25"/>
+    <path d="M730 242 C716 224, 700 216, 686 218 C698 208, 718 206, 728 222 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M730 242 C740 226, 754 222, 768 226 C758 216, 742 214, 734 224 Z" stroke-width="2" fill="#2a2118" fill-opacity="0.05"/>
+    <path d="M754 220 L730 242" stroke-width="0.9" opacity="0.25"/>
+    <path d="M730 242 C744 226, 758 224, 770 228 C760 218, 746 214, 736 222 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M730 242 C728 226, 726 212, 720 200 C724 210, 728 224, 730 234 Z" stroke-width="1.8" fill="#2a2118" fill-opacity="0.04"/>
+    <path d="M730 242 C734 228, 738 216, 746 204 C740 214, 736 226, 734 236 Z" stroke-width="1.6" fill="#2a2118" fill-opacity="0.04"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- BUILDINGS — clean outlines, faint            -->
+  <!-- ============================================ -->
+  <g id="buildings" opacity="0.35">
+    <path d="M770 378 L770 318 L804 318 L804 378" stroke-width="1.8"/>
+    <path d="M774 318 L774 310 L800 310 L800 318" stroke-width="1.2"/>
+    <path d="M778 328 L778 338 L788 338 L788 328 Z" stroke-width="1"/>
+    <path d="M792 328 L792 338 L800 338 L800 328 Z" stroke-width="1"/>
+    <path d="M778 346 L778 356 L788 356 L788 346 Z" stroke-width="0.9"/>
+    <path d="M792 346 L792 356 L800 356 L800 346 Z" stroke-width="0.9"/>
+
+    <path d="M804 378 L804 310 L838 310 L838 378" stroke-width="1.8"/>
+    <path d="M812 320 L812 330 L822 330 L822 320 Z" stroke-width="0.9"/>
+    <path d="M826 320 L826 330 L834 330 L834 320 Z" stroke-width="0.9"/>
+    <path d="M812 338 L812 348 L822 348 L822 338 Z" stroke-width="0.8"/>
+    <path d="M826 338 L826 348 L834 348 L834 338 Z" stroke-width="0.8"/>
+    <path d="M812 356 L812 366 L822 366 L822 356 Z" stroke-width="0.7"/>
+
+    <path d="M838 378 L838 340 L870 340 L870 378" stroke-width="1.6"/>
+    <path d="M844 348 L844 358 L854 358 L854 348 Z" stroke-width="0.7"/>
+    <path d="M858 348 L858 358 L866 358 L866 348 Z" stroke-width="0.7"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- BIRDS — bold V shapes                        -->
+  <!-- ============================================ -->
+  <g id="birds">
+    <path d="M410 60 C416 50, 423 54, 430 46" stroke-width="1.8"/>
+    <path d="M464 36 C470 26, 477 30, 484 22" stroke-width="1.6"/>
+    <path d="M504 48 C509 40, 514 44, 520 38" stroke-width="1.4"/>
+    <path d="M440 76 C445 68, 450 72, 456 66" stroke-width="1.4"/>
+    <path d="M486 64 C490 58, 494 60, 498 54" stroke-width="1.2"/>
+    <path d="M548 28 C551 24, 554 25, 557 20" stroke-width="1"/>
+    <path d="M374 72 C378 66, 382 68, 386 62" stroke-width="1.2"/>
+  </g>
+
+</svg>
