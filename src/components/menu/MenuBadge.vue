@@ -35,8 +35,8 @@ const config = computed(() => {
 <template>
   <span
     class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.7rem] uppercase tracking-[0.1em]"
-    :class="[config.color, 'bg-current/8']"
-    :style="{ backgroundColor: `color-mix(in srgb, currentColor 8%, transparent)` }"
+    :class="[config.color, 'bg-current/14']"
+    :style="{ backgroundColor: `color-mix(in srgb, currentColor 14%, transparent)` }"
   >
     <MenuIcon :name="config.icon" :size="13" />
     <span>{{ config.label }}</span>

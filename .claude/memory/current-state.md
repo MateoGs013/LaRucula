@@ -1,25 +1,21 @@
 # Current State
 
 ## Status
-The public site has been simplified into a `menu-first` experience and is now deploy-ready against Pegasuz for shell content, with menu data still using local fallback until the SaaS exposes its menu domain.
+The guidance is now intentionally permissive. No single HomePage concept or current primitive set should be treated as binding for Claude.
 
 ## What exists
-- public site reduced to `/`, `/menu`, `/menu/:slug`, and `404`
-- `menu-first` IA focused on QR usage and direct menu access
-- Home remains authored and immersive, but much simpler than the previous multi-page editorial site
-- Playwright UX review automation for desktop/tablet/mobile
+- project scaffold with Vue 3, Vite, Tailwind CSS, GSAP, and Vue Router
+- stable baseline structure that Claude may keep or refactor
+- rewritten design docs with stronger research and broader autonomy
+- `docs/awwwards-analysis.md` as benchmark context, not a recipe
+- `docs/claude-design-guide.md` now explicitly allows replacing weak scaffold decisions
+- Playwright-based UX review automation for desktop, tablet, and mobile
 - Axe baseline checks wired into the review flow
-- API/service/adapter foundation still in place
-- Pegasuz shell bootstrap through `GET /api/site-contents`
-- footer `Admin` link wired to `https://admin.pegasuz.com.ar/admin/login?tenant=larucula-mateo`
-- locale query preservation through route changes
-- QR mode for `/menu` and `/menu/:slug`
-- local fallback menu data in Spanish while Pegasuz menu endpoints are still missing
-- deploy guide and updated API contract docs aligned with the current menu-first app
+- agent-facing UX review docs and a dedicated `ux-reviewer` agent / `ux-review-loop` skill
 
 ## What should happen next
-1. apply the reduced LaRucula CMS contract to tenant `larucula-mateo` in Pegasuz
-2. implement Pegasuz menu endpoints so the public site can stop using local menu fallback
-3. expose Pegasuz locales so the language selector can become real instead of dormant
-4. keep using `npm run ux` and `npm run a11y` during visual iteration and before deploys
-5. document any additional Pegasuz integration decisions back into `docs/decisions.md`
+1. let Claude explore a genuinely modern redesign of `home` without loyalty to the current section system
+2. allow refactors to primitives, tokens, motion, and supporting libraries if they improve the work
+3. use `npm run ux` and `npm run a11y` during visual iteration instead of reviewing code only
+4. document any winning new system back into `docs/decisions.md`
+5. once a strong direction exists, extend it to `menu`, `story`, and `visit`

@@ -242,7 +242,7 @@ onUnmounted(() => {
 
       <p
         data-load-tagline
-        class="invisible mt-3.5 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-stone/50"
+        class="invisible mt-3.5 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-stone/68"
       >
         {{ tagline }}
       </p>
@@ -251,7 +251,7 @@ onUnmounted(() => {
     <!-- Skip -->
     <button
       @click="dismiss"
-      class="absolute bottom-5 right-5 rounded-full border border-ink/8 px-3 py-1.5 text-[0.7rem] uppercase tracking-[0.2em] text-stone/40 transition-colors duration-300 hover:text-ink/60 focus:outline-none focus-visible:ring-1 focus-visible:ring-ink/20"
+      class="absolute bottom-5 right-5 rounded-full border border-ink/10 px-3 py-1.5 text-[0.7rem] uppercase tracking-[0.2em] text-stone/62 transition-colors duration-300 hover:text-ink/75 focus:outline-none focus-visible:ring-1 focus-visible:ring-ink/20"
       aria-label="Saltar introducción"
     >
       Saltar

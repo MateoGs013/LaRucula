@@ -25,11 +25,11 @@ useRevealMotion(pageRef);
         </div>
 
         <div class="px-[var(--lr-space-gutter)] lg:px-[5vw]">
-          <p class="text-[0.78rem] font-medium uppercase tracking-[0.22em] text-ivory/30" data-reveal>Ruta perdida</p>
+          <p class="text-[0.78rem] font-medium uppercase tracking-[0.22em] text-ivory/55" data-reveal>Ruta perdida</p>
           <h1 class="mt-3 max-w-md font-display text-[clamp(2rem,5vw,3.5rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ivory/80" data-reveal>
             Esta página se perdió mar adentro
           </h1>
-          <p class="mt-4 max-w-sm text-[1rem] leading-relaxed text-ivory/35" data-reveal>
+          <p class="mt-4 max-w-sm text-[1rem] leading-relaxed text-ivory/60" data-reveal>
             La ruta que seguiste no lleva a ningún sitio.
           </p>
 
@@ -39,7 +39,7 @@ useRevealMotion(pageRef);
             </BaseButton>
             <RouterLink
               :to="withContext('/menu')"
-              class="inline-flex items-center gap-2 text-[0.82rem] font-medium uppercase tracking-[0.15em] text-ivory/50 transition-colors hover:text-ivory"
+              class="inline-flex items-center gap-2 text-[0.82rem] font-medium uppercase tracking-[0.15em] text-ivory/68 transition-colors hover:text-ivory"
             >
               Ver la carta
               <MenuIcon name="arrow-right" :size="15" />

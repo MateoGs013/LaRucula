@@ -20,7 +20,7 @@ const { withContext } = useRouteContext();
 useHeroMotion(heroRef, introComplete);
 useRevealMotion(pageRef);
 
-const categories = computed(() => menuData.value.categories);
+const categories = computed(() => menuData.value.sections || []);
 const featuredItems = computed(() => menuData.value.featuredItems.slice(0, 3));
 
 function formatPrice(item) {
@@ -65,7 +65,7 @@ function formatPrice(item) {
           <div class="max-w-[46rem]">
           <p
             data-hero-lede
-            class="invisible inline-flex items-center gap-2 rounded-full border border-ivory/12 bg-ivory/[0.03] px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-ivory/44 backdrop-blur-sm"
+            class="invisible hidden sm:inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-ivory/12 bg-ivory/[0.07] px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-ivory/68 backdrop-blur-sm"
           >
             <span class="inline-block h-1.5 w-1.5 rounded-full bg-sage/55" />
             {{ siteContent.intro.tagline }}
@@ -77,7 +77,7 @@ function formatPrice(item) {
             </span>
           </h1>
 
-          <p data-hero-lede class="invisible mt-6 max-w-[32ch] text-[0.98rem] leading-relaxed text-ivory/54">
+          <p data-hero-lede class="invisible mt-6 max-w-[32ch] text-[0.98rem] leading-relaxed text-ivory/72">
             {{ siteContent.hero.subheadline }}
           </p>
 
@@ -113,7 +113,7 @@ function formatPrice(item) {
           <div class="mt-8 lg:mt-2" data-reveal>
             <RouterLink
               :to="withContext('/menu')"
-              class="inline-flex items-center gap-2 text-[0.82rem] font-medium uppercase tracking-[0.15em] text-stone/60 transition-colors hover:text-ink"
+              class="inline-flex items-center gap-2 text-[0.82rem] font-medium uppercase tracking-[0.15em] text-stone/72 transition-colors hover:text-ink"
             >
               {{ menuData.uiCopy.menuLabel }}
               <MenuIcon name="arrow-right" :size="15" />
@@ -139,43 +139,37 @@ function formatPrice(item) {
       <div class="shell relative z-10">
         <div class="lg:grid lg:grid-cols-[minmax(0,0.76fr)_minmax(0,1.24fr)] lg:items-start lg:gap-14 xl:gap-18">
           <div data-reveal>
-            <p class="text-[0.78rem] font-medium uppercase tracking-[0.2em] text-ivory/35">
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.2em] text-ivory/55">
               {{ menuData.uiCopy.homeMenuEyebrow }}
             </p>
             <h2 class="mt-4 font-display text-[clamp(3rem,8vw,6.4rem)] font-light italic leading-[0.88] tracking-[-0.055em] text-ivory">
               {{ menuData.title }}
             </h2>
-            <p class="mt-5 max-w-[29rem] text-[0.98rem] leading-relaxed text-ivory/55">
+            <p class="mt-5 max-w-[29rem] text-[0.98rem] leading-relaxed text-ivory/72">
               {{ menuData.subtitle }}
             </p>
 
             <div v-if="featuredItems.length" class="mt-12 space-y-4">
-              <p class="text-[0.72rem] font-medium uppercase tracking-[0.18em] text-ivory/32">
+              <p class="text-[0.72rem] font-medium uppercase tracking-[0.18em] text-ivory/52">
                 {{ menuData.uiCopy.featuredListTitle }}
               </p>
               <article
                 v-for="item in featuredItems"
                 :key="item.id"
-                class="flex items-start justify-between gap-6 border-t border-ivory/8 py-4 last:border-b"
+                class="flex items-start justify-between gap-3 border-t border-ivory/8 py-4 last:border-b"
               >
-                <div class="min-w-0">
+                <div class="min-w-0 flex-1">
                   <div class="flex items-center gap-2">
-                    <h3 class="font-display text-[1.15rem] italic leading-snug tracking-[-0.02em] text-ivory/88">
+                    <h3 class="font-display text-[1.1rem] italic leading-snug tracking-[-0.02em] text-ivory/88">
                       {{ item.name }}
                     </h3>
-                    <span
-                      v-if="item.recommended"
-                      class="inline-flex items-center gap-1 rounded-full border border-toast/25 bg-toast/10 px-2 py-0.5 text-[0.66rem] uppercase tracking-[0.14em] text-toast"
-                    >
-                      <MenuIcon name="star" :size="11" />
-                      {{ menuData.uiCopy.featuredBadge }}
-                    </span>
+                    <MenuIcon v-if="item.recommended" name="star" :size="13" class="flex-shrink-0 text-toast" />
                   </div>
-                  <p class="mt-1 text-[0.84rem] leading-relaxed text-ivory/45">
+                  <p class="mt-0.5 text-[0.82rem] leading-relaxed text-ivory/62 line-clamp-2">
                     {{ item.description }}
                   </p>
                 </div>
-                <span class="flex-shrink-0 font-display text-[1rem] tracking-[-0.02em] text-ivory/58">
+                <span class="flex-shrink-0 pt-0.5 font-display text-[1.05rem] font-medium tracking-[-0.02em] text-ivory/85">
                   {{ formatPrice(item) }}
                 </span>
               </article>
@@ -189,7 +183,7 @@ function formatPrice(item) {
                 {{ siteContent.menu_cta.label }}
                 <MenuIcon name="arrow-right" :size="15" />
               </RouterLink>
-              <p class="text-[0.78rem] uppercase tracking-[0.18em] text-ivory/28">
+              <p class="text-[0.78rem] uppercase tracking-[0.18em] text-ivory/50">
                 {{ menuData.uiCopy.qrReadyLabel }}
               </p>
             </div>
@@ -206,21 +200,21 @@ function formatPrice(item) {
               <div class="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-ivory/25 to-transparent opacity-60" />
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <p class="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ivory/28">
+                  <p class="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-ivory/50">
                     {{ String(index + 1).padStart(2, '0') }}
                   </p>
                   <h3 class="mt-3 font-display text-[clamp(1.5rem,2.8vw,2.35rem)] font-light italic leading-[0.92] tracking-[-0.04em] text-ivory">
                     {{ cat.name }}
                   </h3>
-                  <p class="mt-2 max-w-[20rem] text-[0.84rem] leading-relaxed text-ivory/46">
-                    {{ cat.short_description }}
+                  <p class="mt-2 max-w-[20rem] text-[0.84rem] leading-relaxed text-ivory/62">
+                    {{ cat.short_description || cat.intro }}
                   </p>
                 </div>
-                <div class="mt-1 flex-shrink-0 text-ivory/26 transition-colors duration-300 group-hover:text-ivory/48">
+                <div class="mt-1 flex-shrink-0 text-ivory/45 transition-colors duration-300 group-hover:text-ivory/65">
                   <MenuIcon :name="cat.icon" :size="26" />
                 </div>
               </div>
-              <div class="mt-8 inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ivory/38 transition-colors duration-300 group-hover:text-ivory/68">
+              <div class="mt-8 inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ivory/55 transition-colors duration-300 group-hover:text-ivory/80">
                 {{ menuData.uiCopy.openCategoryLabel }}
                 <MenuIcon name="arrow-right" :size="13" />
               </div>
@@ -236,7 +230,7 @@ function formatPrice(item) {
         <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-16">
           <!-- Hours -->
           <div data-reveal>
-            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/40">Horario</p>
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/62">Horario</p>
             <p class="mt-3 font-display text-[1.15rem] italic leading-relaxed text-ink/70">
               {{ contactDetails.hours }}
             </p>
@@ -244,7 +238,7 @@ function formatPrice(item) {
 
           <!-- Location -->
           <div data-reveal>
-            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/40">Ubicación</p>
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/62">Ubicación</p>
             <p class="mt-3 font-display text-[1.15rem] italic leading-relaxed text-ink/70">
               {{ contactDetails.address }}
             </p>
@@ -252,7 +246,7 @@ function formatPrice(item) {
 
           <!-- Contact -->
           <div data-reveal>
-            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/40">Contacto</p>
+            <p class="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-stone/62">Contacto</p>
             <div class="mt-3 space-y-2">
               <a
                 :href="`tel:${contactDetails.phone}`"
@@ -279,7 +273,7 @@ function formatPrice(item) {
             v-for="link in socialLinks"
             :key="link.url"
             :href="link.url"
-            class="text-[0.82rem] uppercase tracking-[0.12em] text-stone/45 transition-colors hover:text-ink"
+            class="text-[0.82rem] uppercase tracking-[0.12em] text-stone/62 transition-colors hover:text-ink"
             target="_blank"
             rel="noopener"
           >
