@@ -111,16 +111,22 @@ function categoriesToSections(categories) {
   const sectionMap = new Map();
 
   for (const cat of categories) {
-    const sectionSlug = cat.section || 'general';
-    const sectionName = cat.sectionName || cat.section || 'Menú';
+    // Pegasuz API returns snake_case (section_slug, section_name, ...).
+    // Internal / mock shape uses camelCase (section, sectionName, ...).
+    // Support both so the adapter works against either source.
+    const sectionSlug = cat.section_slug || cat.section || 'general';
+    const sectionName = cat.section_name || cat.sectionName || sectionSlug || 'Menú';
+    const sectionIcon = cat.section_icon || cat.sectionIcon || cat.icon || 'star';
+    const sectionOrderRaw = cat.section_order ?? cat.sectionOrder;
+    const sectionOrder = Number.isFinite(sectionOrderRaw) ? sectionOrderRaw : sectionMap.size + 1;
 
     if (!sectionMap.has(sectionSlug)) {
       sectionMap.set(sectionSlug, {
         id: `sec-${sectionSlug}`,
         slug: sectionSlug,
         name: sectionName,
-        icon: cat.icon || 'star',
-        order: sectionMap.size + 1,
+        icon: sectionIcon,
+        order: sectionOrder,
         intro: '',
         notes: [],
         categories: [],
@@ -130,7 +136,7 @@ function categoriesToSections(categories) {
     sectionMap.get(sectionSlug).categories.push(cat);
   }
 
-  return Array.from(sectionMap.values());
+  return Array.from(sectionMap.values()).sort((a, b) => a.order - b.order);
 }
 
 function resolveSections(rawPayload, fallback) {
