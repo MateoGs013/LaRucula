@@ -6,3 +6,5 @@ playwright-report
 test-results
 tests/artifacts
 server/runtime
+.claude/worktrees/
+.omc/
