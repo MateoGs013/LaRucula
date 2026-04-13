@@ -1,3 +1,8 @@
+---
+name: build-editorial-section
+description: Implement a premium editorial section aligned with LaRucula art direction. Use when building editorial layouts, content sections, or feature blocks for LaRucula. Requires asymmetrical balance, refined whitespace, and strong responsive behavior.
+---
+
 # Skill: Build Editorial Section
 
 ## Goal

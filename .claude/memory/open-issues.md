@@ -6,13 +6,15 @@
 - ~~there was no browser-based UX validation loop~~ → Playwright screenshot automation and Axe baseline are now available
 
 ## Pending decisions
-- whether `Home` should expose more of its authored editorial copy to Pegasuz `site-contents` or stay mostly code-driven
-- whether the final QR experience should stay query-based (`?entry=qr`) or move to explicit QR-only routes once analytics or product needs justify it
-- how much imagery versus illustration/SVG should remain once real restaurant assets are available
+- which visual direction should actually become the primary HomePage concept
+- how far the site should lean into editorial hospitality versus dining-led storytelling
+- how much motion is appropriate once real imagery and real copy land
+- whether seal or marker motifs should become part of the final identity system
+- which extra technologies, if any, genuinely improve the result instead of just increasing complexity
 
 ## Pending implementation
-- apply the reduced LaRucula shell contract to the live Pegasuz tenant `larucula-mateo`
-- implement Pegasuz menu endpoints: `/api/menu`, `/api/menu/categories`, `/api/menu/categories/:slug`
-- implement Pegasuz locales endpoint so public i18n can move from local fallback to API-driven data
-- replace placeholder imagery with a coherent restaurant asset set once content production is ready
-- validate mobile rhythm and performance again once real Pegasuz menu content is flowing through the pages
+- Claude-led redesign of `home` with broad design and technology autonomy
+- possible refactor of primitives, token system, motion stack, or styling approach if the concept needs it
+- align `menu`, `story`, and `visit` with the selected direction once one strong concept wins
+- replace placeholder imagery with a coherent photography set
+- validate mobile rhythm and performance after the first real redesign pass using the new UX workflow

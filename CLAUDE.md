@@ -17,7 +17,6 @@ Always read:
 - docs/ui-rules.md
 - docs/motion-rules.md
 - docs/graphics-system.md
-- docs/ux-review-workflow.md
 - docs/decisions.md
 - .claude/memory/MEMORY.md
 - .claude/memory/current-state.md
@@ -54,16 +53,18 @@ When major decisions are made:
 - update `.claude/memory/current-state.md`
 - update `.claude/memory/open-issues.md` if relevant
 
-## UX review loop
-Before calling a page or major section "done":
-- run `npm run ux`
-- inspect `tests/artifacts/`
-- run `npm run a11y`
-- use the workflow in `docs/ux-review-workflow.md`
-
 ## Implementation style
 - Think like a creative developer and front-end architect
 - Build reusable patterns
 - Keep code readable
 - Comment only where useful
 - Prefer clarity over cleverness
+
+## Hard visual rules
+- Avoid generic restaurant template patterns
+- Do not default to centered hero + button + stacked sections
+- Each section must contain one memorable compositional move
+- Prefer asymmetry, overscaled typography, negative space, and image tension
+- Avoid repetitive card grids unless explicitly justified
+- Before finalizing any section, critique what still feels standard
+- If a section looks safe, redesign it before coding the final version
