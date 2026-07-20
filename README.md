@@ -4,6 +4,8 @@
 
 **🌊 En producción: [laruculagastrobar.es](https://laruculagastrobar.es/)**
 
+![La Rúcula — home](docs/preview-hero.jpg)
+
 Proyecto de cliente real: una experiencia *menu-first* pensada para el uso con QR en mesa, con una home inmersiva de dirección de arte mediterránea — editorial, artística y calma, lejos del layout genérico de restaurante.
 
 ---
