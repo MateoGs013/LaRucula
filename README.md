@@ -2,7 +2,7 @@
 
 > Sitio editorial premium para un restaurante frente al mar en Chiclana, España.
 
-**🌊 En producción: [laruculagastrobar.es](https://laruculagastrobar.es/)**
+En producción: [laruculagastrobar.es](https://laruculagastrobar.es/) · Caso: [mateogs.tech/projects/la-rucula](https://mateogs.tech/projects/la-rucula)
 
 ![La Rúcula — home](docs/preview-hero.jpg)
 
@@ -56,4 +56,4 @@ VITE_CLIENT_SLUG=larucula-mateo
 
 ---
 
-**Mateo Sonzogni** — [mateogabus@gmail.com](mailto:mateogabus@gmail.com) · [@MateoGs013](https://github.com/MateoGs013)
+**Mateo Sonzogni** — [mateogabus@gmail.com](mailto:mateogabus@gmail.com) · [mateogs.tech](https://mateogs.tech) · [@MateoGs013](https://github.com/MateoGs013)
